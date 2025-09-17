@@ -1,0 +1,23 @@
+# Arquivos de log e temporários
+*.log
+tmp/
+
+# Código compilado
+bin/
+target/
+
+# Arquivos do Eclipse
+.classpath
+.project
+.settings/
+.springBeans
+
+# Arquivos de metadados do workspace do Eclipse
+# Coloque esta linha SE a pasta .metadata estiver dentro do seu projeto.
+# Se ela estiver fora (no workspace geral), esta linha não é estritamente necessária
+# mas é uma ótima prática de segurança.
+.metadata/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db

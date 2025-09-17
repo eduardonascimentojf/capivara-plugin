@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/Capivara.feature_1.0.0.202509171153.jar" id="Capivara.feature" version="1.0.0.202509171153">
+      <category name="capivara.category"/>
+   </feature>
+   <category-def name="capivara.category" label="Capivara - Ferramentas de Teste"/>
+</site>

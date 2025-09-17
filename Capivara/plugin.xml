@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="br.ufjf.capivara.commands.analyzeCode"
+            name="Analisar Código para Testes"
+            description="Analisa o código Java selecionado para gerar grafos de causa-efeito e tabelas verdade.">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="br.ufjf.capivara.commands.analyzeCode"
+            class="br.ufjf.capivara.handlers.AnalyzeCodeHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="br.ufjf.capivara.commands.analyzeCode"
+               icon="icons/logo.svg"
+               label="Analisar Código para Testes"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="br.ufjf.capivara.views.AnalysisResultView"
+            icon="icons/logo.svg"
+            id="br.ufjf.capivara.views.analysisResultView"
+            name="Análise Capivara"
+            restorable="true">
+      </view>
+   </extension>
+</plugin>
+

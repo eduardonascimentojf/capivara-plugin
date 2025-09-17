@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Capivara
+Bundle-SymbolicName: br.ufjf.capivara;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: br.ufjf.capivara.Activator
+Bundle-Vendor: UFJF
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jdt.core,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Automatic-Module-Name: br.ufjf.capivara.singleton.true
+Bundle-ActivationPolicy: lazy

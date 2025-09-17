@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Capivara - Plugin de Análise para Eclipse</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            padding: 2em; 
+            max-width: 800px; 
+            margin: auto; 
+            color: #333; 
+        }
+        h1, h2, h3 { 
+            border-bottom: 1px solid #eee; 
+            padding-bottom: 10px; 
+            margin-top: 2em;
+        }
+        h1 { font-size: 2.2em; border: none; text-align: center; }
+        code { 
+            background-color: #f6f8fa; 
+            padding: 0.2em 0.4em; 
+            border-radius: 6px; 
+            font-family: monospace; 
+        }
+        pre { 
+            background-color: #f6f8fa; 
+            padding: 1em; 
+            border-radius: 6px; 
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            border-radius: 8px;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            padding-left: 1em;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1em 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f6f8fa;
+        }
+        details {
+            border: 1px solid #ddd;
+            padding: 1em;
+            border-radius: 6px;
+            margin-bottom: 1em;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <p align="center">
+      <img src="../assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+    </p>
+
+    <h1>
+      Capivara - Análise de Fluxo de Controle para Eclipse
+    </h1>
+
+    <p align="center">
+      Um plugin para a IDE Eclipse que analisa métodos Java para gerar Grafos de Fluxo de Controle e Tabelas Verdade, auxiliando na criação e visualização de casos de teste.
+      <br />
+      <br />
+      <img alt="Versão" src="https://img.shields.io/badge/versão-1.0.0-blue">
+      <img alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+    </p>
+    
+    <nav>
+        <h2>📜 Sumário</h2>
+        <ul>
+            <li><a href="#o-que-o-plugin-faz">O que o Plugin Faz?</a></li>
+            <li><a href="#instalacao">Instalação</a></li>
+            <li><a href="#como-usar">Como Usar</a></li>
+            <li><a href="#exemplo-de-analise">Exemplo de Análise</a></li>
+            <li><a href="#entendendo-o-grafo">Entendendo o Grafo: Legenda dos Nós</a></li>
+            <li><a href="#detalhes-tecnicos">Detalhes Técnicos</a></li>
+        </ul>
+    </nav>
+    
+    <h2 id="o-que-o-plugin-faz">🤔 O que o Plugin Faz?</h2>
+    <p>
+        O <strong>Capivara</strong> é uma ferramenta de análise estática integrada à IDE Eclipse, projetada para auxiliar desenvolvedores e testadores a entender a lógica de seus métodos Java. Com um clique, ele gera três artefatos principais:
+    </p>
+    <ol>
+        <li><strong>Enumeração de Nós:</strong> Mapeia cada linha de código para seu nó correspondente no grafo.</li>
+        <li><strong>Tabela Verdade:</strong> Cria uma tabela de causa-efeito completa para todas as condições do método. (2<sup>n</sup>)</li>
+        <li><strong>Grafo de Fluxo de Controle:</strong> Produz o código-fonte em formato DOT, pronto para ser visualizado.</li>
+    </ol>
+    
+    <h2 id="instalacao">🚀 Instalação</h2>
+    <h3>Método 1: Pelo Eclipse (Recomendado)</h3>
+    <ol>
+        <li>No Eclipse, vá em <code>Help</code> > <code>Install New Software...</code></li>
+        <li>Clique em <code>Add...</code> e, no campo "Location", adicione a seguinte URL do nosso Update Site:</li>
+        <blockquote>https://eduardonascimentojf.github.io/capivara-plugin/</blockquote>
+        <li>Selecione "Capivara" na lista, avance e conclua a instalação.</li>
+    </ol>
+
+    <h3>Método 2: Instalação Manual (via Dropins)</h3>
+    <ol>
+        <li>Baixe o arquivo <code>.jar</code> mais recente na nossa <a href="https://github.com/eduardonascimentojf/capivara-plugin/releases" target="_blank">página de Releases</a>.</li>
+        <li>Copie o arquivo para a pasta <code>dropins</code> dentro do diretório de instalação do seu Eclipse e reinicie.</li>
+    </ol>
+
+    <h2 id="como-usar">🖱️ Como Usar</h2>
+    <ol>
+        <li>No eclipse, <strong>selecione o código de um método completo</strong>.</li>
+        <li>Clique com o <strong>botão direito</strong> na seleção.</li>
+        <li>No menu de contexto, escolha a opção <strong>"Analisar Código para Testes"</strong>.</li>
+        <li>A view "Análise Capivara" abrirá com os resultados.</li>
+    </ol>
+    <img src="../assets/demo.gif" alt="Demonstração de Uso do Plugin Capivara">
+
+    <h2 id="exemplo-de-analise">✨ Exemplo de Análise</h2>
+    <p><strong>Código de Entrada:</strong></p>
+    <pre><code>public int exemplo(int a) {
+    if (a > 0) {
+        return a * 2;
+    } else {
+        return 0;
+    }
+}</code></pre>
+    
+    <p><strong>Resultados Gerados:</strong></p>
+
+    <details>
+        <summary><strong>1. Enumeração de Nós</strong></summary>
+        <pre><code>/*Linha 01*/ /*Nó 01*/    public int exemplo(int a) {
+/*Linha 02*/ /*Nó 02*/        if (a > 0) {
+/*Linha 03*/ /*Nó 03*/            return a * 2;
+/*Linha 04*/ /*Nó 01*/        } else {
+/*Linha 05*/ /*Nó 04*/            return 0;
+/*Linha 06*/ /*Nó 01*/        }
+/*Linha 07*/ /*Nó 01*/    }</code></pre>
+    </details>
+
+    <details>
+        <summary><strong>2. Tabela Verdade</strong></summary>
+        <pre><code>Caso | a > 0                     | Resultado (Efeito)       
+------------------------------------------------------------
+1    | F                         | 0                        
+2    | V                         | a * 2</code></pre>
+    </details>
+
+    <details>
+        <summary><strong>3. Grafo (Código DOT)</strong></summary>
+        <blockquote>
+            ⚠️ <strong>Atenção:</strong> Para visualizar o grafo, copie o código abaixo e cole em uma ferramenta como o <a href="https://dreampuf.github.io/GraphvizOnline" target="_blank">Graphviz Online</a>.
+        </blockquote>
+        <pre><code>digraph G {
+  rankdir=TB;
+  node [shape=circle, style=solid, width=0.5, fixedsize=true, fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  1 [label="1", shape=circle, color="#28a745", style=solid];
+  2 [label="2", shape=circle, color="#007bff", style=solid];
+  3 [label="3", shape=doublecircle, color="#dc3545", style=solid];
+  4 [label="4", shape=doublecircle, color="#dc3545", style=solid];
+  1 -> 2;
+  2 -> 3;
+  2 -> 4;
+}</code></pre>
+    </details>
+
+    <h2 id="entendendo-o-grafo">🎨 Entendendo o Grafo: Legenda dos Nós</h2>
+    <p>O grafo gerado utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle do seu método.</p>
+    <img src="../assets/legenda.png" alt="Legenda dos Nós do Grafo">
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo de Nó</th>
+                <th>Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
+            <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Um ou mais comandos sequenciais.</td></tr>
+            <tr><td><strong>DECISION</strong> (Azul)</td><td>Uma estrutura condicional, como <code>if</code>.</td></tr>
+            <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Uma estrutura de laço, como <code>while</code> ou <code>for</code>.</td></tr>
+            <tr><td><strong>EXIT</strong> (Vermelho, Círculo Duplo)</td><td>Um ponto de término do fluxo, como <code>return</code>.</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="detalhes-tecnicos">🔧 Detalhes Técnicos</h2>
+    <ul>
+        <li><strong>Versão Atual:</strong> 1.0.0 (Alpha)</li>
+        <li><strong>Plataforma Suportada:</strong> Eclipse IDE 2021-03 ou superior</li>
+        <li><strong>Requisitos:</strong> Java 17 ou superior</li>
+    </ul>
+
+</body>
+</html>

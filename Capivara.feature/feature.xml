@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="Capivara.feature"
+      label="Capivara"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      O Capivara é uma ferramenta de análise estática de código Java, projetada como um plugin para a IDE Eclipse. Ele auxilia desenvolvedores e testadores na compreensão da complexidade cicl
+omática e na criação de casos de teste, gerando automaticamente Grafos de Fluxo de Controle (em formato DOT) e Tabelas Verdade de Causa-Efeito a partir de qualquer método Java selecionado.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <discovery label="Repositório" url="https://eduardonascimentojf.github.io/capivara-plugin/"/>
+   </url>
+
+   <plugin
+         id="br.ufjf.capivara"
+         version="1.0.0.qualifier"/>
+
+</feature>
