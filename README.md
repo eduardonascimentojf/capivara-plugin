@@ -32,8 +32,7 @@
 O **Capivara** é uma ferramenta de análise estática integrada à IDE Eclipse, projetada para auxiliar desenvolvedores e testadores a entender a lógica de seus métodos Java. Com um clique, ele gera três artefatos principais:
 
 1.  **Enumeração de Nós:** Mapeia cada linha de código para seu nó correspondente no grafo.
-2.  **Tabela Verdade:** Cria uma tabela de causa-efeito completa para todas as condições do método. (2<sup>n</sup>)
-3.  **Grafo de Fluxo de Controle:** Produz o código-fonte em formato DOT, pronto para ser visualizado.
+2.  **Grafo de Fluxo de Controle:** Cria o GFC para ser vizualizado de forma integrada ao Eclipse IDE
 
 ## Instalação
 
@@ -49,16 +48,27 @@ O **Capivara** é uma ferramenta de análise estática integrada à IDE Eclipse,
 1.  Baixe o arquivo `.jar` mais recente na nossa [página de Releases](https://github.com/eduardonascimentojf/capivara-plugin/releases).
 2.  Copie o arquivo para a pasta `dropins` dentro do diretório de instalação do seu Eclipse e reinicie.
 
+
 ## Como Usar
 
-1.  No eclipse, **selecione o código de um método completo**.
-2.  Clique com o **botão direito** na seleção.
-3.  No menu de contexto, escolha a opção **"Analisar Código para Testes"**.
-4.  A view "Análise Capivara" abrirá com os resultados.
+O plugin adiciona novas opções ao menu de contexto do editor Java.
+
+1.  No Eclipse, **selecione o código completo** de um método.
+2.  Clique com o **botão direito** sobre a seleção.
+3.  Vá até o menu **Capivara** e escolha a ação desejada:
+
+| Opção | Descrição |
+| :--- | :--- |
+| **Node Enumerate** | Realiza apenas a **enumeração** das linhas do método selecionado. O plugin irá inserir comentários do tipo `/*Nó X*/` no seu código para facilitar a identificação, sem gerar gráficos. |
+| **Generate GFC** | Cria o arquivo de modelo e abre automaticamente a visualização do **Grafo de Fluxo de Controle (GFC)**. <br>⚠️ *Nota: Esta ação cria um arquivo `capivara.gfc_diagram` no diretório do projeto, responsável pela renderização.* |
 
 </br>
 
-![Demonstração de Uso do Plugin Capivara](./assets/demo.gif)
+
+
+</br>
+
+
 
 
 
@@ -94,47 +104,17 @@ public int exemplo(int a) {
 
 </details>
 
-<details>
-<summary><strong>2. Tabela Verdade</strong></summary>
 
-```
-Caso | a > 0                     | Resultado (Efeito)       
-------------------------------------------------------------
-1    | F                         | 0                        
-2    | V                         | a * 2                    
-
-```
-</details>
 
 <details>
-<summary><strong>3. Grafo (Código DOT)</strong></summary>
+<summary><strong>2. Grafo </strong></summary>
 
-```dot
-digraph G {
-  rankdir=TB;
-  node [shape=circle, style=solid, width=0.5, fixedsize=true, fontname="Helvetica"];
-  edge [fontname="Helvetica", fontsize=10];
-
-  1 [label="1", shape=circle, color="#28a745", style=solid];
-  2 [label="2", shape=circle, color="#007bff", style=solid];
-  3 [label="3", shape=doublecircle, color="#dc3545", style=solid];
-  4 [label="4", shape=doublecircle, color="#dc3545", style=solid];
-  1 -> 2;
-  2 -> 3;
-  2 -> 4;
-}
-
-```
+![Grafo](./assets/capivara.png)
 
 </details>
 
 </br>
 
-> ⚠️ **Atenção:**
-> Para visualizar o grafo gerado você pode:
->
-> * Instalar o **Graphviz** na sua máquina (modo local).
-> * Ou usar a versão online disponível em: [GraphvizOnline](https://dreampuf.github.io/GraphvizOnline)
 
 
 ## Entendendo o Grafo: Legenda dos Nós
@@ -155,7 +135,7 @@ O grafo gerado utiliza cores e formas para diferenciar o papel de cada nó no fl
 
 ## Detalhes Técnicos
 
-* **Versão Atual:** 1.0.0 (Alpha)
+* **Versão Atual:** 1.1.0 
 * **Plataforma Suportada:** Eclipse IDE 2021-03 ou superior
 * **Requisitos:** Java 17 ou superior
 

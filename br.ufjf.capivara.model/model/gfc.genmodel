@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="" modelDirectory="/br.ufjf.capivara.model/src" modelPluginID="br.ufjf.capivara.model"
+    modelName="Gfc" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false">
+  <foreignModel>gfc.ecore</foreignModel>
+  <genPackages prefix="Gfc" disposableProviderFactory="true" ecorePackage="gfc.ecore#/">
+    <genClasses ecoreClass="gfc.ecore#//Flowchart">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference gfc.ecore#//Flowchart/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference gfc.ecore#//Flowchart/edges"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="gfc.ecore#//Node">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute gfc.ecore#//Node/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute gfc.ecore#//Node/label"/>
+    </genClasses>
+    <genClasses ecoreClass="gfc.ecore#//EntryNode"/>
+    <genClasses ecoreClass="gfc.ecore#//ProcessingNode"/>
+    <genClasses ecoreClass="gfc.ecore#//DecisionNode"/>
+    <genClasses ecoreClass="gfc.ecore#//LoopDecisionNode"/>
+    <genClasses ecoreClass="gfc.ecore#//ExitNode"/>
+    <genClasses ecoreClass="gfc.ecore#//Edge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference gfc.ecore#//Edge/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference gfc.ecore#//Edge/target"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute gfc.ecore#//Edge/label"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

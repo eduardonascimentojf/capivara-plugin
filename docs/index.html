@@ -2,212 +2,422 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Capivara - Plugin de Análise para Eclipse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capivara - Plugin de Análise</title>
     <style>
+        /* Reset e Fontes */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
             line-height: 1.6; 
-            padding: 2em; 
-            max-width: 800px; 
-            margin: auto; 
+            margin: 0; 
             color: #333; 
+            background-color: #fff;
         }
-        h1, h2, h3 { 
-            border-bottom: 1px solid #eee; 
-            padding-bottom: 10px; 
-            margin-top: 2em;
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            padding: 2em;
+            gap: 40px;
         }
-        h1 { font-size: 2.2em; border: none; text-align: center; }
+
+        /* Área de Texto (Esquerda) */
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Sidebar de Versões (Direita) */
+        .version-sidebar {
+            width: 120px;
+            flex-shrink: 0;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            border-left: 1px solid #eee;
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .version-sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #999;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .version-link {
+            display: block;
+            padding: 5px 0;
+            color: #0366d6;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .version-link:hover { color: #000; }
+
+        .version-link.active {
+            font-weight: bold;
+            color: #24292e;
+        }
+
+        .version-link.active::before {
+            content: "•";
+            color: #28a745;
+            position: absolute;
+            left: -12px;
+            top: 4px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* Controle de Visibilidade */
+        .doc-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .doc-section.visible { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; margin-top: 10px; }
+            to { opacity: 1; margin-top: 0; }
+        }
+
+        /* --- Estilos de Conteúdo --- */
+        h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2em; }
+        h1 { font-size: 2em; border: none; text-align: center; margin-top: 0; }
+        
         code { 
             background-color: #f6f8fa; 
             padding: 0.2em 0.4em; 
             border-radius: 6px; 
-            font-family: monospace; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
+            font-size: 0.9em; 
         }
+        
         pre { 
             background-color: #f6f8fa; 
-            padding: 1em; 
+            padding: 1.2em; 
             border-radius: 6px; 
-            white-space: pre-wrap;
-            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #eee;
         }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 1em auto;
-            border-radius: 8px;
+
+        /* Imagens globais */
+        img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 8px; }
+        
+        img.badge-shield {
+            display: inline-block;
+            margin: 5px;
+            vertical-align: middle;
         }
-        blockquote {
-            border-left: 4px solid #ddd;
-            padding-left: 1em;
-            color: #666;
+
+        blockquote { border-left: 4px solid #ddd; padding-left: 1em; color: #666; margin-left: 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f6f8fa; }
+        
+        details { border: 1px solid #ddd; padding: 1em; border-radius: 6px; margin-bottom: 1em; }
+        summary { font-weight: bold; cursor: pointer; }
+        
+        .badge-title { 
+            background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 12px; 
+            font-size: 0.5em; vertical-align: middle; margin-left: 5px; border: 1px solid #c3e6cb; 
+            position: relative; top: -3px; font-weight: bold; text-transform: uppercase;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1em 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f6f8fa;
-        }
-        details {
-            border: 1px solid #ddd;
-            padding: 1em;
+
+        /* Estilo para alertas de remoção/mudança */
+        .alert-box {
+            background-color: #fff8c5;
+            border: 1px solid #e3d16f;
+            padding: 10px;
             border-radius: 6px;
-            margin-bottom: 1em;
+            font-size: 0.9em;
+            margin: 15px 0;
         }
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-        }
+
     </style>
 </head>
 <body>
 
-    <p align="center">
-      <img src="../assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
-    </p>
-
-    <h1>
-      Capivara - Análise de Fluxo de Controle para Eclipse
-    </h1>
-
-    <p align="center">
-      Um plugin para a IDE Eclipse que analisa métodos Java para gerar Grafos de Fluxo de Controle e Tabelas Verdade, auxiliando na criação e visualização de casos de teste.
-      <br />
-      <br />
-      <img alt="Versão" src="https://img.shields.io/badge/versão-1.0.0-blue">
-      <img alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
-    </p>
+<div class="container">
     
-    <nav>
-        <h2>📜 Sumário</h2>
-        <ul>
-            <li><a href="#o-que-o-plugin-faz">O que o Plugin Faz?</a></li>
-            <li><a href="#instalacao">Instalação</a></li>
-            <li><a href="#como-usar">Como Usar</a></li>
-            <li><a href="#exemplo-de-analise">Exemplo de Análise</a></li>
-            <li><a href="#entendendo-o-grafo">Entendendo o Grafo: Legenda dos Nós</a></li>
-            <li><a href="#detalhes-tecnicos">Detalhes Técnicos</a></li>
-        </ul>
-    </nav>
-    
-    <h2 id="o-que-o-plugin-faz">🤔 O que o Plugin Faz?</h2>
-    <p>
-        O <strong>Capivara</strong> é uma ferramenta de análise estática integrada à IDE Eclipse, projetada para auxiliar desenvolvedores e testadores a entender a lógica de seus métodos Java. Com um clique, ele gera três artefatos principais:
-    </p>
-    <ol>
-        <li><strong>Enumeração de Nós:</strong> Mapeia cada linha de código para seu nó correspondente no grafo.</li>
-        <li><strong>Tabela Verdade:</strong> Cria uma tabela de causa-efeito completa para todas as condições do método. (2<sup>n</sup>)</li>
-        <li><strong>Grafo de Fluxo de Controle:</strong> Produz o código-fonte em formato DOT, pronto para ser visualizado.</li>
-    </ol>
-    
-    <h2 id="instalacao">🚀 Instalação</h2>
-    <h3>Método 1: Pelo Eclipse (Recomendado)</h3>
-    <ol>
-        <li>No Eclipse, vá em <code>Help</code> > <code>Install New Software...</code></li>
-        <li>Clique em <code>Add...</code> e, no campo "Location", adicione a seguinte URL do nosso Update Site:</li>
-        <blockquote>https://eduardonascimentojf.github.io/capivara-plugin/</blockquote>
-        <li>Selecione "Capivara" na lista, avance e conclua a instalação.</li>
-    </ol>
+    <main class="content-area">
+        
+        <p align="center">
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+        </p>
 
-    <h3>Método 2: Instalação Manual (via Dropins)</h3>
-    <ol>
-        <li>Baixe o arquivo <code>.jar</code> mais recente na nossa <a href="https://github.com/eduardonascimentojf/capivara-plugin/releases" target="_blank">página de Releases</a>.</li>
-        <li>Copie o arquivo para a pasta <code>dropins</code> dentro do diretório de instalação do seu Eclipse e reinicie.</li>
-    </ol>
+        <div id="v1-1-0" class="doc-section visible">
+            <h1>
+                Capivara 1.1.0 <span class="badge-title">Atual</span>
+            </h1>
+            
+            <p align="center">
+                Análise visual nativa com GMF/Eugenia.
+                <br />
+                <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.1.0-green">
+                <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+            </p>
 
-    <h2 id="como-usar">🖱️ Como Usar</h2>
-    <ol>
-        <li>No eclipse, <strong>selecione o código de um método completo</strong>.</li>
-        <li>Clique com o <strong>botão direito</strong> na seleção.</li>
-        <li>No menu de contexto, escolha a opção <strong>"Analisar Código para Testes"</strong>.</li>
-        <li>A view "Análise Capivara" abrirá com os resultados.</li>
-    </ol>
-    <img src="../assets/demo.gif" alt="Demonstração de Uso do Plugin Capivara">
+            <nav>
+                <h2>📜 Sumário</h2>
+                <ul>
+                    <li><a href="#novidades-110">O que mudou?</a></li>
+                    <li><a href="#instalacao-110">Instalação</a></li>
+                    <li><a href="#como-usar-110">Como Usar</a></li>
+                    <li><a href="#exemplo-110">Exemplo de Análise</a></li>
+                    <li><a href="#visualizacao">Visualização Gráfica</a></li>
+                    <li><a href="#legenda-110">Legenda</a></li>
+                </ul>
+            </nav>
 
-    <h2 id="exemplo-de-analise">✨ Exemplo de Análise</h2>
-    <p><strong>Código de Entrada:</strong></p>
-    <pre><code>public int exemplo(int a) {
+            <h2 id="novidades-110">✨ O que mudou?</h2>
+            
+            <p>A versão 1.1.0 traz uma reformulação completa na forma de visualizar os dados:</p>
+            
+            <h3>Novas Funcionalidades</h3>
+            <ul>
+                <li><strong>Visualização Integrada (GMF):</strong> O grafo agora é renderizado nativamente dentro do Eclipse, eliminando a necessidade de ferramentas externas.</li>
+                <li><strong>Interatividade:</strong> Funcionalidade de mover as arestas e nós para reorganizar o layout do diagrama conforme sua preferência.</li>
+                <li><strong>Exportação:</strong> Adicionada a funcionalidade de exportar o diagrama como imagem (clique com o <strong>botão direito no Grafo > File</strong>).</li>
+                <li><strong>Informação Detalhada:</strong> É possível obter informações dos nós e saber se a aresta pertence ao caminho <em>true</em> ou <em>false</em> de uma condicional.</li>
+            </ul>
+
+            <h3>Remoções e Alterações</h3>
+            <div class="alert-box">
+                <strong>⚠️ Atenção:</strong> Foi removida a funcionalidade que implementava a <strong>Tabela Verdade</strong> e a geração do grafo via código <strong>.dot</strong>.
+            </div>
+
+            <h2 id="instalacao-110">🚀 Instalação</h2>
+            
+            <h3>Método 1: Update Site (Recomendado)</h3>
+            <ol>
+                <li>No Eclipse, acesse <strong>Help > Install New Software</strong>.</li>
+                <li>Utilize o endereço:
+                    <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
+                </li>
+                <li>Conclua a instalação e reinicie o Eclipse.</li>
+            </ol>
+
+            <h3>Método 2: Instalação Manual (Dropins)</h3>
+            <p>Caso tenha problemas com o Update Site, você pode instalar manualmente:</p>
+            <ol>
+                <li>Baixe o arquivo <code>.jar</code> mais recente na aba <strong>Releases</strong> do repositório.</li>
+                <li>Navegue até a pasta de instalação do seu Eclipse.</li>
+                <li>Localize a pasta <code>dropins</code> (se não existir, crie uma).</li>
+                <li>Copie o arquivo <code>.jar</code> para dentro desta pasta.</li>
+                <li>Reinicie o Eclipse.</li>
+            </ol>
+
+            <h2 id="como-usar-110">🖱️ Como Usar</h2>
+            <p>O menu de contexto foi atualizado com duas opções para agilizar o processo:</p>
+
+            <table style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Opção de Menu</th>
+                        <th>O que faz?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Capivara | Node Enumerate</code></td>
+                        <td>Realiza apenas a <strong>enumeração</strong> das linhas do método selecionado (adiciona comentários /*Nó X*/ no código), sem gerar gráficos.</td>
+                    </tr>
+                    <tr>
+                        <td><code>Capivara | Generate GFC</code></td>
+                        <td>Cria o arquivo de modelo e abre automaticamente a visualização do <strong>Grafo de Fluxo de Controle (GFC)</strong>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="exemplo-110">📝 Exemplo de Análise</h2>
+            <p>Abaixo demonstramos como o plugin processa um código simples.</p>
+
+            <p><strong>1. Código de Entrada:</strong></p>
+<pre><code>public int exemplo(int a) {
     if (a > 0) {
         return a * 2;
     } else {
         return 0;
     }
 }</code></pre>
-    
-    <p><strong>Resultados Gerados:</strong></p>
 
-    <details>
-        <summary><strong>1. Enumeração de Nós</strong></summary>
-        <pre><code>/*Linha 01*/ /*Nó 01*/    public int exemplo(int a) {
+            <p><strong>2. Resultado da Enumeração (Node Enumerate):</strong></p>
+<pre><code>/*Linha 01*/ /*Nó 01*/           public int exemplo(int a) {
+/*Linha 02*/ /*Nó 02*/              if (a > 0) {
+/*Linha 03*/ /*Nó 03*/                  return a * 2;
+/*Linha 04*/ /*Nó 04*/              } else {
+/*Linha 05*/ /*Nó 04*/                  return 0;
+/*Linha 06*/ /*Nó 04*/              }
+/*Linha 07*/ /*Nó 01*/          }</code></pre>
+
+            <h2 id="visualizacao">🎨 Visualização Gráfica (Generate GFC)</h2>
+            <p>Ao utilizar a opção <strong>Generate GFC</strong> com o código acima, o diagrama será exibido desta forma:</p>
+            
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/capivara.png" alt="GFC gerado">
+
+            <h2 id="legenda-110">🎨 Entendendo o Grafo: Legenda</h2>
+            <p>O grafo utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle.</p>
+            
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legenda.png" alt="Legenda dos Nós do Grafo">
+            
+            <table>
+                <thead>
+                    <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
+                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Comandos sequenciais.</td></tr>
+                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Estrutura condicional (if).</td></tr>
+                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Estrutura de laço (while).</td></tr>
+                    <tr><td><strong>EXIT</strong> (Vermelho)</td><td>Término do fluxo (return).</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div id="v1-0-0" class="doc-section">
+            <h1>
+                Capivara 1.0.0
+            </h1>
+
+            <p align="center">
+              Geração de Grafos DOT e Tabelas Verdade.
+              <br />
+              <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.0.0-blue">
+              <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+            </p>
+            
+            <nav>
+                <h2>📜 Sumário</h2>
+                <ul>
+                    <li><a href="#o-que-o-plugin-faz">O que o Plugin Faz?</a></li>
+                    <li><a href="#instalacao-100">Instalação</a></li>
+                    <li><a href="#como-usar-100">Como Usar</a></li>
+                    <li><a href="#exemplo-de-analise">Exemplo de Análise</a></li>
+                    <li><a href="#entendendo-o-grafo-100">Entendendo o Grafo</a></li>
+                </ul>
+            </nav>
+            
+            <h2 id="o-que-o-plugin-faz">🤔 O que o Plugin Faz?</h2>
+            <p>O <strong>Capivara</strong> auxilia na criação de casos de teste gerando:</p>
+            <ol>
+                <li><strong>Enumeração de Nós:</strong> Mapeia linhas para nós.</li>
+                <li><strong>Tabela Verdade:</strong> Causa-efeito (2<sup>n</sup>).</li>
+                <li><strong>Grafo de Fluxo (DOT):</strong> Código para visualização externa.</li>
+            </ol>
+            
+            <h2 id="instalacao-100">🚀 Instalação</h2>
+            
+            <h3>Método 1: Update Site (Recomendado)</h3>
+            <p>Utilize o endereço:</p>
+            <blockquote>https://eduardonascimentojf.github.io/capivara-plugin/</blockquote>
+
+            <h3>Método 2: Instalação Manual (Dropins)</h3>
+            <ol>
+                <li>Baixe o arquivo <code>.jar</code> da versão 1.0.0 em <strong>Releases</strong>.</li>
+                <li>Localize a pasta <code>dropins</code> na instalação do Eclipse.</li>
+                <li>Copie o arquivo para lá e reinicie a IDE.</li>
+            </ol>
+
+            <h2 id="como-usar-100">🖱️ Como Usar</h2>
+            <ol>
+                <li>Selecione o método no Eclipse.</li>
+                <li>Clique com botão direito > <strong>"Analisar Código para Testes"</strong>.</li>
+            </ol>
+            <img src="../assets/demo.gif" alt="Demonstração de Uso">
+
+            <h2 id="exemplo-de-analise">✨ Exemplo de Análise</h2>
+            <p><strong>Código de Entrada:</strong></p>
+<pre><code>public int exemplo(int a) {
+    if (a > 0) {
+        return a * 2;
+    } else {
+        return 0;
+    }
+}</code></pre>
+            
+            <details>
+                <summary><strong>1. Enumeração de Nós</strong></summary>
+<pre><code>/*Linha 01*/ /*Nó 01*/    public int exemplo(int a) {
 /*Linha 02*/ /*Nó 02*/        if (a > 0) {
 /*Linha 03*/ /*Nó 03*/            return a * 2;
 /*Linha 04*/ /*Nó 01*/        } else {
 /*Linha 05*/ /*Nó 04*/            return 0;
 /*Linha 06*/ /*Nó 01*/        }
 /*Linha 07*/ /*Nó 01*/    }</code></pre>
-    </details>
+            </details>
 
-    <details>
-        <summary><strong>2. Tabela Verdade</strong></summary>
-        <pre><code>Caso | a > 0                     | Resultado (Efeito)       
+            <details>
+                <summary><strong>2. Tabela Verdade</strong></summary>
+<pre><code>Caso | a > 0                     | Resultado (Efeito)       
 ------------------------------------------------------------
 1    | F                         | 0                        
 2    | V                         | a * 2</code></pre>
-    </details>
+            </details>
 
-    <details>
-        <summary><strong>3. Grafo (Código DOT)</strong></summary>
-        <blockquote>
-            ⚠️ <strong>Atenção:</strong> Para visualizar o grafo, copie o código abaixo e cole em uma ferramenta como o <a href="https://dreampuf.github.io/GraphvizOnline" target="_blank">Graphviz Online</a>.
-        </blockquote>
-        <pre><code>digraph G {
+            <details>
+                <summary><strong>3. Grafo (Código DOT)</strong></summary>
+                <p>Copie e cole no <a href="https://dreampuf.github.io/GraphvizOnline" target="_blank">Graphviz Online</a>.</p>
+<pre><code>digraph G {
   rankdir=TB;
-  node [shape=circle, style=solid, width=0.5, fixedsize=true, fontname="Helvetica"];
-  edge [fontname="Helvetica", fontsize=10];
-
-  1 [label="1", shape=circle, color="#28a745", style=solid];
-  2 [label="2", shape=circle, color="#007bff", style=solid];
-  3 [label="3", shape=doublecircle, color="#dc3545", style=solid];
-  4 [label="4", shape=doublecircle, color="#dc3545", style=solid];
   1 -> 2;
   2 -> 3;
   2 -> 4;
 }</code></pre>
-    </details>
+            </details>
 
-    <h2 id="entendendo-o-grafo">🎨 Entendendo o Grafo: Legenda dos Nós</h2>
-    <p>O grafo gerado utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle do seu método.</p>
-    <img src="../assets/legenda.png" alt="Legenda dos Nós do Grafo">
-    <table>
-        <thead>
-            <tr>
-                <th>Tipo de Nó</th>
-                <th>Descrição</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
-            <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Um ou mais comandos sequenciais.</td></tr>
-            <tr><td><strong>DECISION</strong> (Azul)</td><td>Uma estrutura condicional, como <code>if</code>.</td></tr>
-            <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Uma estrutura de laço, como <code>while</code> ou <code>for</code>.</td></tr>
-            <tr><td><strong>EXIT</strong> (Vermelho, Círculo Duplo)</td><td>Um ponto de término do fluxo, como <code>return</code>.</td></tr>
-        </tbody>
-    </table>
+            <h2 id="entendendo-o-grafo-100">🎨 Legenda</h2>
+            
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legenda.png" alt="Legenda dos Nós do Grafo">
+            
+            <table>
+                <thead>
+                    <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
+                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Comandos sequenciais.</td></tr>
+                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Estrutura condicional (if).</td></tr>
+                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Estrutura de laço (while).</td></tr>
+                    <tr><td><strong>EXIT</strong> (Vermelho)</td><td>Término do fluxo (return).</td></tr>
+                </tbody>
+            </table>
+        </div>
 
-    <h2 id="detalhes-tecnicos">🔧 Detalhes Técnicos</h2>
-    <ul>
-        <li><strong>Versão Atual:</strong> 1.0.0 (Alpha)</li>
-        <li><strong>Plataforma Suportada:</strong> Eclipse IDE 2021-03 ou superior</li>
-        <li><strong>Requisitos:</strong> Java 17 ou superior</li>
-    </ul>
+    </main>
+
+    <aside class="version-sidebar">
+        <h4>Versões</h4>
+        <a onclick="switchVersion('v1-1-0', this)" class="version-link active">1.1.0</a>
+        <a onclick="switchVersion('v1-0-0', this)" class="version-link">1.0.0</a>
+    </aside>
+
+</div>
+
+<script>
+    function switchVersion(id, btn) {
+        document.querySelectorAll('.doc-section').forEach(div => div.classList.remove('visible'));
+        document.getElementById(id).classList.add('visible');
+        document.querySelectorAll('.version-link').forEach(link => link.classList.remove('active'));
+        btn.classList.add('active');
+        window.scrollTo(0, 0);
+    }
+</script>
 
 </body>
 </html>

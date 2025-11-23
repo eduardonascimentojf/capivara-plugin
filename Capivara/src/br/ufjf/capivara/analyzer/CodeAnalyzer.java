@@ -9,7 +9,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
  * <p>
  * Sua principal responsabilidade é transformar uma String contendo código-fonte Java
  * em uma Árvore de Sintaxe Abstrata ({@link CompilationUnit}), que pode então ser
- * analisada por um {@link ASTVisitor}, como o {@link CauseEffectVisitor}.
+ * analisada por um {@link ASTVisitor}, como o {@link GFCVisitor}.
  */
 public class CodeAnalyzer {
 

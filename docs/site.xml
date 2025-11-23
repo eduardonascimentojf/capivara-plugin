@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/Capivara.feature_1.0.0.202509171153.jar" id="Capivara.feature" version="1.0.0.202509171153">
+   <feature url="features/Capivara.feature_1.1.0.202511231647.jar" id="Capivara.feature" version="1.1.0.202511231647">
       <category name="capivara.category"/>
    </feature>
-   <category-def name="capivara.category" label="Capivara - Ferramentas de Teste"/>
+   <category-def name="capivara.category" label="Capivara Tools">
+      <description>
+         Analysis tools for the Capivara Plugin.
+      </description>
+   </category-def>
 </site>

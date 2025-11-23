@@ -15,18 +15,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 import br.ufjf.capivara.analyzer.CodeAnalyzer;
-import br.ufjf.capivara.analyzer.CauseEffectVisitor;
-import br.ufjf.capivara.graph.GraphvizGenerator;
-import br.ufjf.capivara.table.TruthTableGenerator;
+import br.ufjf.capivara.analyzer.GFCVisitor;
 import br.ufjf.capivara.views.AnalysisResultView;
 
 /**
  * Handler principal do plugin, responsável por orquestrar a análise do código.
  * <p>
  * Esta classe é ativada quando o usuário aciona o comando "Analisar Código". Ela
- * captura o texto selecionado no editor, coordena as diferentes ferramentas de
- * análise (parser, visitor do grafo, gerador de tabela verdade) e envia os
- * resultados formatados para a {@link AnalysisResultView}.
+ * captura o texto selecionado no editor, coordena a análise sintática e envia o
+ * código anotado para a {@link AnalysisResultView}.
  */
 public class AnalyzeCodeHandler extends AbstractHandler {
 
@@ -36,10 +33,9 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 	 * 1. Obter o código Java selecionado pelo usuário no editor ativo.
 	 * 2. Utilizar o {@link CodeAnalyzer} para gerar uma Árvore de Sintaxe Abstrata (AST).
 	 * 3. Encontrar o primeiro método declarado no código selecionado.
-	 * 4. Invocar o {@link CauseEffectVisitor} para construir o grafo de fluxo de controle.
-	 * 5. Invocar o {@link TruthTableGenerator} para criar a tabela verdade.
-	 * 6. Formatar as saídas (código anotado e grafo DOT).
-	 * 7. Exibir todos os resultados na {@link AnalysisResultView}.
+	 * 4. Invocar o {@link GFCVisitor} para mapear as linhas aos nós (necessário para anotação).
+	 * 5. Formatar a saída (código anotado).
+	 * 6. Exibir o resultado na {@link AnalysisResultView}.
 	 *
 	 * @param event O evento de execução do comando, fornecido pela plataforma Eclipse.
 	 * @return Sempre {@code null}, pois este handler não retorna um resultado.
@@ -67,21 +63,15 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 					return null;
 				}
 
-				CauseEffectVisitor cfgVisitor = new CauseEffectVisitor();
+				// Mantido apenas para gerar o mapa de linhas para nós (usado na anotação do código)
+				GFCVisitor cfgVisitor = new GFCVisitor();
 				cfgVisitor.setup(astRoot);
 				astRoot.accept(cfgVisitor);
 
 				String annotatedCode = getAnnotatedCode(selectedText, cfgVisitor.getLineToNodeMap());
 				
-				TruthTableGenerator truthTableGenerator = new TruthTableGenerator();
-				String truthTable = truthTableGenerator.generateTruthTable(astRoot, method);
-
-				GraphvizGenerator graphGenerator = new GraphvizGenerator();
-				String dotGraph = graphGenerator.generateDotGraph(cfgVisitor.getGraphEdges(), cfgVisitor.getNodeTypes(),
-						cfgVisitor.getNodeLabels());
-
-				showResultsInView(event, annotatedCode, truthTable, dotGraph);
-
+				// Chamada atualizada sem a tabela verdade e o grafo
+				showResultsInView(event, annotatedCode);
 			}
 		}
 		return null;
@@ -92,15 +82,16 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 	 *
 	 * @param event O evento de execução original, usado para obter o contexto da workbench.
 	 * @param annotatedCode A string do código original anotado com os nós do grafo.
-	 * @param truthTable A string formatada da tabela verdade.
-	 * @param dotGraph A string do grafo no formato DOT.
 	 */
-	private void showResultsInView(ExecutionEvent event, String annotatedCode, String truthTable, String dotGraph) {
+	private void showResultsInView(ExecutionEvent event, String annotatedCode) {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 			IWorkbenchPage page = window.getActivePage();
 			AnalysisResultView view = (AnalysisResultView) page.showView(AnalysisResultView.ID);
-			view.displayResults(annotatedCode, truthTable, dotGraph);
+			
+			// CORREÇÃO: Removemos os ", null, null" que causavam o erro
+			view.displayResults(annotatedCode);
+			
 		} catch (PartInitException e) {
 			System.err.println("Erro ao tentar abrir a view de resultados do Capivara.");
 			e.printStackTrace();

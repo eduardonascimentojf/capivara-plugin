@@ -2,11 +2,13 @@
 <feature
       id="Capivara.feature"
       label="Capivara"
-      version="1.0.0.qualifier">
+      version="1.1.0.qualifier">
 
-   <description url="http://www.example.com/description">
-      O Capivara é uma ferramenta de análise estática de código Java, projetada como um plugin para a IDE Eclipse. Ele auxilia desenvolvedores e testadores na compreensão da complexidade cicl
-omática e na criação de casos de teste, gerando automaticamente Grafos de Fluxo de Controle (em formato DOT) e Tabelas Verdade de Causa-Efeito a partir de qualquer método Java selecionado.
+   <description url="https://github.com/eduardonascimentojf/capivara-plugin">
+      Capivara is a static code analysis tool for Java, developed as
+a plugin for the Eclipse IDE. Its purpose is to assist developers
+and testers in evaluating cyclomatic complexity and creating
+test cases.
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -18,11 +20,29 @@ omática e na criação de casos de teste, gerando automaticamente Grafos de Flu
    </license>
 
    <url>
-      <discovery label="Repositório" url="https://eduardonascimentojf.github.io/capivara-plugin/"/>
+      <discovery label="Repositório Capivara" url="https://eduardonascimentojf.github.io/capivara-plugin/"/>
+      <discovery label="Eclipse Official Releases" url="https://download.eclipse.org/releases/latest"/>
    </url>
+
+   <requires>
+      <import feature="org.eclipse.gmf" version="1.0.0" match="compatible"/>
+      <import feature="org.eclipse.gmf.tooling" version="3.0.0" match="compatible"/>
+   </requires>
 
    <plugin
          id="br.ufjf.capivara"
-         version="1.0.0.qualifier"/>
+         version="1.1.0.qualifier"/>
+
+   <plugin
+         id="br.ufjf.capivara.diagram"
+         version="1.1.0.qualifier"/>
+
+   <plugin
+         id="br.ufjf.capivara.model"
+         version="1.1.0.qualifier"/>
+
+   <plugin
+         id="br.ufjf.capivara.model.edit"
+         version="1.1.0.qualifier"/>
 
 </feature>

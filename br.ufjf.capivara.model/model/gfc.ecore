@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gfc" nsURI="http://www.ufjf.br/capivara/gfc" nsPrefix="gfc">
+  <eClassifiers xsi:type="ecore:EClass" name="Flowchart">
+    <eAnnotations source="gmf.diagram"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
+        eType="#//Edge" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Node" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="id"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="40,167,69"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessingNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="id"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="0,0,0"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DecisionNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="id"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="0,123,255"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LoopDecisionNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="id"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="255,165,0"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExitNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="gfc.diagram.figures.DoubleEllipseFigure"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="id"/>
+      <details key="size" value="40,40"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Edge">
+    <eAnnotations source="gmf.link">
+      <details key="source" value="source"/>
+      <details key="target" value="target"/>
+      <details key="target.decoration" value="arrow"/>
+      <details key="color" value="0,0,0"/>
+      <details key="width" value="2"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

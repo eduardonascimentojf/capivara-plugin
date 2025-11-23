@@ -1,0 +1,266 @@
+package gfc.diagram.edit.parts;
+
+import org.eclipse.draw2d.Ellipse;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MarginBorder;
+import org.eclipse.draw2d.PositionConstants;
+import org.eclipse.draw2d.Shape;
+import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.editpolicies.LayoutEditPolicy;
+import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
+import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
+import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
+import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.swt.graphics.Color;
+
+import gfc.diagram.edit.policies.ProcessingNodeItemSemanticEditPolicy;
+import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
+import gfc.diagram.part.GfcVisualIDRegistry;
+
+public class ProcessingNodeEditPart extends ShapeNodeEditPart {
+
+	public static final int VISUAL_ID = 2002;
+	protected IFigure contentPane;
+	protected IFigure primaryShape;
+	private WrappingLabel fFigureProcessingNodeLabelFigure;
+
+	public ProcessingNodeEditPart(View view) {
+		super(view);
+	}
+
+	protected void createDefaultEditPolicies() {
+		super.createDefaultEditPolicies();
+		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new ProcessingNodeItemSemanticEditPolicy());
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
+		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new NonResizableEditPolicy());
+		installEditPolicy(org.eclipse.gef.EditPolicy.COMPONENT_ROLE, new ReadOnlyComponentEditPolicy()); // politica de deletar
+
+	}
+
+	protected LayoutEditPolicy createLayoutEditPolicy() {
+		org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy lep = new org.eclipse.gmf.runtime.diagram.ui.editpolicies.LayoutEditPolicy() {
+			protected EditPolicy createChildEditPolicy(EditPart child) {
+				EditPolicy result = child.getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
+				if (result == null) {
+					result = new NonResizableEditPolicy();
+				}
+				return result;
+			}
+
+			protected Command getMoveChildrenCommand(Request request) {
+				return null;
+			}
+
+			protected Command getCreateCommand(CreateRequest request) {
+				return org.eclipse.gef.commands.UnexecutableCommand.INSTANCE; // impede criação via palette/drop
+			}
+		};
+		return lep;
+	}
+
+	/**
+	 * @generated NOT
+	 * Aplica o padrão de GridLayout para centralizar o label.
+	 */
+	protected IFigure createNodeShape() {
+		Ellipse ellipse = new Ellipse();
+		ellipse.setForegroundColor(new Color(null, 0, 0, 0)); // Preto
+		ellipse.setLineWidth(2);
+		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+
+		GridLayout gl = new GridLayout(1, false);
+		gl.horizontalSpacing = 0;
+		gl.verticalSpacing = 0;
+		gl.marginHeight = 0;
+		gl.marginWidth = 0;
+		ellipse.setLayoutManager(gl);
+
+		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
+
+		fFigureProcessingNodeLabelFigure = new WrappingLabel();
+		fFigureProcessingNodeLabelFigure.setText("");
+		fFigureProcessingNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
+		fFigureProcessingNodeLabelFigure.setAlignment(PositionConstants.CENTER);
+		fFigureProcessingNodeLabelFigure.setPreferredSize(-1, -1);
+
+		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
+		gd.widthHint = -1;
+		gd.heightHint = -1;
+
+		ellipse.add(fFigureProcessingNodeLabelFigure);
+		ellipse.setConstraint(fFigureProcessingNodeLabelFigure, gd);
+
+		primaryShape = ellipse;
+		return primaryShape;
+	}
+
+	public IFigure getPrimaryShape() {
+		return primaryShape;
+	}
+
+	protected boolean addFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof ProcessingNodeIdEditPart) {
+			((ProcessingNodeIdEditPart) childEditPart).setLabel(fFigureProcessingNodeLabelFigure);
+			return true;
+		}
+		return false;
+	}
+
+	// O resto do código gerado pelo GMF pode ser mantido.
+	// A classe interna "ProcessingNodeFigure" não é mais necessária.
+
+	protected boolean removeFixedChild(EditPart childEditPart) {
+		if (childEditPart instanceof ProcessingNodeIdEditPart) {
+			return true;
+		}
+		return false;
+	}
+
+	protected void addChildVisual(EditPart childEditPart, int index) {
+		if (addFixedChild(childEditPart)) {
+			return;
+		}
+		super.addChildVisual(childEditPart, -1);
+	}
+
+	protected void removeChildVisual(EditPart childEditPart) {
+		if (removeFixedChild(childEditPart)) {
+			return;
+		}
+		super.removeChildVisual(childEditPart);
+	}
+
+	protected IFigure getContentPaneFor(IGraphicalEditPart editPart) {
+		return getContentPane();
+	}
+
+	protected NodeFigure createNodePlate() {
+		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
+		return result;
+	}
+
+	protected NodeFigure createNodeFigure() {
+		NodeFigure figure = createNodePlate();
+		figure.setLayoutManager(new StackLayout());
+		IFigure shape = createNodeShape();
+		figure.add(shape);
+		contentPane = setupContentPane(shape);
+		return figure;
+	}
+
+	protected IFigure setupContentPane(IFigure nodeShape) {
+		if (nodeShape.getLayoutManager() == null) {
+			ConstrainedToolbarLayout layout = new ConstrainedToolbarLayout();
+			layout.setSpacing(5);
+			nodeShape.setLayoutManager(layout);
+		}
+		return nodeShape;
+	}
+
+	public IFigure getContentPane() {
+		if (contentPane != null) {
+			return contentPane;
+		}
+		return super.getContentPane();
+	}
+
+	protected void setForegroundColor(Color color) {
+		if (primaryShape != null) {
+			primaryShape.setForegroundColor(color);
+		}
+	}
+
+	protected void setBackgroundColor(Color color) {
+		if (primaryShape != null) {
+			primaryShape.setBackgroundColor(color);
+		}
+	}
+
+	protected void setLineWidth(int width) {
+		if (primaryShape instanceof Shape) {
+			((Shape) primaryShape).setLineWidth(width);
+		}
+	}
+
+	protected void setLineType(int style) {
+		if (primaryShape instanceof Shape) {
+			((Shape) primaryShape).setLineStyle(style);
+		}
+	}
+
+	public EditPart getPrimaryChildEditPart() {
+		return getChildBySemanticHint(GfcVisualIDRegistry.getType(ProcessingNodeIdEditPart.VISUAL_ID));
+	}
+
+	protected void handleNotificationEvent(Notification event) {
+		if (event.getNotifier() == getModel()
+				&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(event.getFeature())) {
+			handleMajorSemanticChange();
+		} else {
+			super.handleNotificationEvent(event);
+		}
+	}
+
+	/**
+	* @generated
+	*/
+	public class ProcessingNodeFigure extends Ellipse {
+
+		/**
+		 * @generated
+		 */
+		private WrappingLabel fFigureProcessingNodeLabelFigure;
+
+		/**
+		 * @generated
+		 */
+		public ProcessingNodeFigure() {
+			this.setForegroundColor(THIS_FORE);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
+					getMapMode().DPtoLP(5)));
+			createContents();
+		}
+
+		/**
+		 * @generated
+		 */
+		private void createContents() {
+
+			fFigureProcessingNodeLabelFigure = new WrappingLabel();
+
+			fFigureProcessingNodeLabelFigure.setText("ProcessingNode");
+
+			this.add(fFigureProcessingNodeLabelFigure);
+
+		}
+
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getFigureProcessingNodeLabelFigure() {
+			return fFigureProcessingNodeLabelFigure;
+		}
+
+	}
+
+	/**
+	* @generated
+	*/
+	static final Color THIS_FORE = new Color(null, 0, 0, 0);
+}

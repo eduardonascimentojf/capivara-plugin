@@ -7,7 +7,7 @@ package br.ufjf.capivara.model;
  * (implícito) a um nó de destino (`destinationNodeId`) e pode conter
  * um rótulo opcional (como "true" ou "false").
  *
- * @see br.ufjf.capivara.analyzer.CauseEffectVisitor
+ * @see br.ufjf.capivara.analyzer.GFCVisitor
  */
 public class Edge {
 

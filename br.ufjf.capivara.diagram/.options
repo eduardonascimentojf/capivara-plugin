@@ -1,0 +1,7 @@
+# Tracing options for the br.ufjf.capivara.diagram plug-in
+
+# Common issues
+br.ufjf.capivara.diagram/debug=false
+
+# Visual IDs
+br.ufjf.capivara.diagram/debug/visualID=false
