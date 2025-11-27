@@ -359,7 +359,7 @@ public class GfcDiagramEditor extends DiagramDocumentEditor implements IGotoMark
 		/**
 		* @generated
 		*/
-		protected List<EObject> getObjectsBeingDropped() {
+		protected List getObjectsBeingDropped() {
 			TransferData data = getCurrentEvent().currentDataType;
 			HashSet<URI> uris = new HashSet<URI>();
 

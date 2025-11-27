@@ -1,5 +1,6 @@
 package gfc.diagram.part;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.EditPartViewer;
@@ -72,5 +73,3 @@ public class DiagramEditorContextMenuProvider extends DiagramContextMenuProvider
 		}
 	}
 }
-
-

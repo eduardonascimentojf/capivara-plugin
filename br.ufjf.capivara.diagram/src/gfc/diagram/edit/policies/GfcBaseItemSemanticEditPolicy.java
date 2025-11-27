@@ -277,7 +277,7 @@ public class GfcBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	*/
 	protected void addDestroyShortcutsCommand(ICompositeCommand cmd, View view) {
 		assert view.getEAnnotation("Shortcut") == null; //$NON-NLS-1$
-		for (Iterator<?> it = view.getDiagram().getChildren().iterator(); it.hasNext();) {
+		for (Iterator it = view.getDiagram().getChildren().iterator(); it.hasNext();) {
 			View nextView = (View) it.next();
 			if (nextView.getEAnnotation("Shortcut") == null || !nextView.isSetElement() //$NON-NLS-1$
 					|| nextView.getElement() != view.getElement()) {

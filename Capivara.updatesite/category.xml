@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="Capivara.feature">
+      <category name="capivara.category"/>
+   </feature>
+   <category-def name="capivara.category" label="Capivara Tools">
+      <description>
+         Analysis tools for the Capivara Plugin.
+      </description>
+   </category-def>
+</site>

@@ -102,7 +102,6 @@ public class ValidateAction extends Action {
 	* @generated
 	*/
 	public static void runNonUIValidation(View view) {
-		@SuppressWarnings("deprecation")
 		DiagramEditPart diagramEditPart = OffscreenEditPartFactory.getInstance()
 				.createDiagramEditPart(view.getDiagram());
 		runValidation(diagramEditPart, view);
@@ -165,11 +164,11 @@ public class ValidateAction extends Action {
 			return;
 		}
 		final IStatus rootStatus = validationStatus;
-		List<IStatus> allStatuses = new ArrayList<>();
+		List allStatuses = new ArrayList();
 		GfcDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new GfcDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(),
 				collectTargetElements(rootStatus, new HashSet<EObject>(), allStatuses));
-		for (Iterator<IStatus> it = allStatuses.iterator(); it.hasNext();) {
+		for (Iterator it = allStatuses.iterator(); it.hasNext();) {
 			IConstraintStatus nextStatus = (IConstraintStatus) it.next();
 			View view = GfcDiagramEditorUtil.findView(diagramEditPart, nextStatus.getTarget(), element2ViewMap);
 			addMarker(diagramEditPart.getViewer(), target, view.eResource().getURIFragment(view),
@@ -186,13 +185,13 @@ public class ValidateAction extends Action {
 			return;
 		}
 		final Diagnostic rootStatus = emfValidationStatus;
-		List<Diagnostic> allDiagnostics = new ArrayList<>();
+		List allDiagnostics = new ArrayList();
 		GfcDiagramEditorUtil.LazyElement2ViewMap element2ViewMap = new GfcDiagramEditorUtil.LazyElement2ViewMap(
 				diagramEditPart.getDiagramView(),
 				collectTargetElements(rootStatus, new HashSet<EObject>(), allDiagnostics));
-		for (Iterator<?> it = emfValidationStatus.getChildren().iterator(); it.hasNext();) {
+		for (Iterator it = emfValidationStatus.getChildren().iterator(); it.hasNext();) {
 			Diagnostic nextDiagnostic = (Diagnostic) it.next();
-			List<?> data = nextDiagnostic.getData();
+			List data = nextDiagnostic.getData();
 			if (data != null && !data.isEmpty() && data.get(0) instanceof EObject) {
 				EObject element = (EObject) data.get(0);
 				View view = GfcDiagramEditorUtil.findView(diagramEditPart, element, element2ViewMap);
@@ -234,7 +233,7 @@ public class ValidateAction extends Action {
 	* @generated
 	*/
 	private static Set<EObject> collectTargetElements(IStatus status, Set<EObject> targetElementCollector,
-			List<IStatus> allConstraintStatuses) {
+			List allConstraintStatuses) {
 		if (status instanceof IConstraintStatus) {
 			targetElementCollector.add(((IConstraintStatus) status).getTarget());
 			allConstraintStatuses.add(status);
@@ -252,8 +251,8 @@ public class ValidateAction extends Action {
 	* @generated
 	*/
 	private static Set<EObject> collectTargetElements(Diagnostic diagnostic, Set<EObject> targetElementCollector,
-			List<Diagnostic> allDiagnostics) {
-		List<?> data = diagnostic.getData();
+			List allDiagnostics) {
+		List data = diagnostic.getData();
 		EObject target = null;
 		if (data != null && !data.isEmpty() && data.get(0) instanceof EObject) {
 			target = (EObject) data.get(0);
@@ -261,7 +260,7 @@ public class ValidateAction extends Action {
 			allDiagnostics.add(diagnostic);
 		}
 		if (diagnostic.getChildren() != null && !diagnostic.getChildren().isEmpty()) {
-			for (Iterator<?> it = diagnostic.getChildren().iterator(); it.hasNext();) {
+			for (Iterator it = diagnostic.getChildren().iterator(); it.hasNext();) {
 				collectTargetElements((Diagnostic) it.next(), targetElementCollector, allDiagnostics);
 			}
 		}

@@ -218,9 +218,8 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 	private Collection<IAdaptable> refreshConnections() {
 		Domain2Notation domain2NotationMap = new Domain2Notation();
 		Collection<GfcLinkDescriptor> linkDescriptors = collectAllLinks(getDiagram(), domain2NotationMap);
-		@SuppressWarnings("unchecked")
-		Collection<View> existingLinks = new LinkedList<View>(getDiagram().getEdges());
-		for (Iterator<View> linksIterator = existingLinks.iterator(); linksIterator.hasNext();) {
+		Collection existingLinks = new LinkedList(getDiagram().getEdges());
+		for (Iterator linksIterator = existingLinks.iterator(); linksIterator.hasNext();) {
 			Edge nextDiagramLink = (Edge) linksIterator.next();
 			int diagramLinkVisualID = GfcVisualIDRegistry.getVisualID(nextDiagramLink);
 			if (diagramLinkVisualID == -1) {
@@ -308,10 +307,10 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 			break;
 		}
 		}
-		for (Iterator<?> children = view.getChildren().iterator(); children.hasNext();) {
+		for (Iterator children = view.getChildren().iterator(); children.hasNext();) {
 			result.addAll(collectAllLinks((View) children.next(), domain2NotationMap));
 		}
-		for (Iterator<?> edges = view.getSourceEdges().iterator(); edges.hasNext();) {
+		for (Iterator edges = view.getSourceEdges().iterator(); edges.hasNext();) {
 			result.addAll(collectAllLinks((View) edges.next(), domain2NotationMap));
 		}
 		return result;

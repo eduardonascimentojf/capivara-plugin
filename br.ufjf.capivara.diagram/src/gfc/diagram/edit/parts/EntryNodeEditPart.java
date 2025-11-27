@@ -11,6 +11,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -61,9 +62,11 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 				}
 				return result;
 			}
+
 			protected Command getMoveChildrenCommand(Request request) {
 				return null;
 			}
+
 			protected Command getCreateCommand(CreateRequest request) {
 				return null;
 			}
@@ -109,7 +112,7 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 		}
 		return false;
 	}
-	
+
 	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	@Override
@@ -124,15 +127,65 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 		refreshTooltip(); // Atualiza o tooltip em qualquer mudança
 	}
 
+	/**
+	* @generated
+	*/
+	public class EntryNodeFigure extends Ellipse {
+
+		/**
+		 * @generated
+		 */
+		private WrappingLabel fFigureEntryNodeLabelFigure;
+
+		/**
+		 * @generated
+		 */
+		public EntryNodeFigure() {
+			this.setForegroundColor(THIS_FORE);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
+					getMapMode().DPtoLP(5)));
+			createContents();
+		}
+
+		/**
+		 * @generated
+		 */
+		private void createContents() {
+
+			fFigureEntryNodeLabelFigure = new WrappingLabel();
+
+			fFigureEntryNodeLabelFigure.setText("EntryNode");
+
+			this.add(fFigureEntryNodeLabelFigure);
+
+		}
+
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getFigureEntryNodeLabelFigure() {
+			return fFigureEntryNodeLabelFigure;
+		}
+
+	}
+
+	/**
+	* @generated
+	*/
+	static final Color THIS_FORE = new Color(null, 40, 167, 69);
+
 	protected void refreshTooltip() {
 		IFigure figure = getFigure();
-		if (figure == null) { return; }
-		
+		if (figure == null) {
+			return;
+		}
+
 		Object modelElement = resolveSemanticElement();
 		if (modelElement instanceof Node) {
 			Node node = (Node) modelElement;
 			String tooltipText = node.getLabel(); // Pega o label completo do modelo
-			
+
 			if (tooltipText != null && !tooltipText.isEmpty()) {
 				figure.setToolTip(new Label(tooltipText));
 			} else {
@@ -140,7 +193,7 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 			}
 		}
 	}
-	
+
 	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	protected boolean removeFixedChild(EditPart childEditPart) {

@@ -519,7 +519,7 @@ public class EntryNodeIdEditPart extends CompartmentEditPart implements ITextAwa
 	* @generated
 	*/
 	@Override
-	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
+	public Object getAdapter(Class key) {
 		if (ILabelDelegate.class.equals(key)) {
 			return getLabelDelegate();
 		}

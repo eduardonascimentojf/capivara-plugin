@@ -39,7 +39,6 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements ITreeBranchE
 		return (EdgeFigure) getFigure();
 	}
 
-	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	@Override
 	protected void refreshVisuals() {
@@ -73,7 +72,6 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements ITreeBranchE
 		}
 	}
 
-	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	public class EdgeFigure extends PolylineConnectionEx {
 		public EdgeFigure() {

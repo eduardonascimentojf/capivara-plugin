@@ -1,10 +1,10 @@
 /*
- * 
- */
+ * */
 package gfc.diagram.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.gmf.runtime.diagram.ui.preferences.IPreferenceConstants; 
 
 import gfc.diagram.part.GfcDiagramEditorPlugin;
 
@@ -14,7 +14,7 @@ import gfc.diagram.part.GfcDiagramEditorPlugin;
 public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	/**
-	* @generated
+	* @generated NOT
 	*/
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = getPreferenceStore();
@@ -23,7 +23,8 @@ public class DiagramPreferenceInitializer extends AbstractPreferenceInitializer 
 		DiagramConnectionsPreferencePage.initDefaults(store);
 		DiagramPrintingPreferencePage.initDefaults(store);
 		DiagramRulersAndGridPreferencePage.initDefaults(store);
-
+		
+		store.setDefault(IPreferenceConstants.PREF_SHOW_POPUP_BARS, false);
 	}
 
 	/**

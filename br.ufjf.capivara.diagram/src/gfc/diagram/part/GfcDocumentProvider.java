@@ -188,7 +188,6 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 		TransactionalEditingDomain domain = diagramDocument.getEditingDomain();
 		if (element instanceof FileEditorInput) {
 			IStorage storage = ((FileEditorInput) element).getStorage();
-			@SuppressWarnings("restriction")
 			Diagram diagram = DiagramIOUtil.load(domain, storage, true, getProgressMonitor());
 			document.setContent(diagram);
 		} else if (element instanceof URIEditorInput) {
@@ -201,8 +200,7 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 				}
 				if (!resource.isLoaded()) {
 					try {
-						@SuppressWarnings({ "unchecked", "rawtypes" })
-						Map<?, ?> options = new HashMap(GMFResourceFactory.getDefaultLoadOptions());
+						Map options = new HashMap(GMFResourceFactory.getDefaultLoadOptions());
 						// @see 171060 
 						// options.put(org.eclipse.emf.ecore.xmi.XMLResource.OPTION_RECORD_UNKNOWN_FEATURE, Boolean.TRUE);
 						resource.load(options);
@@ -218,7 +216,7 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 						return;
 					}
 				} else {
-					for (Iterator <?> it = resource.getContents().iterator(); it.hasNext();) {
+					for (Iterator it = resource.getContents().iterator(); it.hasNext();) {
 						Object rootElement = it.next();
 						if (rootElement instanceof Diagram) {
 							document.setContent((Diagram) rootElement);
@@ -979,7 +977,7 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 					Resource resource = (Resource) notification.getNotifier();
 					if (resource.isLoaded()) {
 						boolean modified = false;
-						for (Iterator <org.eclipse.emf.ecore.resource.Resource> it = myInfo
+						for (Iterator /*<org.eclipse.emf.ecore.resource.Resource>*/ it = myInfo
 								.getLoadedResourcesIterator(); it.hasNext() && !modified;) {
 							Resource nextResource = (Resource) it.next();
 							if (nextResource.isLoaded()) {

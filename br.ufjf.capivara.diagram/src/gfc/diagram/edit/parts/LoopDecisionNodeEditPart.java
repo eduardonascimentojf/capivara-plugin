@@ -11,6 +11,7 @@ import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification; // NOVO IMPORT
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -61,9 +62,11 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 				}
 				return result;
 			}
+
 			protected Command getMoveChildrenCommand(Request request) {
 				return null;
 			}
+
 			protected Command getCreateCommand(CreateRequest request) {
 				return null;
 			}
@@ -114,7 +117,7 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 		}
 		return false;
 	}
-	
+
 	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	@Override
@@ -132,15 +135,65 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 		}
 	}
 
+	/**
+	* @generated
+	*/
+	public class LoopDecisionNodeFigure extends Ellipse {
+
+		/**
+		 * @generated
+		 */
+		private WrappingLabel fFigureLoopDecisionNodeLabelFigure;
+
+		/**
+		 * @generated
+		 */
+		public LoopDecisionNodeFigure() {
+			this.setForegroundColor(THIS_FORE);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
+					getMapMode().DPtoLP(5)));
+			createContents();
+		}
+
+		/**
+		 * @generated
+		 */
+		private void createContents() {
+
+			fFigureLoopDecisionNodeLabelFigure = new WrappingLabel();
+
+			fFigureLoopDecisionNodeLabelFigure.setText("LoopDecisionNode");
+
+			this.add(fFigureLoopDecisionNodeLabelFigure);
+
+		}
+
+		/**
+		 * @generated
+		 */
+		public WrappingLabel getFigureLoopDecisionNodeLabelFigure() {
+			return fFigureLoopDecisionNodeLabelFigure;
+		}
+
+	}
+
+	/**
+	* @generated
+	*/
+	static final Color THIS_FORE = new Color(null, 255, 165, 0);
+
 	protected void refreshTooltip() {
 		IFigure figure = getFigure();
-		if (figure == null) { return; }
-		
+		if (figure == null) {
+			return;
+		}
+
 		Object modelElement = resolveSemanticElement();
 		if (modelElement instanceof Node) {
 			Node node = (Node) modelElement;
 			String tooltipText = node.getLabel();
-			
+
 			if (tooltipText != null && !tooltipText.isEmpty()) {
 				figure.setToolTip(new Label(tooltipText));
 			} else {
@@ -148,7 +201,7 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 			}
 		}
 	}
-	
+
 	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	protected boolean removeFixedChild(EditPart childEditPart) {

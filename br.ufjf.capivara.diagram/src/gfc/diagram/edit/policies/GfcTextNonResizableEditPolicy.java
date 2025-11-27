@@ -218,7 +218,7 @@ public class GfcTextNonResizableEditPolicy extends NonResizableEditPolicyEx impl
 	/**
 	* @generated
 	*/
-	protected List<MoveHandle> createSelectionHandles() {
+	protected List createSelectionHandles() {
 		MoveHandle moveHandle = new MoveHandle((GraphicalEditPart) getHost());
 		moveHandle.setBorder(null);
 		moveHandle.setDragTracker(new DragEditPartsTrackerEx(getHost()));

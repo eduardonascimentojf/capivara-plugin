@@ -8,7 +8,8 @@
    <extension point="org.eclipse.team.core.fileTypes" id="repo-ftype">
       <?gmfgen generated="true"?>
       <fileTypes type="text" extension="gfc_diagram"/>
-   </extension>'
+   </extension>
+'
 
    <extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
       <?gmfgen generated="true"?>
@@ -571,9 +572,76 @@
          </toolbar>
       </menuContribution>
    </extension>
+<extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
+      <?gmfgen generated="true"?>
+      <objectContribution
+            id="br.ufjf.capivara.diagram.InitDiagram"
+            nameFilter="*.gfc"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               label="%initDiagramActionLabel"
+               class="gfc.diagram.part.GfcInitDiagramFileAction"
+               menubarPath="additions"
+               enablesFor="1"
+               id="br.ufjf.capivara.diagram.InitDiagramAction">
+         </action>
+      </objectContribution>
+   </extension>
+
+<extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
+      <?gmfgen generated="true"?>
+      <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfFlowchartEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.FlowchartEditPart" id="Flowchart_1000"/>
+         <context elements="Flowchart_1000"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfEntryNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.EntryNodeEditPart" id="EntryNode_2001"/>
+         <context elements="EntryNode_2001"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfProcessingNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.ProcessingNodeEditPart" id="ProcessingNode_2002"/>
+         <context elements="ProcessingNode_2002"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfDecisionNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.DecisionNodeEditPart" id="DecisionNode_2003"/>
+         <context elements="DecisionNode_2003"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfLoopDecisionNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.LoopDecisionNodeEditPart" id="LoopDecisionNode_2004"/>
+         <context elements="LoopDecisionNode_2004"/>
+      </modelingAssistantProvider>
+            <modelingAssistantProvider class="gfc.diagram.providers.assistants.GfcModelingAssistantProviderOfExitNodeEditPart">
+         <Priority name="Lowest"/>
+         <object class="gfc.diagram.edit.parts.ExitNodeEditPart" id="ExitNode_2005"/>
+         <context elements="ExitNode_2005"/>
+      </modelingAssistantProvider>
+      
+   </extension>
+
+<extension point="org.eclipse.ui.menus" id="context-menus">
+      <?gmfgen generated="true"?>
+      <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=">
+      </menuContribution -->
+   </extension>
 
 
-     
+
+     <extension point="org.eclipse.gmf.runtime.diagram.ui.layoutProviders">
+      <layoutProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.TopDownProvider">
+         <Priority name="Medium"/>
+         <object class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+            <method name="getDiagramEditDomain().getEditorPart().getEditorInput().getId()" 
+                    value="gfc.diagram.part.GfcDiagramEditorID"/>
+         </object>
+      </layoutProvider>
+   </extension>
 
    <!-- optionally, specify keybindings -->
 </plugin>
