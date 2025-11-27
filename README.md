@@ -136,6 +136,6 @@ O grafo gerado utiliza cores e formas para diferenciar o papel de cada nó no fl
 ## Detalhes Técnicos
 
 * **Versão Atual:** 1.1.0 
-* **Plataforma Suportada:** Eclipse IDE 2021-03 ou superior
+* **Plataforma Suportada:** Eclipse IDE 2022-03 ou superior
 * **Requisitos:** Java 17 ou superior
 
