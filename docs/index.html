@@ -162,13 +162,13 @@
 
         <div id="v1-1-0" class="doc-section visible">
             <h1>
-                Capivara 1.1.0 <span class="badge-title">Atual</span>
+                Capivara 1.1.7 <span class="badge-title">Atual</span>
             </h1>
             
             <p align="center">
                 Análise visual nativa com GMF/Eugenia.
                 <br />
-                <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.1.0-green">
+                <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.1.7-green">
                 <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
             </p>
 
@@ -186,7 +186,7 @@
 
             <h2 id="novidades-110">✨ O que mudou?</h2>
             
-            <p>A versão 1.1.0 traz uma reformulação completa na forma de visualizar os dados:</p>
+            <p>A versão 1.1.7 traz uma reformulação completa na forma de visualizar os dados:</p>
             
             <h3>Novas Funcionalidades</h3>
             <ul>
@@ -273,20 +273,29 @@
             <h2 id="legenda-110">🎨 Entendendo o Grafo: Legenda</h2>
             <p>O grafo utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle.</p>
             
-            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legenda.png" alt="Legenda dos Nós do Grafo">
+            
             
             <table>
                 <thead>
                     <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
-                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Comandos sequenciais.</td></tr>
-                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Estrutura condicional (if).</td></tr>
-                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Estrutura de laço (while).</td></tr>
-                    <tr><td><strong>EXIT</strong> (Vermelho)</td><td>Término do fluxo (return).</td></tr>
+                    <tr><td><strong><del>ENTRY</del></strong> <del>(Verde)</del></td><td><del>O ponto de início do método.</del> (<strong>Obsoleto</strong>)</td></tr>
+                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Um ou mais comandos sequenciais.</td></tr>
+                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Uma estrutura condicional, como `if`.</td></tr>
+                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Uma estrutura de laço, como `while` ou `for`.</td></tr>
+                    <tr><td><strong>EXIT</strong> (Vermelho, Círculo Duplo)</td><td>Um ponto de término do fluxo, como `return`.</td></tr>
+                    <tr><td><strong>SWITCH</strong> (Roxo)</td><td>Início de uma estrutura de seleção múltipla (`switch`).</td></tr>
+                    <tr><td><strong>CASE</strong> (Rosa)</td><td>Um ramo ou condição específica dentro de uma estrutura `switch`.</td></tr>
                 </tbody>
             </table>
+            
+            <p>Estamos utilizando o ELK (Eclipse Layout Kernel) para aplicar o layout no nosso Grafo de Fluxo de Controle (GFC).</p>
+
+            <p>Temos duas abordagens. Caso você tenha o Graphviz instalado em sua máquina, usamos o algoritmo DOT para fazer o mapeamento e entregar um grafo com uma distribuição visualmente melhor. Caso você não o tenha, utilizamos um algoritmo padrão do ELK.</p>
+
+            <p>Na rotina de gerar o GFC, existe um delay para a aplicação do layout, portanto, pedimos que espere. Caso o layout tenha saído 'estranho', faça a rotina de gerar o GFC novamente; isso normalmente resolve o problema de distribuição.</p>
+
         </div>
 
 
@@ -403,7 +412,7 @@
 
     <aside class="version-sidebar">
         <h4>Versões</h4>
-        <a onclick="switchVersion('v1-1-0', this)" class="version-link active">1.1.0</a>
+        <a onclick="switchVersion('v1-1-0', this)" class="version-link active">1.1.7</a>
         <a onclick="switchVersion('v1-0-0', this)" class="version-link">1.0.0</a>
     </aside>
 

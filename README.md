@@ -123,19 +123,26 @@ O grafo gerado utiliza cores e formas para diferenciar o papel de cada nó no fl
 
 ![Legenda dos Nós do Grafo](./assets/legenda.png)
 
+
 | Tipo de Nó | Descrição |
 | :--- | :--- |
-| **ENTRY** (Verde) | O ponto de início do método. |
+| **~~ENTRY~~** ~~(Verde)~~ | ~~O ponto de início do método.~~ (**Obsoleto**) |
 | **PROCESSING** (Preto) | Um ou mais comandos sequenciais. |
 | **DECISION** (Azul) | Uma estrutura condicional, como `if`. |
 | **LOOP DECISION** (Laranja)| Uma estrutura de laço, como `while` ou `for`. |
 | **EXIT** (Vermelho, Círculo Duplo) | Um ponto de término do fluxo, como `return`. |
+| **SWITCH** (Roxo) | Início de uma estrutura de seleção múltipla (`switch`). |
+| **CASE** (Rosa) | Um ramo ou condição específica dentro de uma estrutura `switch`. |
 
+Estamos utilizando o ELK (Eclipse Layout Kernel) para aplicar o layout no nosso Grafo de Fluxo de Controle (GFC).
 
+Temos duas abordagens. Caso você tenha o Graphviz instalado em sua máquina, usamos o algoritmo DOT para fazer o mapeamento e entregar um grafo com uma distribuição visualmente melhor. Caso você não o tenha, utilizamos um algoritmo padrão do ELK.
+
+Na rotina de gerar o GFC, existe um delay para a aplicação do layout, portanto, pedimos que espere. Caso o layout tenha saído 'estranho', faça a rotina de gerar o GFC novamente; isso normalmente resolve o problema de distribuição.
 
 ## Detalhes Técnicos
 
-* **Versão Atual:** 1.1.0 
+* **Versão Atual:** 1.1.7 
 * **Plataforma Suportada:** Eclipse IDE 2024-03 ou superior
 * **Requisitos:** Java 17 ou superior
 
