@@ -128,22 +128,6 @@ public void testExemploCaminhoPositivo() {
 
 ![Visualização de Cobertura de Arestas](./assets/gfcExemploAresta.png)
 
-## Entendendo o Grafo: Legenda dos Nós
-
-O diagrama visual utiliza o padrão de formas e cores mapeado pelo framework para categorizar as estruturas sintáticas da linguagem Java:
-
-| Tipo de Nó | Função no Fluxo de Controle |
-| :--- | :--- |
-| **PROCESSING** | Um ou mais comandos sequenciais e atribuições de bloco. |
-| **DECISION** | Estrutura condicional de desvio lógico (ex: comandos `if`). |
-| **LOOP DECISION** | Estrutura de repetição e controle de laço (ex: `while`, `for`). |
-| **SWITCH** | Ponto de partida de uma estrutura de seleção múltipla (`switch`). |
-| **CASE** | Ramo condicional específico associado a uma escolha do `switch`. |
-| **EXIT** | Ponto de término ou interrupção do método (ex: comandos `return`). |
-
-![Legenda de Formas dos Nós](./assets/legenda.png)
-
----
 
 ## Entendendo o Grafo: Legenda dos Nós
 
