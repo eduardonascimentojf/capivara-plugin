@@ -57,9 +57,9 @@ public class GfcNewDiagramFileWizard extends Wizard {
 	* @generated
 	*/
 	public GfcNewDiagramFileWizard(URI domainModelURI, EObject diagramRoot, TransactionalEditingDomain editingDomain) {
-		assert domainModelURI != null : "Domain model uri must be specified"; //$NON-NLS-1$
-		assert diagramRoot != null : "Doagram root element must be specified"; //$NON-NLS-1$
-		assert editingDomain != null : "Editing domain must be specified"; //$NON-NLS-1$
+		assert domainModelURI != null : "Domain model uri must be specified";   
+		assert diagramRoot != null : "Doagram root element must be specified";   
+		assert editingDomain != null : "Editing domain must be specified";   
 
 		myFileCreationPage = new WizardNewFileCreationPage(Messages.GfcNewDiagramFileWizard_CreationPageName,
 				StructuredSelection.EMPTY);
@@ -74,10 +74,10 @@ public class GfcNewDiagramFileWizard extends Wizard {
 			filePath = new Path(domainModelURI.trimSegments(1).toFileString());
 		} else {
 			// TODO : use some default path
-			throw new IllegalArgumentException("Unsupported URI: " + domainModelURI); //$NON-NLS-1$
+			throw new IllegalArgumentException("Unsupported URI: " + domainModelURI);   
 		}
 		myFileCreationPage.setContainerFullPath(filePath);
-		myFileCreationPage.setFileName(GfcDiagramEditorUtil.getUniqueFileName(filePath, fileName, "gfc_diagram")); //$NON-NLS-1$
+		myFileCreationPage.setFileName(GfcDiagramEditorUtil.getUniqueFileName(filePath, fileName, "gfc_diagram"));   
 
 		diagramRootElementSelectionPage = new DiagramRootElementSelectionPage(
 				Messages.GfcNewDiagramFileWizard_RootSelectionPageName);
@@ -128,11 +128,11 @@ public class GfcNewDiagramFileWizard extends Wizard {
 			diagramResource.save(GfcDiagramEditorUtil.getSaveOptions());
 			GfcDiagramEditorUtil.openDiagram(diagramResource);
 		} catch (ExecutionException e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e);   
 		} catch (IOException ex) {
-			GfcDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, ex); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Save operation failed for: " + diagramModelURI, ex);   
 		} catch (PartInitException ex) {
-			GfcDiagramEditorPlugin.getInstance().logError("Unable to open editor", ex); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Unable to open editor", ex);   
 		}
 		return true;
 	}

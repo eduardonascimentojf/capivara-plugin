@@ -10,7 +10,7 @@ package gfc;
  *
  *
  * @see gfc.GfcPackage#getEntryNode()
- * @model annotation="gmf.node figure='ellipse' label.icon='false' label.placement='internal' label='id' size='40,40' border.color='40,167,69'"
+ * @model annotation="gmf.node figure='ellipse' label.icon='false' label.placement='internal' label='label' size='40,40' border.color='40,167,69'"
  * @generated
  */
 public interface EntryNode extends Node {

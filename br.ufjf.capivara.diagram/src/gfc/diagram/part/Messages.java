@@ -14,7 +14,7 @@ public class Messages extends NLS {
 	* @generated
 	*/
 	static {
-		NLS.initializeMessages("messages", Messages.class); //$NON-NLS-1$
+		NLS.initializeMessages("messages", Messages.class);   
 	}
 
 	/**
@@ -302,6 +302,26 @@ public class Messages extends NLS {
 	* @generated
 	*/
 	public static String NavigatorGroupName_ExitNode_2005_outgoinglinks;
+
+	/**
+	* @generated
+	*/
+	public static String NavigatorGroupName_SwitchNode_2006_incominglinks;
+
+	/**
+	* @generated
+	*/
+	public static String NavigatorGroupName_SwitchNode_2006_outgoinglinks;
+
+	/**
+	* @generated
+	*/
+	public static String NavigatorGroupName_CaseNode_2007_incominglinks;
+
+	/**
+	* @generated
+	*/
+	public static String NavigatorGroupName_CaseNode_2007_outgoinglinks;
 
 	/**
 	* @generated

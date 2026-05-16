@@ -21,14 +21,11 @@ public class AnalysisResultView extends ViewPart {
 
     @Override
     public void createPartControl(Composite parent) {
-        // Como só existe uma visualização agora, removemos o TabFolder e
-        // adicionamos o StyledText diretamente ao pai.
         
         annotatedCodeText = new StyledText(parent, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI);
         annotatedCodeText.setFont(JFaceResources.getFont(JFaceResources.TEXT_FONT));
         annotatedCodeText.setEditable(false);
 
-        // Texto inicial de instrução
         displayResults("Select a method and use the 'Capivara | Node enumerate' context menu to get started.");
     }
 

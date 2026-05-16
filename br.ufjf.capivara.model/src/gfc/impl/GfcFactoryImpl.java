@@ -62,6 +62,8 @@ public class GfcFactoryImpl extends EFactoryImpl implements GfcFactory {
 			case GfcPackage.DECISION_NODE: return createDecisionNode();
 			case GfcPackage.LOOP_DECISION_NODE: return createLoopDecisionNode();
 			case GfcPackage.EXIT_NODE: return createExitNode();
+			case GfcPackage.SWITCH_NODE: return createSwitchNode();
+			case GfcPackage.CASE_NODE: return createCaseNode();
 			case GfcPackage.EDGE: return createEdge();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -121,6 +123,28 @@ public class GfcFactoryImpl extends EFactoryImpl implements GfcFactory {
 	public LoopDecisionNode createLoopDecisionNode() {
 		LoopDecisionNodeImpl loopDecisionNode = new LoopDecisionNodeImpl();
 		return loopDecisionNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public SwitchNode createSwitchNode() {
+		SwitchNodeImpl switchNode = new SwitchNodeImpl();
+		return switchNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public CaseNode createCaseNode() {
+		CaseNodeImpl caseNode = new CaseNodeImpl();
+		return caseNode;
 	}
 
 	/**

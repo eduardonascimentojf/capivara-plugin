@@ -28,7 +28,7 @@ public class GfcNavigatorSorter extends ViewerSorter {
 	public int category(Object element) {
 		if (element instanceof GfcNavigatorItem) {
 			GfcNavigatorItem item = (GfcNavigatorItem) element;
-			if (item.getView().getEAnnotation("Shortcut") != null) { //$NON-NLS-1$
+			if (item.getView().getEAnnotation("Shortcut") != null) { 
 				return SHORTCUTS_CATEGORY;
 			}
 			return GfcVisualIDRegistry.getVisualID(item.getView());

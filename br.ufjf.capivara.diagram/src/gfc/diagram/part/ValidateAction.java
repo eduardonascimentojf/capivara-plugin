@@ -74,7 +74,7 @@ public class ValidateAction extends Action {
 					}
 				}).run(new NullProgressMonitor());
 			} catch (Exception e) {
-				GfcDiagramEditorPlugin.getInstance().logError("Validation action failed", e); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Validation action failed", e);   
 			}
 		}
 	}
@@ -94,7 +94,7 @@ public class ValidateAction extends Action {
 				}
 			}
 		} catch (Exception e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Validation action failed", e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Validation action failed", e);   
 		}
 	}
 

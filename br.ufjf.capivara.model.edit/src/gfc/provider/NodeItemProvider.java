@@ -62,6 +62,8 @@ public class NodeItemProvider
 
 			addIdPropertyDescriptor(object);
 			addLabelPropertyDescriptor(object);
+			addLineNumberPropertyDescriptor(object);
+			addCoverageStatusPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -72,6 +74,10 @@ public class NodeItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	/**
+	 * This adds a property descriptor for the Id feature.
+	 * * * @generated
+	 */
 	protected void addIdPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
@@ -80,7 +86,7 @@ public class NodeItemProvider
 				 getString("_UI_Node_id_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Node_id_feature", "_UI_Node_type"),
 				 GfcPackage.Literals.NODE__ID,
-				 true,
+				 false,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
@@ -102,10 +108,54 @@ public class NodeItemProvider
 				 getString("_UI_Node_label_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_Node_label_feature", "_UI_Node_type"),
 				 GfcPackage.Literals.NODE__LABEL,
-				 true,
+				 false,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Line Number feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addLineNumberPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_lineNumber_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_lineNumber_feature", "_UI_Node_type"),
+				 GfcPackage.Literals.NODE__LINE_NUMBER,
+				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Coverage Status feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addCoverageStatusPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Node_coverageStatus_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Node_coverageStatus_feature", "_UI_Node_type"),
+				 GfcPackage.Literals.NODE__COVERAGE_STATUS,
+				 false,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -137,6 +187,8 @@ public class NodeItemProvider
 		switch (notification.getFeatureID(Node.class)) {
 			case GfcPackage.NODE__ID:
 			case GfcPackage.NODE__LABEL:
+			case GfcPackage.NODE__LINE_NUMBER:
+			case GfcPackage.NODE__COVERAGE_STATUS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

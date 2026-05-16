@@ -53,10 +53,35 @@
       </actualFigure>
       <accessors accessor="getFigureExitNodeLabelFigure" figure="//@figures.0/@descriptors.4/@actualFigure/@children.0"/>
     </descriptors>
+    <descriptors name="SwitchNodeFigure">
+      <actualFigure xsi:type="gmfgraph:Ellipse" name="SwitchNodeFigure">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="128" blue="128"/>
+        <preferredSize dx="40" dy="40"/>
+        <border xsi:type="gmfgraph:MarginBorder">
+          <insets top="5" left="5" bottom="5" right="5"/>
+        </border>
+        <children xsi:type="gmfgraph:Label" name="SwitchNodeLabelFigure" text="SwitchNode"/>
+      </actualFigure>
+      <accessors accessor="getFigureSwitchNodeLabelFigure" figure="//@figures.0/@descriptors.5/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors name="CaseNodeFigure">
+      <actualFigure xsi:type="gmfgraph:Ellipse" name="CaseNodeFigure">
+        <foregroundColor xsi:type="gmfgraph:RGBColor" red="255" blue="255"/>
+        <preferredSize dx="40" dy="40"/>
+        <border xsi:type="gmfgraph:MarginBorder">
+          <insets top="5" left="5" bottom="5" right="5"/>
+        </border>
+        <children xsi:type="gmfgraph:Label" name="CaseNodeLabelFigure" text="CaseNode"/>
+      </actualFigure>
+      <accessors accessor="getFigureCaseNodeLabelFigure" figure="//@figures.0/@descriptors.6/@actualFigure/@children.0"/>
+    </descriptors>
     <descriptors name="EdgeFigure">
       <actualFigure xsi:type="gmfgraph:PolylineConnection" name="EdgeFigure" lineWidth="2" targetDecoration="//@figures.0/@figures.0">
         <foregroundColor xsi:type="gmfgraph:RGBColor"/>
       </actualFigure>
+    </descriptors>
+    <descriptors name="EdgeLabelFigure">
+      <actualFigure xsi:type="gmfgraph:Label" name="EdgeLabelLabel" text="Edge"/>
     </descriptors>
   </figures>
   <nodes name="EntryNode" figure="EntryNodeFigure">
@@ -84,10 +109,23 @@
       <defaultSize dx="40" dy="40"/>
     </facets>
   </nodes>
+  <nodes name="SwitchNode" figure="SwitchNodeFigure">
+    <facets xsi:type="gmfgraph:DefaultSizeFacet">
+      <defaultSize dx="40" dy="40"/>
+    </facets>
+  </nodes>
+  <nodes name="CaseNode" figure="CaseNodeFigure">
+    <facets xsi:type="gmfgraph:DefaultSizeFacet">
+      <defaultSize dx="40" dy="40"/>
+    </facets>
+  </nodes>
   <connections name="Edge" figure="EdgeFigure"/>
   <labels name="EntryNodeLabel" figure="EntryNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.0/@accessors.0"/>
   <labels name="ProcessingNodeLabel" figure="ProcessingNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.1/@accessors.0"/>
   <labels name="DecisionNodeLabel" figure="DecisionNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.2/@accessors.0"/>
   <labels name="LoopDecisionNodeLabel" figure="LoopDecisionNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.3/@accessors.0"/>
   <labels name="ExitNodeLabel" figure="ExitNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.4/@accessors.0"/>
+  <labels name="SwitchNodeLabel" figure="SwitchNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.5/@accessors.0"/>
+  <labels name="CaseNodeLabel" figure="CaseNodeFigure" elementIcon="false" accessor="//@figures.0/@descriptors.6/@accessors.0"/>
+  <labels name="EdgeLabel" figure="EdgeLabelFigure" elementIcon="false"/>
 </gmfgraph:Canvas>

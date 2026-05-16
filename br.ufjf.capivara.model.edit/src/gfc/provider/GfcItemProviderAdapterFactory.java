@@ -187,6 +187,52 @@ public class GfcItemProviderAdapterFactory extends GfcAdapterFactory implements 
 	}
 
 	/**
+	 * This keeps track of the one adapter used for all {@link gfc.SwitchNode} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SwitchNodeItemProvider switchNodeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link gfc.SwitchNode}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSwitchNodeAdapter() {
+		if (switchNodeItemProvider == null) {
+			switchNodeItemProvider = new SwitchNodeItemProvider(this);
+		}
+
+		return switchNodeItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link gfc.CaseNode} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected CaseNodeItemProvider caseNodeItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link gfc.CaseNode}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createCaseNodeAdapter() {
+		if (caseNodeItemProvider == null) {
+			caseNodeItemProvider = new CaseNodeItemProvider(this);
+		}
+
+		return caseNodeItemProvider;
+	}
+
+	/**
 	 * This keeps track of the one adapter used for all {@link gfc.ExitNode} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -343,6 +389,8 @@ public class GfcItemProviderAdapterFactory extends GfcAdapterFactory implements 
 		if (decisionNodeItemProvider != null) decisionNodeItemProvider.dispose();
 		if (loopDecisionNodeItemProvider != null) loopDecisionNodeItemProvider.dispose();
 		if (exitNodeItemProvider != null) exitNodeItemProvider.dispose();
+		if (switchNodeItemProvider != null) switchNodeItemProvider.dispose();
+		if (caseNodeItemProvider != null) caseNodeItemProvider.dispose();
 		if (edgeItemProvider != null) edgeItemProvider.dispose();
 	}
 

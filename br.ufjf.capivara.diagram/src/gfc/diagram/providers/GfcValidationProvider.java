@@ -46,7 +46,7 @@ public class GfcValidationProvider {
 			try {
 				editingDomain.runExclusive(task);
 			} catch (Exception e) {
-				GfcDiagramEditorPlugin.getInstance().logError("Validation failed", e); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Validation failed", e);   
 			}
 		} else {
 			task.run();

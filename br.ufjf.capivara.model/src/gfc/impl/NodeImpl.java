@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <ul>
  *   <li>{@link gfc.impl.NodeImpl#getId <em>Id</em>}</li>
  *   <li>{@link gfc.impl.NodeImpl#getLabel <em>Label</em>}</li>
+ *   <li>{@link gfc.impl.NodeImpl#getLineNumber <em>Line Number</em>}</li>
+ *   <li>{@link gfc.impl.NodeImpl#getCoverageStatus <em>Coverage Status</em>}</li>
  * </ul>
  *
  * @generated
@@ -66,6 +68,46 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 	 * @ordered
 	 */
 	protected String label = LABEL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLineNumber() <em>Line Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLineNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int LINE_NUMBER_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getLineNumber() <em>Line Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLineNumber()
+	 * @generated
+	 * @ordered
+	 */
+	protected int lineNumber = LINE_NUMBER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCoverageStatus() <em>Coverage Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoverageStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int COVERAGE_STATUS_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getCoverageStatus() <em>Coverage Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoverageStatus()
+	 * @generated
+	 * @ordered
+	 */
+	protected int coverageStatus = COVERAGE_STATUS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -138,12 +180,62 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 	 * @generated
 	 */
 	@Override
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setLineNumber(int newLineNumber) {
+		int oldLineNumber = lineNumber;
+		lineNumber = newLineNumber;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GfcPackage.NODE__LINE_NUMBER, oldLineNumber, lineNumber));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int getCoverageStatus() {
+		return coverageStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void setCoverageStatus(int newCoverageStatus) {
+		int oldCoverageStatus = coverageStatus;
+		coverageStatus = newCoverageStatus;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, GfcPackage.NODE__COVERAGE_STATUS, oldCoverageStatus, coverageStatus));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case GfcPackage.NODE__ID:
 				return getId();
 			case GfcPackage.NODE__LABEL:
 				return getLabel();
+			case GfcPackage.NODE__LINE_NUMBER:
+				return getLineNumber();
+			case GfcPackage.NODE__COVERAGE_STATUS:
+				return getCoverageStatus();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -161,6 +253,12 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 				return;
 			case GfcPackage.NODE__LABEL:
 				setLabel((String)newValue);
+				return;
+			case GfcPackage.NODE__LINE_NUMBER:
+				setLineNumber((Integer)newValue);
+				return;
+			case GfcPackage.NODE__COVERAGE_STATUS:
+				setCoverageStatus((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -180,6 +278,12 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 			case GfcPackage.NODE__LABEL:
 				setLabel(LABEL_EDEFAULT);
 				return;
+			case GfcPackage.NODE__LINE_NUMBER:
+				setLineNumber(LINE_NUMBER_EDEFAULT);
+				return;
+			case GfcPackage.NODE__COVERAGE_STATUS:
+				setCoverageStatus(COVERAGE_STATUS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -196,6 +300,10 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 				return id != ID_EDEFAULT;
 			case GfcPackage.NODE__LABEL:
 				return LABEL_EDEFAULT == null ? label != null : !LABEL_EDEFAULT.equals(label);
+			case GfcPackage.NODE__LINE_NUMBER:
+				return lineNumber != LINE_NUMBER_EDEFAULT;
+			case GfcPackage.NODE__COVERAGE_STATUS:
+				return coverageStatus != COVERAGE_STATUS_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -214,6 +322,10 @@ public abstract class NodeImpl extends EObjectImpl implements Node {
 		result.append(id);
 		result.append(", label: ");
 		result.append(label);
+		result.append(", lineNumber: ");
+		result.append(lineNumber);
+		result.append(", coverageStatus: ");
+		result.append(coverageStatus);
 		result.append(')');
 		return result.toString();
 	}

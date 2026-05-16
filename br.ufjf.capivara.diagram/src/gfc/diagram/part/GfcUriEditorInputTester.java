@@ -19,7 +19,7 @@ public class GfcUriEditorInputTester extends PropertyTester {
 			return false;
 		}
 		URIEditorInput editorInput = (URIEditorInput) receiver;
-		return "gfc_diagram".equals(editorInput.getURI().fileExtension()); //$NON-NLS-1$
+		return "gfc_diagram".equals(editorInput.getURI().fileExtension());   
 	}
 
 }

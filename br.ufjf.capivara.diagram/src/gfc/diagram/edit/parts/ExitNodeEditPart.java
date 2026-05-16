@@ -3,14 +3,13 @@ package gfc.diagram.edit.parts;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label; // usado para tooltip simples
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -26,8 +25,8 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 import gfc.Node;
 import gfc.diagram.edit.policies.ExitNodeItemSemanticEditPolicy;
@@ -35,15 +34,11 @@ import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
 import gfc.diagram.figures.DoubleEllipseFigure;
 import gfc.diagram.part.GfcVisualIDRegistry;
 
-/**
- * ExitNodeEditPart com tooltip seguro (mostrando o label do modelo).
- */
 public class ExitNodeEditPart extends ShapeNodeEditPart {
 
 	public static final int VISUAL_ID = 2005;
 	protected IFigure contentPane;
 	protected IFigure primaryShape;
-	private WrappingLabel fFigureExitNodeLabelFigure;
 
 	public ExitNodeEditPart(View view) {
 		super(view);
@@ -78,46 +73,51 @@ public class ExitNodeEditPart extends ShapeNodeEditPart {
 		return lep;
 	}
 
-	/**
-	 * Cria a figura usando DoubleEllipseFigure (sua figura customizada).
-	 */
 	protected IFigure createNodeShape() {
-		DoubleEllipseFigure ellipse = new DoubleEllipseFigure();
-		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+		ExitNodeFigure ellipse = new ExitNodeFigure();
 
+  
+		ellipse.setPreferredSize(new Dimension(40, 40));
+		ellipse.setMinimumSize(new Dimension(40, 40));
+		ellipse.setSize(40, 40);
+		ellipse.setOpaque(true);
+
+		// Cores Iniciais
+		ellipse.setBackgroundColor(new Color(null, 255, 255, 255)); // Branco
+		ellipse.setForegroundColor(new Color(null, 255, 0, 0)); // Borda Vermelha
 		GridLayout gl = new GridLayout(1, false);
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
 		gl.horizontalSpacing = 0;
 		gl.verticalSpacing = 0;
 		ellipse.setLayoutManager(gl);
-
 		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
 
-		fFigureExitNodeLabelFigure = new WrappingLabel();
-		fFigureExitNodeLabelFigure.setText("");
-		fFigureExitNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
-		fFigureExitNodeLabelFigure.setAlignment(PositionConstants.CENTER);
-		fFigureExitNodeLabelFigure.setPreferredSize(-1, -1);
-
-		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
-		ellipse.add(fFigureExitNodeLabelFigure);
-		ellipse.setConstraint(fFigureExitNodeLabelFigure, gd);
+		// label da Figura (circulo duplo)
+		WrappingLabel label = ellipse.getFigureExitNodeLabelFigure();
+				GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
+		ellipse.setConstraint(label, gd);
 
 		primaryShape = ellipse;
 		return primaryShape;
 	}
 
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	@Override
+	public void activate() {
+		super.activate();
+		Display.getDefault().asyncExec(() -> {
+			if (isActive())
+				refreshVisuals();
+		});
 	}
 
-	/**
-	 * Conecta o EditPart do label ao WrappingLabel interno.
-	 */
+	public ExitNodeFigure getPrimaryShape() {
+		return (ExitNodeFigure) primaryShape;
+	}
+
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof ExitNodeIdEditPart) {
-			((ExitNodeIdEditPart) childEditPart).setLabel(fFigureExitNodeLabelFigure);
+			((ExitNodeIdEditPart) childEditPart).setLabel(getPrimaryShape().getFigureExitNodeLabelFigure());
 			return true;
 		}
 		return false;
@@ -149,8 +149,7 @@ public class ExitNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
-		return result;
+		return new DefaultSizeNodeFigure(40, 40);
 	}
 
 	protected NodeFigure createNodeFigure() {
@@ -159,29 +158,22 @@ public class ExitNodeEditPart extends ShapeNodeEditPart {
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
-
-		// instala tooltip inicial (refreshVisuals e handleNotificationEvent também cuidam disso)
 		refreshTooltip();
-
 		return figure;
 	}
 
-	/**
-	 * Mantém o comportamento padrão de layout de conteúdo quando não há layout definido.
-	 */
 	protected IFigure setupContentPane(IFigure nodeShape) {
 		if (nodeShape.getLayoutManager() == null) {
 			ConstrainedToolbarLayout layout = new ConstrainedToolbarLayout();
 			layout.setSpacing(5);
 			nodeShape.setLayoutManager(layout);
 		}
-		return nodeShape; // contentPane é a própria figura (com o label dentro)
+		return nodeShape;
 	}
 
 	public IFigure getContentPane() {
-		if (contentPane != null) {
+		if (contentPane != null)
 			return contentPane;
-		}
 		return super.getContentPane();
 	}
 
@@ -213,131 +205,99 @@ public class ExitNodeEditPart extends ShapeNodeEditPart {
 		return getChildBySemanticHint(GfcVisualIDRegistry.getType(ExitNodeIdEditPart.VISUAL_ID));
 	}
 
-	// ---------------- Tooltip seguro ----------------
-
 	@Override
 	protected void refreshVisuals() {
+		if (!isActive() || getFigure() == null || primaryShape == null)
+			return;
 		super.refreshVisuals();
+
+		Node node = (Node) resolveSemanticElement();
+		if (node != null) {
+			int status = node.getCoverageStatus();
+
+			Color backColor = null;
+			Color foreColor = null;
+
+			switch (status) {
+			case 1: // Verde
+				backColor = new Color(null, 102, 255, 102);
+				foreColor = new Color(null, 255, 0, 0);
+				break;
+			case 2: // Amarelo
+				backColor = new Color(null, 255, 215, 0);
+				foreColor = new Color(null, 255, 0, 0);
+				break;
+			case 3: // Vermelho
+				backColor = new Color(null, 255, 82, 82);
+				foreColor = new Color(null, 0, 0, 0);
+				break;
+			default: // Branco
+				backColor = new Color(null, 255, 255, 255);
+				foreColor = new Color(null, 255, 0, 0);
+				break;
+			}
+
+			primaryShape.setBackgroundColor(backColor);
+			primaryShape.setForegroundColor(foreColor);
+			
+			// Ajusta o texto para id nao deformar a elipse
+			if (getPrimaryShape() != null && getPrimaryShape().getFigureExitNodeLabelFigure() != null) {
+				getPrimaryShape().getFigureExitNodeLabelFigure().setText(String.valueOf(node.getId()));
+			}
+		}
 		refreshTooltip();
 	}
 
 	@Override
-	protected void handleNotificationEvent(Notification notification) {
-		super.handleNotificationEvent(notification);
-		// atualiza tooltip sempre que houver mudanças no modelo
+	protected void handleNotificationEvent(Notification event) {
+		if (gfc.GfcPackage.eINSTANCE.getNode_CoverageStatus().equals(event.getFeature())) {
+			Display.getDefault().asyncExec(() -> {
+				if (isActive())
+					refreshVisuals();
+			});
+		}
+		super.handleNotificationEvent(event);
 		refreshTooltip();
 	}
 
-	/**
-	* @generated
-	*/
-	public class ExitNodeFigure extends DoubleEllipseFigure {
-
-		/**
-		 * @generated
-		 */
-		private WrappingLabel fFigureExitNodeLabelFigure;
-
-		/**
-		 * @generated
-		 */
-		public ExitNodeFigure() {
-			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-			createContents();
-		}
-
-		/**
-		 * @generated
-		 */
-		private void createContents() {
-
-			fFigureExitNodeLabelFigure = new WrappingLabel();
-
-			fFigureExitNodeLabelFigure.setText("ExitNode");
-
-			this.add(fFigureExitNodeLabelFigure);
-
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getFigureExitNodeLabelFigure() {
-			return fFigureExitNodeLabelFigure;
-		}
-
-	}
-
-	/**
-	 * Atualiza o tooltip da figura de forma segura:
-	 * - executa na UI thread
-	 * - usa Label simples
-	 * - captura IllegalArgumentException para evitar crash do loop de eventos
-	 */
 	protected void refreshTooltip() {
-		final IFigure targetFigure = primaryShape != null ? (IFigure) primaryShape : getFigure();
-		if (targetFigure == null) {
+		final IFigure targetFigure = getPrimaryShape();
+		if (targetFigure == null)
 			return;
-		}
+		final Node node = (Node) resolveSemanticElement();
+		final String text = (node != null) ? node.getLabel() : null;
 
-		final Object modelElement = resolveSemanticElement();
-		final String tooltipText;
-		if (modelElement instanceof Node) {
-			Node node = (Node) modelElement;
-			tooltipText = node.getLabel();
-		} else {
-			// fallback: texto do WrappingLabel interno (se preenchido)
-			String t = null;
-			if (fFigureExitNodeLabelFigure != null) {
-				t = fFigureExitNodeLabelFigure.getText();
-			}
-			tooltipText = t;
-		}
-
-		Runnable uiJob = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					if (tooltipText != null && !tooltipText.trim().isEmpty()) {
-						// limita comprimento para evitar problemas extremos de renderização
-						String safeText = tooltipText.length() > 2000 ? tooltipText.substring(0, 2000) + "…"
-								: tooltipText;
-						Label tip = new Label(safeText);
-						// define o tooltip na figura primaria (mais próximo da forma)
-						targetFigure.setToolTip(tip);
+		Display.getDefault().asyncExec(() -> {
+			try {
+				if (targetFigure.getParent() != null) {
+					if (text != null && !text.isEmpty()) {
+						targetFigure.setToolTip(new Label(text));
 					} else {
 						targetFigure.setToolTip(null);
 					}
-				} catch (IllegalArgumentException iae) {
-					// proteje o loop de eventos: limpa tooltip se ocorrer erro de fonte/GC
-					try {
-						targetFigure.setToolTip(null);
-					} catch (Throwable ignore) {
-					}
-				} catch (Throwable t) {
-					// qualquer outro problema: remove tooltip para não atrapalhar UI
-					try {
-						targetFigure.setToolTip(null);
-					} catch (Throwable ignore) {
-					}
-				} finally {
-					// força repaint seguro
-					try {
-						targetFigure.repaint();
-					} catch (Throwable ignore) {
-					}
 				}
+			} catch (Exception e) {
 			}
-		};
-
-		if (Display.getCurrent() != null) {
-			// já estamos na UI thread
-			uiJob.run();
-		} else {
-			Display.getDefault().asyncExec(uiJob);
-		}
+		});
 	}
 
-	// ---------------- fim tooltip ----------------
+	public class ExitNodeFigure extends DoubleEllipseFigure {
+		private WrappingLabel fFigureExitNodeLabelFigure;
 
+		public ExitNodeFigure() {
+			createContents(); 
+		}
+
+		private void createContents() {
+			fFigureExitNodeLabelFigure = new WrappingLabel();
+			fFigureExitNodeLabelFigure.setText("Exit");
+			fFigureExitNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
+			
+			this.add(fFigureExitNodeLabelFigure);
+		}
+
+		public WrappingLabel getFigureExitNodeLabelFigure() {
+			return fFigureExitNodeLabelFigure;
+		}
+	}
 }

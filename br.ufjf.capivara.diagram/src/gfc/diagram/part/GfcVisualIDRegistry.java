@@ -12,9 +12,12 @@ import org.eclipse.gmf.tooling.runtime.structure.DiagramStructure;
 
 import gfc.Flowchart;
 import gfc.GfcPackage;
+import gfc.diagram.edit.parts.CaseNodeEditPart;
+import gfc.diagram.edit.parts.CaseNodeIdEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
+import gfc.diagram.edit.parts.EdgeLabelEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
 import gfc.diagram.edit.parts.EntryNodeIdEditPart;
 import gfc.diagram.edit.parts.ExitNodeEditPart;
@@ -24,6 +27,8 @@ import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeIdEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeIdEditPart;
 
 /**
  * This registry is used to determine which type of visual object should be
@@ -37,7 +42,7 @@ public class GfcVisualIDRegistry {
 	/**
 	* @generated
 	*/
-	private static final String DEBUG_KEY = "br.ufjf.capivara.diagram/debug/visualID"; //$NON-NLS-1$
+	private static final String DEBUG_KEY = "br.ufjf.capivara.diagram/debug/visualID";   
 
 	/**
 	* @generated
@@ -59,9 +64,9 @@ public class GfcVisualIDRegistry {
 	public static String getModelID(View view) {
 		View diagram = view.getDiagram();
 		while (view != diagram) {
-			EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+			EAnnotation annotation = view.getEAnnotation("Shortcut");   
 			if (annotation != null) {
-				return (String) annotation.getDetails().get("modelID"); //$NON-NLS-1$
+				return (String) annotation.getDetails().get("modelID");   
 			}
 			view = (View) view.eContainer();
 		}
@@ -112,7 +117,7 @@ public class GfcVisualIDRegistry {
 			return -1;
 		}
 		String containerModelID = gfc.diagram.part.GfcVisualIDRegistry.getModelID(containerView);
-		if (!FlowchartEditPart.MODEL_ID.equals(containerModelID) && !"gfc".equals(containerModelID)) { //$NON-NLS-1$
+		if (!FlowchartEditPart.MODEL_ID.equals(containerModelID) && !"gfc".equals(containerModelID)) {   
 			return -1;
 		}
 		int containerVisualID;
@@ -142,6 +147,12 @@ public class GfcVisualIDRegistry {
 			if (GfcPackage.eINSTANCE.getExitNode().isSuperTypeOf(domainElement.eClass())) {
 				return ExitNodeEditPart.VISUAL_ID;
 			}
+			if (GfcPackage.eINSTANCE.getSwitchNode().isSuperTypeOf(domainElement.eClass())) {
+				return SwitchNodeEditPart.VISUAL_ID;
+			}
+			if (GfcPackage.eINSTANCE.getCaseNode().isSuperTypeOf(domainElement.eClass())) {
+				return CaseNodeEditPart.VISUAL_ID;
+			}
 			break;
 		}
 		return -1;
@@ -152,7 +163,7 @@ public class GfcVisualIDRegistry {
 	*/
 	public static boolean canCreateNode(View containerView, int nodeVisualID) {
 		String containerModelID = gfc.diagram.part.GfcVisualIDRegistry.getModelID(containerView);
-		if (!FlowchartEditPart.MODEL_ID.equals(containerModelID) && !"gfc".equals(containerModelID)) { //$NON-NLS-1$
+		if (!FlowchartEditPart.MODEL_ID.equals(containerModelID) && !"gfc".equals(containerModelID)) {   
 			return false;
 		}
 		int containerVisualID;
@@ -182,6 +193,12 @@ public class GfcVisualIDRegistry {
 			if (ExitNodeEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
+			if (SwitchNodeEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			if (CaseNodeEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
 			break;
 		case EntryNodeEditPart.VISUAL_ID:
 			if (EntryNodeIdEditPart.VISUAL_ID == nodeVisualID) {
@@ -205,6 +222,21 @@ public class GfcVisualIDRegistry {
 			break;
 		case ExitNodeEditPart.VISUAL_ID:
 			if (ExitNodeIdEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case SwitchNodeEditPart.VISUAL_ID:
+			if (SwitchNodeIdEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case CaseNodeEditPart.VISUAL_ID:
+			if (CaseNodeIdEditPart.VISUAL_ID == nodeVisualID) {
+				return true;
+			}
+			break;
+		case EdgeEditPart.VISUAL_ID:
+			if (EdgeLabelEditPart.VISUAL_ID == nodeVisualID) {
 				return true;
 			}
 			break;
@@ -266,6 +298,8 @@ public class GfcVisualIDRegistry {
 		case DecisionNodeEditPart.VISUAL_ID:
 		case LoopDecisionNodeEditPart.VISUAL_ID:
 		case ExitNodeEditPart.VISUAL_ID:
+		case SwitchNodeEditPart.VISUAL_ID:
+		case CaseNodeEditPart.VISUAL_ID:
 			return true;
 		default:
 			break;

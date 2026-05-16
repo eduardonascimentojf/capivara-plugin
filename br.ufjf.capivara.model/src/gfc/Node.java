@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link gfc.Node#getId <em>Id</em>}</li>
  *   <li>{@link gfc.Node#getLabel <em>Label</em>}</li>
+ *   <li>{@link gfc.Node#getLineNumber <em>Line Number</em>}</li>
+ *   <li>{@link gfc.Node#getCoverageStatus <em>Coverage Status</em>}</li>
  * </ul>
  *
  * @see gfc.GfcPackage#getNode()
@@ -66,5 +68,50 @@ public interface Node extends EObject {
 	 * @generated
 	 */
 	void setLabel(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Line Number</em>' attribute.
+	 * @see #setLineNumber(int)
+	 * @see gfc.GfcPackage#getNode_LineNumber()
+	 * @model
+	 * @generated
+	 */
+	int getLineNumber();
+
+	/**
+	 * Sets the value of the '{@link gfc.Node#getLineNumber <em>Line Number</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Line Number</em>' attribute.
+	 * @see #getLineNumber()
+	 * @generated
+	 */
+	void setLineNumber(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Coverage Status</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Coverage Status</em>' attribute.
+	 * @see #setCoverageStatus(int)
+	 * @see gfc.GfcPackage#getNode_CoverageStatus()
+	 * @model default="0"
+	 * @generated
+	 */
+	int getCoverageStatus();
+
+	/**
+	 * Sets the value of the '{@link gfc.Node#getCoverageStatus <em>Coverage Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Coverage Status</em>' attribute.
+	 * @see #getCoverageStatus()
+	 * @generated
+	 */
+	void setCoverageStatus(int value);
 
 } // Node

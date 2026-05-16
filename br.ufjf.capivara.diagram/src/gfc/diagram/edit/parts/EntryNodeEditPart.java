@@ -4,14 +4,12 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label; // NOVO IMPORT
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -28,8 +26,9 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
-import gfc.Node; // NOVO IMPORT
+import gfc.Node;
 import gfc.diagram.edit.policies.EntryNodeItemSemanticEditPolicy;
 import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
 import gfc.diagram.part.GfcVisualIDRegistry;
@@ -39,8 +38,6 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 	public static final int VISUAL_ID = 2001;
 	protected IFigure contentPane;
 	protected IFigure primaryShape;
-	private WrappingLabel fFigureEntryNodeLabelFigure;
-
 	public EntryNodeEditPart(View view) {
 		super(view);
 	}
@@ -75,126 +72,22 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected IFigure createNodeShape() {
-		Ellipse ellipse = new Ellipse();
-		ellipse.setForegroundColor(new Color(null, 40, 167, 69));
-		ellipse.setLineWidth(2);
-		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-
-		GridLayout gl = new GridLayout(1, false);
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		ellipse.setLayoutManager(gl);
-
-		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
-
-		fFigureEntryNodeLabelFigure = new WrappingLabel();
-		fFigureEntryNodeLabelFigure.setText("");
-		fFigureEntryNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
-		fFigureEntryNodeLabelFigure.setAlignment(PositionConstants.CENTER);
-		fFigureEntryNodeLabelFigure.setPreferredSize(-1, -1);
-
-		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
-		ellipse.add(fFigureEntryNodeLabelFigure);
-		ellipse.setConstraint(fFigureEntryNodeLabelFigure, gd);
-
+		EntryNodeFigure ellipse = new EntryNodeFigure();
 		primaryShape = ellipse;
 		return primaryShape;
 	}
 
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	public EntryNodeFigure getPrimaryShape() {
+		return (EntryNodeFigure) primaryShape;
 	}
 
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof EntryNodeIdEditPart) {
-			((EntryNodeIdEditPart) childEditPart).setLabel(fFigureEntryNodeLabelFigure);
+			((EntryNodeIdEditPart) childEditPart).setLabel(getPrimaryShape().getFigureEntryNodeLabelFigure());
 			return true;
 		}
 		return false;
 	}
-
-	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
-
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
-		refreshTooltip();
-	}
-
-	@Override
-	protected void handleNotificationEvent(Notification notification) {
-		super.handleNotificationEvent(notification);
-		refreshTooltip(); // Atualiza o tooltip em qualquer mudança
-	}
-
-	/**
-	* @generated
-	*/
-	public class EntryNodeFigure extends Ellipse {
-
-		/**
-		 * @generated
-		 */
-		private WrappingLabel fFigureEntryNodeLabelFigure;
-
-		/**
-		 * @generated
-		 */
-		public EntryNodeFigure() {
-			this.setForegroundColor(THIS_FORE);
-			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
-					getMapMode().DPtoLP(5)));
-			createContents();
-		}
-
-		/**
-		 * @generated
-		 */
-		private void createContents() {
-
-			fFigureEntryNodeLabelFigure = new WrappingLabel();
-
-			fFigureEntryNodeLabelFigure.setText("EntryNode");
-
-			this.add(fFigureEntryNodeLabelFigure);
-
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getFigureEntryNodeLabelFigure() {
-			return fFigureEntryNodeLabelFigure;
-		}
-
-	}
-
-	/**
-	* @generated
-	*/
-	static final Color THIS_FORE = new Color(null, 40, 167, 69);
-
-	protected void refreshTooltip() {
-		IFigure figure = getFigure();
-		if (figure == null) {
-			return;
-		}
-
-		Object modelElement = resolveSemanticElement();
-		if (modelElement instanceof Node) {
-			Node node = (Node) modelElement;
-			String tooltipText = node.getLabel(); // Pega o label completo do modelo
-
-			if (tooltipText != null && !tooltipText.isEmpty()) {
-				figure.setToolTip(new Label(tooltipText));
-			} else {
-				figure.setToolTip(null);
-			}
-		}
-	}
-
-	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	protected boolean removeFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof EntryNodeIdEditPart) {
@@ -251,31 +144,104 @@ public class EntryNodeEditPart extends ShapeNodeEditPart {
 		return super.getContentPane();
 	}
 
-	protected void setForegroundColor(Color color) {
-		if (primaryShape != null) {
-			primaryShape.setForegroundColor(color);
-		}
-	}
-
-	protected void setBackgroundColor(Color color) {
-		if (primaryShape != null) {
-			primaryShape.setBackgroundColor(color);
-		}
-	}
-
-	protected void setLineWidth(int width) {
-		if (primaryShape instanceof Shape) {
-			((Shape) primaryShape).setLineWidth(width);
-		}
-	}
-
-	protected void setLineType(int style) {
-		if (primaryShape instanceof Shape) {
-			((Shape) primaryShape).setLineStyle(style);
-		}
-	}
-
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(GfcVisualIDRegistry.getType(EntryNodeIdEditPart.VISUAL_ID));
 	}
+
+
+
+	@Override
+	public void activate() {
+		super.activate();
+		Display.getDefault().asyncExec(() -> {
+			if (isActive()) refreshVisuals();
+		});
+	}
+
+	@Override
+	protected void refreshVisuals() {
+		if (!isActive() || getFigure() == null || primaryShape == null) return;
+		super.refreshVisuals();
+
+		Object model = resolveSemanticElement();
+		if (model instanceof Node) {
+			Node node = (Node) model;
+			int status = node.getCoverageStatus();
+
+			Color cor = new Color(null, 255, 255, 255); // Padrão Branco
+			
+			switch (status) {
+				case 1: cor = new Color(null, 102, 255, 102); break; // Verde
+				case 2: cor = new Color(null, 255, 215, 0); break;   // Amarelo
+				case 3: cor = new Color(null, 255, 82, 82); break;   // Vermelho
+			}
+			primaryShape.setBackgroundColor(cor);
+		}
+		refreshTooltip();
+	}
+
+	@Override
+	protected void handleNotificationEvent(Notification event) {
+		if (gfc.GfcPackage.eINSTANCE.getNode_CoverageStatus().equals(event.getFeature())) {
+			Display.getDefault().asyncExec(() -> {
+				if (isActive()) refreshVisuals();
+			});
+		}
+		super.handleNotificationEvent(event);
+		refreshTooltip();
+	}
+
+	protected void refreshTooltip() {
+		IFigure figure = getFigure();
+		if (figure == null) return;
+
+		Object modelElement = resolveSemanticElement();
+		if (modelElement instanceof Node) {
+			Node node = (Node) modelElement;
+			String tooltipText = node.getLabel(); 
+			
+			Display.getDefault().asyncExec(() -> {
+				try {
+					if (figure.getParent() != null) {
+						if (tooltipText != null && !tooltipText.isEmpty()) {
+							figure.setToolTip(new Label(tooltipText));
+						} else {
+							figure.setToolTip(null);
+						}
+					}
+				} catch (Exception e) {}
+			});
+		}
+	}
+
+	
+	public class EntryNodeFigure extends Ellipse {
+		private WrappingLabel fFigureEntryNodeLabelFigure;
+
+		public EntryNodeFigure() {
+			this.setForegroundColor(THIS_FORE);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+			this.setSize(40, 40);
+			this.setMinimumSize(new Dimension(40, 40));
+			this.setBorder(new MarginBorder(getMapMode().DPtoLP(2), getMapMode().DPtoLP(2), getMapMode().DPtoLP(2), getMapMode().DPtoLP(2)));
+			createContents();
+		}
+
+		private void createContents() {
+			fFigureEntryNodeLabelFigure = new WrappingLabel();
+			fFigureEntryNodeLabelFigure.setText("");
+			fFigureEntryNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
+			fFigureEntryNodeLabelFigure.setAlignment(PositionConstants.CENTER);
+			
+			this.setLayoutManager(new GridLayout());
+			GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
+			this.add(fFigureEntryNodeLabelFigure, gd);
+		}
+
+		public WrappingLabel getFigureEntryNodeLabelFigure() {
+			return fFigureEntryNodeLabelFigure;
+		}
+	}
+
+	static final Color THIS_FORE = new Color(null, 40, 167, 69);
 }

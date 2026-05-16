@@ -2,51 +2,93 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
-         point="org.eclipse.ui.commands">
+   <extension point="org.eclipse.ui.commands">
+      
       <command
             id="br.ufjf.capivara.commands.analyzeCode"
             name="Capivara | Node Enumeration">
       </command>
+
       <command
             id="br.ufjf.capivara.commands.analyzeForGmf"
-            name="Capivara | Generate CFG	">
+            name="Capivara | Generate CFG">
+      </command>
+
+      <command
+            id="br.ufjf.capivara.commands.analyzeNodeCoverage"
+            name="Node Coverage Analysis">
+      </command>
+
+      <command
+            id="br.ufjf.capivara.commands.analyzeEdgeCoverage"
+            name="Edge Coverage Analysis">
       </command>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.handlers">
+   <extension point="org.eclipse.ui.handlers">
+      
       <handler
             commandId="br.ufjf.capivara.commands.analyzeCode"
             class="br.ufjf.capivara.handlers.AnalyzeCodeHandler">
       </handler>
+
       <handler
             commandId="br.ufjf.capivara.commands.analyzeForGmf"
             class="br.ufjf.capivara.gmf.handlers.AnalyzeCodeForGmfHandler">
       </handler>
+
+      <handler
+            commandId="br.ufjf.capivara.commands.analyzeNodeCoverage"
+            class="br.ufjf.capivara.gmf.handlers.AnalyzeCodeForGmfHandler">
+      </handler>
+
+      <handler
+            commandId="br.ufjf.capivara.commands.analyzeEdgeCoverage"
+            class="br.ufjf.capivara.gmf.handlers.AnalyzeCodeForGmfHandler">
+      </handler>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.menus">
+   <extension point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         
          <command
                commandId="br.ufjf.capivara.commands.analyzeCode"
                icon="icons/logo.svg"
                label="Capivara | Node Enumeration"
                style="push">
          </command>
+
          <command
                commandId="br.ufjf.capivara.commands.analyzeForGmf"
                icon="icons/logo.svg"
                label="Capivara | Generate CFG"
                style="push">
          </command>
+
+         <menu
+               label="Capivara | Coverage Analysis"
+               icon="icons/logo.svg">
+            
+            <command
+                  commandId="br.ufjf.capivara.commands.analyzeNodeCoverage"
+                  label="Node Coverage"
+                  style="push"
+                  icon="icons/logo.svg">
+            </command>
+            
+            <command
+                  commandId="br.ufjf.capivara.commands.analyzeEdgeCoverage"
+                  label="Edge Coverage"
+                  style="push"
+                  icon="icons/logo.svg">
+            </command>
+         </menu>
+         
       </menuContribution>
    </extension>
 
-   <extension
-         point="org.eclipse.ui.views">
+   <extension point="org.eclipse.ui.views">
       <view
             class="br.ufjf.capivara.views.AnalysisResultView"
             icon="icons/logo.svg"
@@ -54,6 +96,10 @@
             name="Capivara Analysis"
             restorable="true">
       </view>
+   </extension>
+   
+   <extension point="org.eclipse.ui.startup">
+   	<startup class="br.ufjf.capivara.Activator"/>
    </extension>
 
 </plugin>

@@ -69,8 +69,8 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 		if (false == element instanceof FileEditorInput && false == element instanceof URIEditorInput) {
 			throw new CoreException(new Status(IStatus.ERROR, GfcDiagramEditorPlugin.ID, 0,
 					NLS.bind(Messages.GfcDocumentProvider_IncorrectInputError,
-							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", //$NON-NLS-1$
-									"org.eclipse.emf.common.ui.URIEditorInput" }), //$NON-NLS-1$ 
+							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", 
+									"org.eclipse.emf.common.ui.URIEditorInput" }),  
 					null));
 		}
 		IEditorInput editorInput = (IEditorInput) element;
@@ -89,8 +89,8 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 		if (false == element instanceof FileEditorInput && false == element instanceof URIEditorInput) {
 			throw new CoreException(new Status(IStatus.ERROR, GfcDiagramEditorPlugin.ID, 0,
 					NLS.bind(Messages.GfcDocumentProvider_IncorrectInputError,
-							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", //$NON-NLS-1$
-									"org.eclipse.emf.common.ui.URIEditorInput" }), //$NON-NLS-1$ 
+							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", 
+									"org.eclipse.emf.common.ui.URIEditorInput" }),  
 					null));
 		}
 		IDocument document = createEmptyDocument();
@@ -145,7 +145,7 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 	*/
 	private TransactionalEditingDomain createEditingDomain() {
 		TransactionalEditingDomain editingDomain = DiagramEditingDomainFactory.getInstance().createEditingDomain();
-		editingDomain.setID("br.ufjf.capivara.diagram.EditingDomain"); //$NON-NLS-1$
+		editingDomain.setID("br.ufjf.capivara.diagram.EditingDomain"); 
 		final NotificationFilter diagramResourceModifiedFilter = NotificationFilter
 				.createNotifierFilter(editingDomain.getResourceSet())
 				.and(NotificationFilter.createEventTypeFilter(Notification.ADD))
@@ -239,8 +239,8 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 		} else {
 			throw new CoreException(new Status(IStatus.ERROR, GfcDiagramEditorPlugin.ID, 0,
 					NLS.bind(Messages.GfcDocumentProvider_IncorrectInputError,
-							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", //$NON-NLS-1$
-									"org.eclipse.emf.common.ui.URIEditorInput" }), //$NON-NLS-1$ 
+							new Object[] { element, "org.eclipse.ui.part.FileEditorInput", 
+									"org.eclipse.emf.common.ui.URIEditorInput" }),  
 					null));
 		}
 	}
@@ -564,15 +564,15 @@ public class GfcDocumentProvider extends AbstractDocumentProvider implements IDi
 				fireElementStateChangeFailed(element);
 				throw new CoreException(new Status(IStatus.ERROR, GfcDiagramEditorPlugin.ID, 0,
 						NLS.bind(Messages.GfcDocumentProvider_IncorrectInputError,
-								new Object[] { element, "org.eclipse.ui.part.FileEditorInput", //$NON-NLS-1$
-										"org.eclipse.emf.common.ui.URIEditorInput" }), //$NON-NLS-1$ 
+								new Object[] { element, "org.eclipse.ui.part.FileEditorInput", 
+										"org.eclipse.emf.common.ui.URIEditorInput" }),  
 						null));
 			}
 			if (false == document instanceof IDiagramDocument) {
 				fireElementStateChangeFailed(element);
 				throw new CoreException(new Status(IStatus.ERROR, GfcDiagramEditorPlugin.ID, 0,
-						"Incorrect document used: " + document //$NON-NLS-1$
-								+ " instead of org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDiagramDocument", //$NON-NLS-1$
+						"Incorrect document used: " + document 
+								+ " instead of org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDiagramDocument", 
 						null));
 			}
 			IDiagramDocument diagramDocument = (IDiagramDocument) document;

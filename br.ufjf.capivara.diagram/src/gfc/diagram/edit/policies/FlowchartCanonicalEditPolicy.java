@@ -33,6 +33,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.tooling.runtime.update.UpdaterLinkDescriptor;
 
 import gfc.GfcPackage;
+import gfc.diagram.edit.parts.CaseNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
@@ -40,6 +41,7 @@ import gfc.diagram.edit.parts.ExitNodeEditPart;
 import gfc.diagram.edit.parts.FlowchartEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
 import gfc.diagram.part.GfcDiagramUpdater;
 import gfc.diagram.part.GfcLinkDescriptor;
 import gfc.diagram.part.GfcNodeDescriptor;
@@ -105,6 +107,8 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 		case DecisionNodeEditPart.VISUAL_ID:
 		case LoopDecisionNodeEditPart.VISUAL_ID:
 		case ExitNodeEditPart.VISUAL_ID:
+		case SwitchNodeEditPart.VISUAL_ID:
+		case CaseNodeEditPart.VISUAL_ID:
 			return true;
 		}
 		return false;
@@ -114,7 +118,7 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 	* @generated
 	*/
 	protected static boolean isShortcut(View view) {
-		return view.getEAnnotation("Shortcut") != null; //$NON-NLS-1$
+		return view.getEAnnotation("Shortcut") != null; 
 	}
 
 	/**
@@ -201,10 +205,13 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 		Collection<IAdaptable> createdConnectionViews = refreshConnections();
 
 		if (createdViews.size() > 1) {
-			// perform a layout of the container
-			DeferredLayoutCommand layoutCmd = new DeferredLayoutCommand(host().getEditingDomain(), createdViews,
-					host());
-			executeCommand(new ICommandProxy(layoutCmd));
+		    try {
+		        DeferredLayoutCommand layoutCmd = new DeferredLayoutCommand(
+		                host().getEditingDomain(), createdViews, host());
+		        executeCommand(new ICommandProxy(layoutCmd));
+		    } catch (NullPointerException e) {
+
+		    }
 		}
 
 		createdViews.addAll(createdConnectionViews);
@@ -295,6 +302,20 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 		case ExitNodeEditPart.VISUAL_ID: {
 			if (!domain2NotationMap.containsKey(view.getElement())) {
 				result.addAll(GfcDiagramUpdater.getExitNode_2005ContainedLinks(view));
+			}
+			domain2NotationMap.putView(view.getElement(), view);
+			break;
+		}
+		case SwitchNodeEditPart.VISUAL_ID: {
+			if (!domain2NotationMap.containsKey(view.getElement())) {
+				result.addAll(GfcDiagramUpdater.getSwitchNode_2006ContainedLinks(view));
+			}
+			domain2NotationMap.putView(view.getElement(), view);
+			break;
+		}
+		case CaseNodeEditPart.VISUAL_ID: {
+			if (!domain2NotationMap.containsKey(view.getElement())) {
+				result.addAll(GfcDiagramUpdater.getCaseNode_2007ContainedLinks(view));
 			}
 			domain2NotationMap.putView(view.getElement(), view);
 			break;

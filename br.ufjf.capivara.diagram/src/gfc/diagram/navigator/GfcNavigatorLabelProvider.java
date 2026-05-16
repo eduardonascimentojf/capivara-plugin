@@ -20,10 +20,12 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonLabelProvider;
 
-import gfc.Edge;
+import gfc.diagram.edit.parts.CaseNodeEditPart;
+import gfc.diagram.edit.parts.CaseNodeIdEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
+import gfc.diagram.edit.parts.EdgeLabelEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
 import gfc.diagram.edit.parts.EntryNodeIdEditPart;
 import gfc.diagram.edit.parts.ExitNodeEditPart;
@@ -33,6 +35,8 @@ import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeIdEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeIdEditPart;
 import gfc.diagram.part.GfcDiagramEditorPlugin;
 import gfc.diagram.part.GfcVisualIDRegistry;
 import gfc.diagram.providers.GfcElementTypes;
@@ -47,9 +51,9 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 	* @generated
 	*/
 	static {
-		GfcDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?UnknownElement", //$NON-NLS-1$
+		GfcDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?UnknownElement", 
 				ImageDescriptor.getMissingImageDescriptor());
-		GfcDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?ImageNotFound", //$NON-NLS-1$
+		GfcDiagramEditorPlugin.getInstance().getImageRegistry().put("Navigator?ImageNotFound", 
 				ImageDescriptor.getMissingImageDescriptor());
 	}
 
@@ -99,27 +103,33 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 	public Image getImage(View view) {
 		switch (GfcVisualIDRegistry.getVisualID(view)) {
 		case FlowchartEditPart.VISUAL_ID:
-			return getImage("Navigator?Diagram?http://www.ufjf.br/capivara/gfc?Flowchart", //$NON-NLS-1$
+			return getImage("Navigator?Diagram?http://www.ufjf.br/capivara/gfc?Flowchart", 
 					GfcElementTypes.Flowchart_1000);
 		case EntryNodeEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?EntryNode", //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?EntryNode", 
 					GfcElementTypes.EntryNode_2001);
 		case ProcessingNodeEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?ProcessingNode", //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?ProcessingNode", 
 					GfcElementTypes.ProcessingNode_2002);
 		case DecisionNodeEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?DecisionNode", //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?DecisionNode", 
 					GfcElementTypes.DecisionNode_2003);
 		case LoopDecisionNodeEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?LoopDecisionNode", //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?LoopDecisionNode", 
 					GfcElementTypes.LoopDecisionNode_2004);
 		case ExitNodeEditPart.VISUAL_ID:
-			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?ExitNode", //$NON-NLS-1$
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?ExitNode", 
 					GfcElementTypes.ExitNode_2005);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?SwitchNode", 
+					GfcElementTypes.SwitchNode_2006);
+		case CaseNodeEditPart.VISUAL_ID:
+			return getImage("Navigator?TopLevelNode?http://www.ufjf.br/capivara/gfc?CaseNode", 
+					GfcElementTypes.CaseNode_2007);
 		case EdgeEditPart.VISUAL_ID:
-			return getImage("Navigator?Link?http://www.ufjf.br/capivara/gfc?Edge", GfcElementTypes.Edge_4001); //$NON-NLS-1$
+			return getImage("Navigator?Link?http://www.ufjf.br/capivara/gfc?Edge", GfcElementTypes.Edge_4001); 
 		}
-		return getImage("Navigator?UnknownElement", null); //$NON-NLS-1$
+		return getImage("Navigator?UnknownElement", null); 
 	}
 
 	/**
@@ -134,7 +144,7 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 		}
 
 		if (image == null) {
-			image = imageRegistry.get("Navigator?ImageNotFound"); //$NON-NLS-1$
+			image = imageRegistry.get("Navigator?ImageNotFound"); 
 			imageRegistry.put(key, image);
 		}
 		return image;
@@ -188,6 +198,10 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return getLoopDecisionNode_2004Text(view);
 		case ExitNodeEditPart.VISUAL_ID:
 			return getExitNode_2005Text(view);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return getSwitchNode_2006Text(view);
+		case CaseNodeEditPart.VISUAL_ID:
+			return getCaseNode_2007Text(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001Text(view);
 		}
@@ -198,7 +212,7 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 	* @generated
 	*/
 	private String getFlowchart_1000Text(View view) {
-		return ""; //$NON-NLS-1$
+		return ""; 
 	}
 
 	/**
@@ -212,8 +226,8 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5001); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5001); 
+			return ""; 
 		}
 	}
 
@@ -228,8 +242,8 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5002); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5002); 
+			return ""; 
 		}
 	}
 
@@ -244,8 +258,8 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5003); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5003); 
+			return ""; 
 		}
 	}
 
@@ -260,8 +274,8 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5004); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5004); 
+			return ""; 
 		}
 	}
 
@@ -276,8 +290,40 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
 					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5005); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5005); 
+			return ""; 
+		}
+	}
+
+	/**
+	* @generated
+	*/
+	private String getSwitchNode_2006Text(View view) {
+		IParser parser = GfcParserProvider.getParser(GfcElementTypes.SwitchNode_2006,
+				view.getElement() != null ? view.getElement() : view,
+				GfcVisualIDRegistry.getType(SwitchNodeIdEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5006); 
+			return ""; 
+		}
+	}
+
+	/**
+	* @generated
+	*/
+	private String getCaseNode_2007Text(View view) {
+		IParser parser = GfcParserProvider.getParser(GfcElementTypes.CaseNode_2007,
+				view.getElement() != null ? view.getElement() : view,
+				GfcVisualIDRegistry.getType(CaseNodeIdEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
+		} else {
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 5007); 
+			return ""; 
 		}
 	}
 
@@ -285,12 +331,15 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 	* @generated
 	*/
 	private String getEdge_4001Text(View view) {
-		Edge domainModelElement = (Edge) view.getElement();
-		if (domainModelElement != null) {
-			return domainModelElement.getLabel();
+		IParser parser = GfcParserProvider.getParser(GfcElementTypes.Edge_4001,
+				view.getElement() != null ? view.getElement() : view,
+				GfcVisualIDRegistry.getType(EdgeLabelEditPart.VISUAL_ID));
+		if (parser != null) {
+			return parser.getPrintString(new EObjectAdapter(view.getElement() != null ? view.getElement() : view),
+					ParserOptions.NONE.intValue());
 		} else {
-			GfcDiagramEditorPlugin.getInstance().logError("No domain element for view with visualID = " + 4001); //$NON-NLS-1$
-			return ""; //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Parser was not found for label " + 6001); 
+			return ""; 
 		}
 	}
 
@@ -298,14 +347,14 @@ public class GfcNavigatorLabelProvider extends LabelProvider implements ICommonL
 	* @generated
 	*/
 	private String getUnknownElementText(View view) {
-		return "<UnknownElement Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$  //$NON-NLS-2$
+		return "<UnknownElement Visual_ID = " + view.getType() + ">";   //$NON-NLS-2$
 	}
 
 	/**
 	* @generated
 	*/
 	private String getUnresolvedDomainElementProxyText(View view) {
-		return "<Unresolved domain element Visual_ID = " + view.getType() + ">"; //$NON-NLS-1$  //$NON-NLS-2$
+		return "<Unresolved domain element Visual_ID = " + view.getType() + ">";   //$NON-NLS-2$
 	}
 
 	/**

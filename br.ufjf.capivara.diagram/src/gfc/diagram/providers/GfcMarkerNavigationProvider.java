@@ -27,7 +27,7 @@ public class GfcMarkerNavigationProvider extends AbstractModelMarkerNavigationPr
 	/**
 	* @generated
 	*/
-	public static final String MARKER_TYPE = GfcDiagramEditorPlugin.ID + ".diagnostic"; //$NON-NLS-1$
+	public static final String MARKER_TYPE = GfcDiagramEditorPlugin.ID + ".diagnostic";   
 
 	/**
 	* @generated
@@ -56,7 +56,7 @@ public class GfcMarkerNavigationProvider extends AbstractModelMarkerNavigationPr
 		try {
 			resource.deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_ZERO);
 		} catch (CoreException e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Failed to delete validation markers", e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Failed to delete validation markers", e);   
 		}
 	}
 
@@ -78,7 +78,7 @@ public class GfcMarkerNavigationProvider extends AbstractModelMarkerNavigationPr
 			}
 			marker.setAttribute(IMarker.SEVERITY, markerSeverity);
 		} catch (CoreException e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Failed to create validation marker", e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Failed to create validation marker", e);   
 		}
 		return marker;
 	}

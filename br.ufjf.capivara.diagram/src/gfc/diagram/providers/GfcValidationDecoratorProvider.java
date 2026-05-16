@@ -53,12 +53,12 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 	/**
 	* @generated
 	*/
-	private static final String KEY = "validationStatus"; //$NON-NLS-1$
+	private static final String KEY = "validationStatus";   
 
 	/**
 	* @generated
 	*/
-	private static final String MARKER_TYPE = GfcDiagramEditorPlugin.ID + ".diagnostic"; //$NON-NLS-1$
+	private static final String MARKER_TYPE = GfcDiagramEditorPlugin.ID + ".diagnostic";   
 
 	/**
 	* @generated
@@ -135,7 +135,7 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 						}
 					});
 				} catch (Exception e) {
-					GfcDiagramEditorPlugin.getInstance().logError("Decorator refresh failure", e); //$NON-NLS-1$
+					GfcDiagramEditorPlugin.getInstance().logError("Decorator refresh failure", e);   
 				}
 			}
 		});
@@ -165,7 +165,7 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 					}
 				});
 			} catch (Exception e) {
-				GfcDiagramEditorPlugin.getInstance().logError("ViewID access failure", e); //$NON-NLS-1$			
+				GfcDiagramEditorPlugin.getInstance().logError("ViewID access failure", e);   			
 			}
 		}
 
@@ -198,7 +198,7 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 			try {
 				markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 			} catch (CoreException e) {
-				GfcDiagramEditorPlugin.getInstance().logError("Validation markers refresh failure", e); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Validation markers refresh failure", e);   
 			}
 			if (markers == null || markers.length == 0) {
 				return;
@@ -207,13 +207,13 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 			for (int i = 0; i < markers.length; i++) {
 				IMarker marker = markers[i];
 				String attribute = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID,
-						""); //$NON-NLS-1$
+						"");   
 				if (attribute.equals(elementId)) {
 					int nextSeverity = marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
 					Image nextImage = getImage(nextSeverity);
 					if (foundMarker == null) {
 						foundMarker = marker;
-						toolTip = new Label(marker.getAttribute(IMarker.MESSAGE, ""), //$NON-NLS-1$
+						toolTip = new Label(marker.getAttribute(IMarker.MESSAGE, ""),   
 								nextImage);
 					} else {
 						if (toolTip.getChildren().isEmpty()) {
@@ -224,7 +224,7 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 							comositeLabel.add(toolTip);
 							toolTip = comositeLabel;
 						}
-						toolTip.add(new Label(marker.getAttribute(IMarker.MESSAGE, ""), //$NON-NLS-1$
+						toolTip.add(new Label(marker.getAttribute(IMarker.MESSAGE, ""),   
 								nextImage));
 					}
 					severity = (nextSeverity > severity) ? nextSeverity : severity;
@@ -392,7 +392,7 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 			if (!MARKER_TYPE.equals(getType(marker))) {
 				return;
 			}
-			String viewId = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, ""); //$NON-NLS-1$
+			String viewId = marker.getAttribute(org.eclipse.gmf.runtime.common.ui.resources.IMarker.ELEMENT_ID, "");   
 			refreshDecorators(viewId, diagram);
 		}
 
@@ -403,8 +403,8 @@ public class GfcValidationDecoratorProvider extends AbstractProvider implements 
 			try {
 				return marker.getType();
 			} catch (CoreException e) {
-				GfcDiagramEditorPlugin.getInstance().logError("Validation marker refresh failure", e); //$NON-NLS-1$
-				return ""; //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Validation marker refresh failure", e);   
+				return "";   
 			}
 		}
 	}

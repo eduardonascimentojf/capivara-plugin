@@ -12,13 +12,16 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coverageStatus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EntryNode" eSuperTypes="#//Node">
     <eAnnotations source="gmf.node">
       <details key="figure" value="ellipse"/>
       <details key="label.icon" value="false"/>
       <details key="label.placement" value="internal"/>
-      <details key="label" value="id"/>
+      <details key="label" value="label"/>
       <details key="size" value="40,40"/>
       <details key="border.color" value="40,167,69"/>
     </eAnnotations>
@@ -28,7 +31,7 @@
       <details key="figure" value="ellipse"/>
       <details key="label.icon" value="false"/>
       <details key="label.placement" value="internal"/>
-      <details key="label" value="id"/>
+      <details key="label" value="label"/>
       <details key="size" value="40,40"/>
       <details key="border.color" value="0,0,0"/>
     </eAnnotations>
@@ -38,7 +41,7 @@
       <details key="figure" value="ellipse"/>
       <details key="label.icon" value="false"/>
       <details key="label.placement" value="internal"/>
-      <details key="label" value="id"/>
+      <details key="label" value="label"/>
       <details key="size" value="40,40"/>
       <details key="border.color" value="0,123,255"/>
     </eAnnotations>
@@ -48,7 +51,7 @@
       <details key="figure" value="ellipse"/>
       <details key="label.icon" value="false"/>
       <details key="label.placement" value="internal"/>
-      <details key="label" value="id"/>
+      <details key="label" value="label"/>
       <details key="size" value="40,40"/>
       <details key="border.color" value="255,165,0"/>
     </eAnnotations>
@@ -58,8 +61,28 @@
       <details key="figure" value="gfc.diagram.figures.DoubleEllipseFigure"/>
       <details key="label.icon" value="false"/>
       <details key="label.placement" value="internal"/>
-      <details key="label" value="id"/>
+      <details key="label" value="label"/>
       <details key="size" value="40,40"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SwitchNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="label"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="128,0,128"/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CaseNode" eSuperTypes="#//Node">
+    <eAnnotations source="gmf.node">
+      <details key="figure" value="ellipse"/>
+      <details key="label.icon" value="false"/>
+      <details key="label.placement" value="internal"/>
+      <details key="label" value="label"/>
+      <details key="size" value="40,40"/>
+      <details key="border.color" value="255,0,255"/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Edge">
@@ -69,6 +92,7 @@
       <details key="target.decoration" value="arrow"/>
       <details key="color" value="0,0,0"/>
       <details key="width" value="2"/>
+      <details key="label" value="label"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="#//Node"/>

@@ -59,7 +59,7 @@ public class LoopDecisionNodeItemSemanticEditPolicy extends GfcBaseItemSemanticE
 				continue;
 			}
 		}
-		EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+		EAnnotation annotation = view.getEAnnotation("Shortcut");
 		if (annotation == null) {
 			// there are indirectly referenced children, need extra commands: false
 			addDestroyShortcutsCommand(cmd, view);

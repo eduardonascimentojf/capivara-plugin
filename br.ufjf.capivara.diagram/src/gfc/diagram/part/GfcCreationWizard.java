@@ -95,7 +95,7 @@ public class GfcCreationWizard extends Wizard implements INewWizard {
 		this.selection = selection;
 		setWindowTitle(Messages.GfcCreationWizardTitle);
 		setDefaultPageImageDescriptor(
-				GfcDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewGfcWizard.gif")); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getBundledImageDescriptor("icons/wizban/NewGfcWizard.gif")); 
 		setNeedsProgressMonitor(true);
 	}
 
@@ -103,18 +103,18 @@ public class GfcCreationWizard extends Wizard implements INewWizard {
 	* @generated
 	*/
 	public void addPages() {
-		diagramModelFilePage = new GfcCreationWizardPage("DiagramModelFile", getSelection(), "gfc_diagram"); //$NON-NLS-1$ //$NON-NLS-2$
+		diagramModelFilePage = new GfcCreationWizardPage("DiagramModelFile", getSelection(), "gfc_diagram");  //$NON-NLS-2$
 		diagramModelFilePage.setTitle(Messages.GfcCreationWizard_DiagramModelFilePageTitle);
 		diagramModelFilePage.setDescription(Messages.GfcCreationWizard_DiagramModelFilePageDescription);
 		addPage(diagramModelFilePage);
 
-		domainModelFilePage = new GfcCreationWizardPage("DomainModelFile", getSelection(), "gfc") { //$NON-NLS-1$ //$NON-NLS-2$
+		domainModelFilePage = new GfcCreationWizardPage("DomainModelFile", getSelection(), "gfc") {  //$NON-NLS-2$
 
 			public void setVisible(boolean visible) {
 				if (visible) {
 					String fileName = diagramModelFilePage.getFileName();
-					fileName = fileName.substring(0, fileName.length() - ".gfc_diagram".length()); //$NON-NLS-1$
-					setFileName(GfcDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "gfc")); //$NON-NLS-1$
+					fileName = fileName.substring(0, fileName.length() - ".gfc_diagram".length()); 
+					setFileName(GfcDiagramEditorUtil.getUniqueFileName(getContainerFullPath(), fileName, "gfc")); 
 				}
 				super.setVisible(visible);
 			}
@@ -152,7 +152,7 @@ public class GfcCreationWizard extends Wizard implements INewWizard {
 				ErrorDialog.openError(getContainer().getShell(), Messages.GfcCreationWizardCreationError, null,
 						((CoreException) e.getTargetException()).getStatus());
 			} else {
-				GfcDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Error creating diagram", e.getTargetException()); 
 			}
 			return false;
 		}

@@ -51,7 +51,7 @@ public class GfcBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	* Extended request data key to hold editpart visual id.
 	* @generated
 	*/
-	public static final String VISUAL_ID_KEY = "visual_id"; //$NON-NLS-1$
+	public static final String VISUAL_ID_KEY = "visual_id"; 
 
 	/**
 	* @generated
@@ -276,10 +276,10 @@ public class GfcBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	* @generated
 	*/
 	protected void addDestroyShortcutsCommand(ICompositeCommand cmd, View view) {
-		assert view.getEAnnotation("Shortcut") == null; //$NON-NLS-1$
+		assert view.getEAnnotation("Shortcut") == null; 
 		for (Iterator it = view.getDiagram().getChildren().iterator(); it.hasNext();) {
 			View nextView = (View) it.next();
-			if (nextView.getEAnnotation("Shortcut") == null || !nextView.isSetElement() //$NON-NLS-1$
+			if (nextView.getEAnnotation("Shortcut") == null || !nextView.isSetElement() 
 					|| nextView.getElement() != view.getElement()) {
 				continue;
 			}

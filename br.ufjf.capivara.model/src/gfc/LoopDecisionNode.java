@@ -10,7 +10,7 @@ package gfc;
  *
  *
  * @see gfc.GfcPackage#getLoopDecisionNode()
- * @model annotation="gmf.node figure='ellipse' label.icon='false' label.placement='internal' label='id' size='40,40' border.color='255,165,0'"
+ * @model annotation="gmf.node figure='ellipse' label.icon='false' label.placement='internal' label='label' size='40,40' border.color='255,165,0'"
  * @generated
  */
 public interface LoopDecisionNode extends Node {

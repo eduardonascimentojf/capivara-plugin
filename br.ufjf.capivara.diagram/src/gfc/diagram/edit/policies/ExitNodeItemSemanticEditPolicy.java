@@ -59,11 +59,9 @@ public class ExitNodeItemSemanticEditPolicy extends GfcBaseItemSemanticEditPolic
 				continue;
 			}
 		}
-		EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+		EAnnotation annotation = view.getEAnnotation("Shortcut");
 		if (annotation == null) {
-			// there are indirectly referenced children, need extra commands: false
 			addDestroyShortcutsCommand(cmd, view);
-			// delete host element
 			cmd.add(new DestroyElementCommand(req));
 		} else {
 			cmd.add(new DeleteCommand(getEditingDomain(), view));

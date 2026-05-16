@@ -177,6 +177,16 @@ public class FlowchartItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
+				(GfcPackage.Literals.FLOWCHART__NODES,
+				 GfcFactory.eINSTANCE.createSwitchNode()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(GfcPackage.Literals.FLOWCHART__NODES,
+				 GfcFactory.eINSTANCE.createCaseNode()));
+
+		newChildDescriptors.add
+			(createChildParameter
 				(GfcPackage.Literals.FLOWCHART__EDGES,
 				 GfcFactory.eINSTANCE.createEdge()));
 	}

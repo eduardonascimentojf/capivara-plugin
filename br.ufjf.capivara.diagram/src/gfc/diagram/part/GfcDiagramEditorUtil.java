@@ -67,7 +67,7 @@ public class GfcDiagramEditorUtil {
 	*/
 	public static Map<?, ?> getSaveOptions() {
 		HashMap<String, Object> saveOptions = new HashMap<String, Object>();
-		saveOptions.put(XMLResource.OPTION_ENCODING, "UTF-8"); //$NON-NLS-1$
+		saveOptions.put(XMLResource.OPTION_ENCODING, "UTF-8"); 
 		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
 		return saveOptions;
 	}
@@ -93,9 +93,9 @@ public class GfcDiagramEditorUtil {
 			return;
 		}
 		try {
-			file.setCharset("UTF-8", new NullProgressMonitor()); //$NON-NLS-1$
+			file.setCharset("UTF-8", new NullProgressMonitor()); 
 		} catch (CoreException e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Unable to set charset for file " + file.getFullPath(), e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Unable to set charset for file " + file.getFullPath(), e); 
 		}
 	}
 
@@ -156,7 +156,7 @@ public class GfcDiagramEditorUtil {
 					diagramResource.save(gfc.diagram.part.GfcDiagramEditorUtil.getSaveOptions());
 				} catch (IOException e) {
 
-					GfcDiagramEditorPlugin.getInstance().logError("Unable to store model and diagram resources", e); //$NON-NLS-1$
+					GfcDiagramEditorPlugin.getInstance().logError("Unable to store model and diagram resources", e); 
 				}
 				return CommandResult.newOKCommandResult();
 			}
@@ -165,7 +165,7 @@ public class GfcDiagramEditorUtil {
 			OperationHistoryFactory.getOperationHistory().execute(command, new SubProgressMonitor(progressMonitor, 1),
 					null);
 		} catch (ExecutionException e) {
-			GfcDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Unable to create model and diagram", e); 
 		}
 		setCharset(WorkspaceSynchronizer.getFile(modelResource));
 		setCharset(WorkspaceSynchronizer.getFile(diagramResource));

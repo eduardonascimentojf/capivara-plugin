@@ -4,6 +4,7 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Shape;
@@ -27,7 +28,9 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
+import gfc.Node;
 import gfc.diagram.edit.policies.ProcessingNodeItemSemanticEditPolicy;
 import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
 import gfc.diagram.part.GfcVisualIDRegistry;
@@ -37,7 +40,6 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 	public static final int VISUAL_ID = 2002;
 	protected IFigure contentPane;
 	protected IFigure primaryShape;
-	private WrappingLabel fFigureProcessingNodeLabelFigure;
 
 	public ProcessingNodeEditPart(View view) {
 		super(view);
@@ -48,8 +50,7 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE, new ProcessingNodeItemSemanticEditPolicy());
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new NonResizableEditPolicy());
-		installEditPolicy(org.eclipse.gef.EditPolicy.COMPONENT_ROLE, new ReadOnlyComponentEditPolicy()); // politica de deletar
-
+		installEditPolicy(org.eclipse.gef.EditPolicy.COMPONENT_ROLE, new ReadOnlyComponentEditPolicy());
 	}
 
 	protected LayoutEditPolicy createLayoutEditPolicy() {
@@ -67,62 +68,50 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 			}
 
 			protected Command getCreateCommand(CreateRequest request) {
-				return org.eclipse.gef.commands.UnexecutableCommand.INSTANCE; // impede criação via palette/drop
+				return org.eclipse.gef.commands.UnexecutableCommand.INSTANCE;
 			}
 		};
 		return lep;
 	}
 
-	/**
-	 * @generated NOT
-	 * Aplica o padrão de GridLayout para centralizar o label.
-	 */
 	protected IFigure createNodeShape() {
-		Ellipse ellipse = new Ellipse();
-		ellipse.setForegroundColor(new Color(null, 0, 0, 0)); // Preto
+		ProcessingNodeFigure ellipse = new ProcessingNodeFigure();
+		
+  
+		ellipse.setPreferredSize(new Dimension(40, 40));
+		ellipse.setMinimumSize(new Dimension(40, 40)); 
+		ellipse.setSize(40, 40);
+		ellipse.setOpaque(true);
+
+		ellipse.setForegroundColor(new Color(null, 0, 0, 0)); // Borda preta
+		ellipse.setBackgroundColor(new Color(null, 255, 255, 255)); // fundo branco
 		ellipse.setLineWidth(2);
-		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
 
-		GridLayout gl = new GridLayout(1, false);
-		gl.horizontalSpacing = 0;
-		gl.verticalSpacing = 0;
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		ellipse.setLayoutManager(gl);
-
-		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
-
-		fFigureProcessingNodeLabelFigure = new WrappingLabel();
-		fFigureProcessingNodeLabelFigure.setText("");
-		fFigureProcessingNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
-		fFigureProcessingNodeLabelFigure.setAlignment(PositionConstants.CENTER);
-		fFigureProcessingNodeLabelFigure.setPreferredSize(-1, -1);
-
-		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
-		gd.widthHint = -1;
-		gd.heightHint = -1;
-
-		ellipse.add(fFigureProcessingNodeLabelFigure);
-		ellipse.setConstraint(fFigureProcessingNodeLabelFigure, gd);
 
 		primaryShape = ellipse;
 		return primaryShape;
 	}
 
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	@Override
+	public void activate() {
+		super.activate();
+		Display.getDefault().asyncExec(() -> {
+			if (isActive())
+				refreshVisuals();
+		});
+	}
+
+	public ProcessingNodeFigure getPrimaryShape() {
+		return (ProcessingNodeFigure) primaryShape;
 	}
 
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof ProcessingNodeIdEditPart) {
-			((ProcessingNodeIdEditPart) childEditPart).setLabel(fFigureProcessingNodeLabelFigure);
+			((ProcessingNodeIdEditPart) childEditPart).setLabel(getPrimaryShape().getFigureProcessingNodeLabelFigure());
 			return true;
 		}
 		return false;
 	}
-
-	// O resto do código gerado pelo GMF pode ser mantido.
-	// A classe interna "ProcessingNodeFigure" não é mais necessária.
 
 	protected boolean removeFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof ProcessingNodeIdEditPart) {
@@ -150,8 +139,7 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
-		return result;
+		return new DefaultSizeNodeFigure(40, 40);
 	}
 
 	protected NodeFigure createNodeFigure() {
@@ -160,6 +148,8 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
+
+		refreshTooltip(); 
 		return figure;
 	}
 
@@ -177,6 +167,40 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 			return contentPane;
 		}
 		return super.getContentPane();
+	}
+
+	@Override
+	protected void refreshVisuals() {
+		if (!isActive() || getFigure() == null || primaryShape == null)
+			return;
+		super.refreshVisuals();
+
+		Node node = (Node) resolveSemanticElement();
+		if (node != null) {
+			int status = node.getCoverageStatus();
+
+			// Cores Padrão
+			Color cor = new Color(null, 255, 255, 255); // Branco
+
+			switch (status) {
+			case 1:
+				cor = new Color(null, 102, 255, 102);
+				break; // Verde (Coberto)
+			case 2:
+				cor = new Color(null, 255, 215, 0);
+				break; // Amarelo (Parcial)
+			case 3:
+				cor = new Color(null, 255, 82, 82);
+				break; // Vermelho (Erro)
+			}
+
+			primaryShape.setBackgroundColor(cor);
+			
+			if (getPrimaryShape() != null && getPrimaryShape().getFigureProcessingNodeLabelFigure() != null) {
+				getPrimaryShape().getFigureProcessingNodeLabelFigure().setText(String.valueOf(node.getId()));
+			}
+		}
+		refreshTooltip();
 	}
 
 	protected void setForegroundColor(Color color) {
@@ -207,29 +231,57 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 		return getChildBySemanticHint(GfcVisualIDRegistry.getType(ProcessingNodeIdEditPart.VISUAL_ID));
 	}
 
+	@Override
 	protected void handleNotificationEvent(Notification event) {
+		if (gfc.GfcPackage.eINSTANCE.getNode_CoverageStatus().equals(event.getFeature())) {
+			Display.getDefault().asyncExec(() -> {
+				if (isActive())
+					refreshVisuals();
+			});
+		}
+
 		if (event.getNotifier() == getModel()
 				&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(event.getFeature())) {
 			handleMajorSemanticChange();
 		} else {
 			super.handleNotificationEvent(event);
 		}
+
+		refreshTooltip();
 	}
 
-	/**
-	* @generated
-	*/
-	public class ProcessingNodeFigure extends Ellipse {
+	protected void refreshTooltip() {
+		final IFigure targetFigure = getPrimaryShape();
+		if (targetFigure == null)
+			return;
+		final Node node = (Node) resolveSemanticElement();
+		final String text = (node != null) ? node.getLabel() : null;
 
-		/**
-		 * @generated
-		 */
+		Display.getDefault().asyncExec(() -> {
+			try {
+				if (targetFigure.getParent() != null) {
+					if (text != null && !text.isEmpty()) {
+						targetFigure.setToolTip(new Label(text));
+					} else {
+						targetFigure.setToolTip(null);
+					}
+				}
+			} catch (Exception e) {
+			}
+		});
+	}
+
+	public class ProcessingNodeFigure extends Ellipse {
 		private WrappingLabel fFigureProcessingNodeLabelFigure;
 
-		/**
-		 * @generated
-		 */
 		public ProcessingNodeFigure() {
+			GridLayout layoutThis = new GridLayout(1, false);
+			layoutThis.marginHeight = 0;
+			layoutThis.marginWidth = 0;
+			layoutThis.horizontalSpacing = 0;
+			layoutThis.verticalSpacing = 0;
+			this.setLayoutManager(layoutThis);
+			
 			this.setForegroundColor(THIS_FORE);
 			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
 			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
@@ -237,30 +289,18 @@ public class ProcessingNodeEditPart extends ShapeNodeEditPart {
 			createContents();
 		}
 
-		/**
-		 * @generated
-		 */
 		private void createContents() {
-
 			fFigureProcessingNodeLabelFigure = new WrappingLabel();
-
-			fFigureProcessingNodeLabelFigure.setText("ProcessingNode");
-
-			this.add(fFigureProcessingNodeLabelFigure);
-
+			fFigureProcessingNodeLabelFigure.setText("");
+			fFigureProcessingNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
+			fFigureProcessingNodeLabelFigure.setAlignment(PositionConstants.CENTER);
+			this.add(fFigureProcessingNodeLabelFigure, new GridData(GridData.CENTER, GridData.CENTER, true, true));
 		}
 
-		/**
-		 * @generated
-		 */
 		public WrappingLabel getFigureProcessingNodeLabelFigure() {
 			return fFigureProcessingNodeLabelFigure;
 		}
-
 	}
 
-	/**
-	* @generated
-	*/
 	static final Color THIS_FORE = new Color(null, 0, 0, 0);
 }

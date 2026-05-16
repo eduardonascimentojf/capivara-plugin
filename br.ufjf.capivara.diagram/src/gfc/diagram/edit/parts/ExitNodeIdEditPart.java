@@ -226,7 +226,7 @@ public class ExitNodeIdEditPart extends CompartmentEditPart implements ITextAwar
 	*/
 	public String getEditText() {
 		if (getParserElement() == null || getParser() == null) {
-			return ""; //$NON-NLS-1$
+			return ""; 
 		}
 		return getParser().getEditString(new EObjectAdapter(getParserElement()), getParserOptions().intValue());
 	}
@@ -458,7 +458,7 @@ public class ExitNodeIdEditPart extends CompartmentEditPart implements ITextAwar
 			EObject element = resolveSemanticElement();
 			parserElements = ((ISemanticParser) getParser()).getSemanticElementsBeingParsed(element);
 			for (int i = 0; i < parserElements.size(); i++) {
-				addListenerFilter("SemanticModel" + i, this, (EObject) parserElements.get(i)); //$NON-NLS-1$
+				addListenerFilter("SemanticModel" + i, this, (EObject) parserElements.get(i)); 
 			}
 		} else {
 			super.addSemanticListeners();
@@ -471,7 +471,7 @@ public class ExitNodeIdEditPart extends CompartmentEditPart implements ITextAwar
 	protected void removeSemanticListeners() {
 		if (parserElements != null) {
 			for (int i = 0; i < parserElements.size(); i++) {
-				removeListenerFilter("SemanticModel" + i); //$NON-NLS-1$
+				removeListenerFilter("SemanticModel" + i); 
 			}
 		} else {
 			super.removeSemanticListeners();
@@ -532,7 +532,7 @@ public class ExitNodeIdEditPart extends CompartmentEditPart implements ITextAwar
 	*/
 	protected void addNotationalListeners() {
 		super.addNotationalListeners();
-		addListenerFilter("PrimaryView", this, getPrimaryView()); //$NON-NLS-1$
+		addListenerFilter("PrimaryView", this, getPrimaryView()); 
 	}
 
 	/**
@@ -540,7 +540,7 @@ public class ExitNodeIdEditPart extends CompartmentEditPart implements ITextAwar
 	*/
 	protected void removeNotationalListeners() {
 		super.removeNotationalListeners();
-		removeListenerFilter("PrimaryView"); //$NON-NLS-1$
+		removeListenerFilter("PrimaryView"); 
 	}
 
 	/**

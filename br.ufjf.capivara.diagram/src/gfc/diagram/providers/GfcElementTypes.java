@@ -18,6 +18,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
 import gfc.GfcPackage;
+import gfc.diagram.edit.parts.CaseNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
@@ -25,6 +26,7 @@ import gfc.diagram.edit.parts.ExitNodeEditPart;
 import gfc.diagram.edit.parts.FlowchartEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
 import gfc.diagram.part.GfcDiagramEditorPlugin;
 
 /**
@@ -57,33 +59,29 @@ public class GfcElementTypes {
 	/**
 	* @generated
 	*/
-	public static final IElementType Flowchart_1000 = getElementType("br.ufjf.capivara.diagram.Flowchart_1000"); //$NON-NLS-1$
+	public static final IElementType Flowchart_1000 = getElementType("br.ufjf.capivara.diagram.Flowchart_1000");   
 	/**
 	* @generated
 	*/
-	public static final IElementType EntryNode_2001 = getElementType("br.ufjf.capivara.diagram.EntryNode_2001"); //$NON-NLS-1$
+	public static final IElementType EntryNode_2001 = getElementType("br.ufjf.capivara.diagram.EntryNode_2001");   
 	/**
 	* @generated
 	*/
 	public static final IElementType ProcessingNode_2002 = getElementType(
-			"br.ufjf.capivara.diagram.ProcessingNode_2002"); //$NON-NLS-1$
+			"br.ufjf.capivara.diagram.ProcessingNode_2002");   
 	/**
 	* @generated
 	*/
-	public static final IElementType DecisionNode_2003 = getElementType("br.ufjf.capivara.diagram.DecisionNode_2003"); //$NON-NLS-1$
+	public static final IElementType DecisionNode_2003 = getElementType("br.ufjf.capivara.diagram.DecisionNode_2003");   
 	/**
 	* @generated
 	*/
 	public static final IElementType LoopDecisionNode_2004 = getElementType(
-			"br.ufjf.capivara.diagram.LoopDecisionNode_2004"); //$NON-NLS-1$
+			"br.ufjf.capivara.diagram.LoopDecisionNode_2004");   
 	/**
 	* @generated
 	*/
-	public static final IElementType ExitNode_2005 = getElementType("br.ufjf.capivara.diagram.ExitNode_2005"); //$NON-NLS-1$
-	/**
-	* @generated
-	*/
-	public static final IElementType Edge_4001 = getElementType("br.ufjf.capivara.diagram.Edge_4001"); //$NON-NLS-1$
+	public static final IElementType Edge_4001 = getElementType("br.ufjf.capivara.diagram.Edge_4001");   
 
 	/**
 	* @generated
@@ -135,6 +133,10 @@ public class GfcElementTypes {
 
 			elements.put(ExitNode_2005, GfcPackage.eINSTANCE.getExitNode());
 
+			elements.put(SwitchNode_2006, GfcPackage.eINSTANCE.getSwitchNode());
+
+			elements.put(CaseNode_2007, GfcPackage.eINSTANCE.getCaseNode());
+
 			elements.put(Edge_4001, GfcPackage.eINSTANCE.getEdge());
 		}
 		return (ENamedElement) elements.get(type);
@@ -159,6 +161,8 @@ public class GfcElementTypes {
 			KNOWN_ELEMENT_TYPES.add(DecisionNode_2003);
 			KNOWN_ELEMENT_TYPES.add(LoopDecisionNode_2004);
 			KNOWN_ELEMENT_TYPES.add(ExitNode_2005);
+			KNOWN_ELEMENT_TYPES.add(SwitchNode_2006);
+			KNOWN_ELEMENT_TYPES.add(CaseNode_2007);
 			KNOWN_ELEMENT_TYPES.add(Edge_4001);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
@@ -181,6 +185,10 @@ public class GfcElementTypes {
 			return LoopDecisionNode_2004;
 		case ExitNodeEditPart.VISUAL_ID:
 			return ExitNode_2005;
+		case SwitchNodeEditPart.VISUAL_ID:
+			return SwitchNode_2006;
+		case CaseNodeEditPart.VISUAL_ID:
+			return CaseNode_2007;
 		case EdgeEditPart.VISUAL_ID:
 			return Edge_4001;
 		}
@@ -219,5 +227,17 @@ public class GfcElementTypes {
 			return gfc.diagram.providers.GfcElementTypes.getElement(elementTypeAdapter);
 		}
 	};
+
+	public static final IElementType ExitNode_2005 = null;
+
+	/**
+	* @generated
+	*/
+	public static final IElementType SwitchNode_2006 = getElementType("br.ufjf.capivara.diagram.SwitchNode_2006");   
+
+	/**
+	* @generated
+	*/
+	public static final IElementType CaseNode_2007 = getElementType("br.ufjf.capivara.diagram.CaseNode_2007");   
 
 }

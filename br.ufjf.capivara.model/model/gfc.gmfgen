@@ -7,6 +7,7 @@
     <containsShortcutsTo>gfc</containsShortcutsTo>
     <shortcutsProvidedFor>gfc</shortcutsProvidedFor>
     <domainDiagramElement href="gfc.genmodel#//gfc/Flowchart"/>
+    
     <topLevelNodes visualID="2001" editPartClassName="EntryNodeEditPart" itemSemanticEditPolicyClassName="EntryNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="EntryNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="EntryNodeGraphicalNodeEditPolicy" createCommandClassName="EntryNodeCreateCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="EntryNodeEditHelper"/>
@@ -19,14 +20,15 @@
         <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
         <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
       </modelFacet>
-      <labels visualID="5001" editPartClassName="EntryNodeIdEditPart" itemSemanticEditPolicyClassName="EntryNodeIdItemSemanticEditPolicy">
+      <labels visualID="5001" editPartClassName="EntryNodeIdEditPart" itemSemanticEditPolicyClassName="EntryNodeLabelItemSemanticEditPolicy">
         <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureEntryNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
-          <metaFeatures href="gfc.genmodel#//gfc/Node/id"/>
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
+
     <topLevelNodes visualID="2002" editPartClassName="ProcessingNodeEditPart" itemSemanticEditPolicyClassName="ProcessingNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="ProcessingNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="ProcessingNodeGraphicalNodeEditPolicy" createCommandClassName="ProcessingNodeCreateCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="ProcessingNodeEditHelper"/>
@@ -39,18 +41,19 @@
         <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
         <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
       </modelFacet>
-      <labels visualID="5002" editPartClassName="ProcessingNodeIdEditPart" itemSemanticEditPolicyClassName="ProcessingNodeIdItemSemanticEditPolicy">
+      <labels visualID="5002" editPartClassName="ProcessingNodeIdEditPart" itemSemanticEditPolicyClassName="ProcessingNodeLabelItemSemanticEditPolicy">
         <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureProcessingNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
-          <metaFeatures href="gfc.genmodel#//gfc/Node/id"/>
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
+
     <topLevelNodes visualID="2003" editPartClassName="DecisionNodeEditPart" itemSemanticEditPolicyClassName="DecisionNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="DecisionNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="DecisionNodeGraphicalNodeEditPolicy" createCommandClassName="DecisionNodeCreateCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="DecisionNodeEditHelper"/>
-      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="DecisionNodeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class DecisionNodeFigure extends org.eclipse.draw2d.Ellipse {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureDecisionNodeLabelFigure; &#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public DecisionNodeFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;this.setPreferredSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(40)&#xA;, getMapMode().DPtoLP(40)&#xA;));&#xA;this.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureDecisionNodeLabelFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;&#xA;fFigureDecisionNodeLabelFigure.setText(&quot;DecisionNode&quot;);&#xA;&#xA;this.add(fFigureDecisionNodeLabelFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureDecisionNodeLabelFigure() {&#xA;&#x9;&#x9;return fFigureDecisionNodeLabelFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 123, 255);&#xA;&#xA;">
+      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="DecisionNodeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class DecisionNodeFigure extends org.eclipse.draw2d.Ellipse {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureDecisionNodeLabelFigure; &#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public DecisionNodeFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;this.setPreferredSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(40)&#xA;, getMapMode().DPtoLP(40)&#xA;));&#xA;this.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureDecisionNodeLabelFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;&#xA;fFigureDecisionNodeLabelFigure.setText(&quot;DecisionNode&quot;);&#xA;&#xA;this.add(fFigureDecisionNodeLabelFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureDecisionNodeLabelFigure() {&#xA;&#x9;&#x9;return fFigureDecisionNodeLabelFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 123, 255);&#xA;&#xA;">
         <attributes xsi:type="gmfgen:StyleAttributes" fixedForeground="true"/>
         <attributes xsi:type="gmfgen:DefaultSizeAttributes" height="40"/>
       </viewmap>
@@ -59,14 +62,15 @@
         <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
         <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
       </modelFacet>
-      <labels visualID="5003" editPartClassName="DecisionNodeIdEditPart" itemSemanticEditPolicyClassName="DecisionNodeIdItemSemanticEditPolicy">
+      <labels visualID="5003" editPartClassName="DecisionNodeIdEditPart" itemSemanticEditPolicyClassName="DecisionNodeLabelItemSemanticEditPolicy">
         <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureDecisionNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
-          <metaFeatures href="gfc.genmodel#//gfc/Node/id"/>
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
+
     <topLevelNodes visualID="2004" editPartClassName="LoopDecisionNodeEditPart" itemSemanticEditPolicyClassName="LoopDecisionNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="LoopDecisionNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="LoopDecisionNodeGraphicalNodeEditPolicy" createCommandClassName="LoopDecisionNodeCreateCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="LoopDecisionNodeEditHelper"/>
@@ -79,14 +83,15 @@
         <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
         <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
       </modelFacet>
-      <labels visualID="5004" editPartClassName="LoopDecisionNodeIdEditPart" itemSemanticEditPolicyClassName="LoopDecisionNodeIdItemSemanticEditPolicy">
+      <labels visualID="5004" editPartClassName="LoopDecisionNodeIdEditPart" itemSemanticEditPolicyClassName="LoopDecisionNodeLabelItemSemanticEditPolicy">
         <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureLoopDecisionNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
-          <metaFeatures href="gfc.genmodel#//gfc/Node/id"/>
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
+
     <topLevelNodes visualID="2005" editPartClassName="ExitNodeEditPart" itemSemanticEditPolicyClassName="ExitNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="ExitNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="ExitNodeGraphicalNodeEditPolicy" createCommandClassName="ExitNodeCreateCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="ExitNodeEditHelper"/>
@@ -98,18 +103,61 @@
         <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
         <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
       </modelFacet>
-      <labels visualID="5005" editPartClassName="ExitNodeIdEditPart" itemSemanticEditPolicyClassName="ExitNodeIdItemSemanticEditPolicy">
+      <labels visualID="5005" editPartClassName="ExitNodeIdEditPart" itemSemanticEditPolicyClassName="ExitNodeLabelItemSemanticEditPolicy">
         <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
         <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureExitNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
         <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
-          <metaFeatures href="gfc.genmodel#//gfc/Node/id"/>
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
         </modelFacet>
       </labels>
     </topLevelNodes>
+
+    <topLevelNodes visualID="2006" editPartClassName="SwitchNodeEditPart" itemSemanticEditPolicyClassName="SwitchNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="SwitchNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="SwitchNodeGraphicalNodeEditPolicy" createCommandClassName="SwitchNodeCreateCommand">
+      <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="SwitchNodeEditHelper"/>
+      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="SwitchNodeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class SwitchNodeFigure extends org.eclipse.draw2d.Ellipse {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureSwitchNodeLabelFigure; &#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public SwitchNodeFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;this.setPreferredSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(40)&#xA;, getMapMode().DPtoLP(40)&#xA;));&#xA;this.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureSwitchNodeLabelFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;&#xA;fFigureSwitchNodeLabelFigure.setText(&quot;SwitchNode&quot;);&#xA;&#xA;this.add(fFigureSwitchNodeLabelFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureSwitchNodeLabelFigure() {&#xA;&#x9;&#x9;return fFigureSwitchNodeLabelFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 128, 0, 128);&#xA;&#xA;">
+        <attributes xsi:type="gmfgen:StyleAttributes" fixedForeground="true"/>
+        <attributes xsi:type="gmfgen:DefaultSizeAttributes" height="40"/>
+      </viewmap>
+      <modelFacet>
+        <metaClass href="gfc.genmodel#//gfc/SwitchNode"/>
+        <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
+        <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
+      </modelFacet>
+      <labels visualID="5006" editPartClassName="SwitchNodeIdEditPart" itemSemanticEditPolicyClassName="SwitchNodeLabelItemSemanticEditPolicy">
+        <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureSwitchNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
+        </modelFacet>
+      </labels>
+    </topLevelNodes>
+
+    <topLevelNodes visualID="2007" editPartClassName="CaseNodeEditPart" itemSemanticEditPolicyClassName="CaseNodeItemSemanticEditPolicy" canonicalEditPolicyClassName="CaseNodeCanonicalEditPolicy" graphicalNodeEditPolicyClassName="CaseNodeGraphicalNodeEditPolicy" createCommandClassName="CaseNodeCreateCommand">
+      <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+      <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="CaseNodeEditHelper"/>
+      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="CaseNodeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class CaseNodeFigure extends org.eclipse.draw2d.Ellipse {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel fFigureCaseNodeLabelFigure; &#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public CaseNodeFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;this.setPreferredSize(new org.eclipse.draw2d.geometry.Dimension(getMapMode().DPtoLP(40)&#xA;, getMapMode().DPtoLP(40)&#xA;));&#xA;this.setBorder(new org.eclipse.draw2d.MarginBorder(getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;, getMapMode().DPtoLP(5)&#xA;));&#xA;&#x9;&#x9;createContents();&#xA;&#x9;}&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private void createContents(){&#xA;&#xA;&#xA;fFigureCaseNodeLabelFigure = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel();&#xA;&#xA;fFigureCaseNodeLabelFigure.setText(&quot;CaseNode&quot;);&#xA;&#xA;this.add(fFigureCaseNodeLabelFigure);&#xA;&#xA;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureCaseNodeLabelFigure() {&#xA;&#x9;&#x9;return fFigureCaseNodeLabelFigure;&#xA;&#x9;}&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 255, 0, 255);&#xA;&#xA;">
+        <attributes xsi:type="gmfgen:StyleAttributes" fixedForeground="true"/>
+        <attributes xsi:type="gmfgen:DefaultSizeAttributes" height="40"/>
+      </viewmap>
+      <modelFacet>
+        <metaClass href="gfc.genmodel#//gfc/CaseNode"/>
+        <containmentMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
+        <childMetaFeature href="gfc.genmodel#//gfc/Flowchart/nodes"/>
+      </modelFacet>
+      <labels visualID="5007" editPartClassName="CaseNodeIdEditPart" itemSemanticEditPolicyClassName="CaseNodeLabelItemSemanticEditPolicy">
+        <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap xsi:type="gmfgen:ParentAssignedViewmap" getterName="getFigureCaseNodeLabelFigure" figureQualifiedClassName="org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel"/>
+        <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
+          <metaFeatures href="gfc.genmodel#//gfc/Node/label"/>
+        </modelFacet>
+      </labels>
+    </topLevelNodes>
+
     <links visualID="4001" editPartClassName="EdgeEditPart" itemSemanticEditPolicyClassName="EdgeItemSemanticEditPolicy" createCommandClassName="EdgeCreateCommand" reorientCommandClassName="EdgeReorientCommand">
       <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
       <elementType xsi:type="gmfgen:MetamodelType" editHelperClassName="EdgeEditHelper"/>
-      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="EdgeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class EdgeFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public EdgeFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 0, 0);&#xA;&#xA;">
+      <viewmap xsi:type="gmfgen:InnerClassViewmap" className="EdgeFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class EdgeFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public EdgeFigure() {&#xA;&#x9;&#x9;this.setLineWidth(2);&#xA;&#x9;this.setForegroundColor(THIS_FORE&#xA;);&#xA;&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xA;&#x9;}&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;private org.eclipse.draw2d.RotatableDecoration createTargetDecoration() {&#xA;&#x9;&#x9;org.eclipse.draw2d.PolylineDecoration df = new org.eclipse.draw2d.PolylineDecoration();&#xA;&#x9;&#x9;return df;&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;}&#xA;&#xA;/**&#xA; * @generated&#xA; */&#xA;static final org.eclipse.swt.graphics.Color THIS_FORE = new org.eclipse.swt.graphics.Color(null, 0, 0, 0);&#xA;&#xA;">
         <attributes xsi:type="gmfgen:StyleAttributes" fixedForeground="true"/>
       </viewmap>
       <modelFacet xsi:type="gmfgen:TypeLinkModelFacet">
@@ -119,6 +167,15 @@
         <sourceMetaFeature href="gfc.genmodel#//gfc/Edge/source"/>
         <targetMetaFeature href="gfc.genmodel#//gfc/Edge/target"/>
       </modelFacet>
+      <labels visualID="6001" editPartClassName="EdgeLabelEditPart" itemSemanticEditPolicyClassName="EdgeLabelItemSemanticEditPolicy">
+        <diagramRunTimeClass href="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Node"/>
+        <viewmap xsi:type="gmfgen:InnerClassViewmap" className="EdgeLabelFigure" classBody="&#xA;/**&#xA; * @generated&#xA; */&#xA;public class EdgeLabelFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel {&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public EdgeLabelFigure() {&#xA;&#x9;&#x9;&#x9;&#x9;this.setText(&quot;Edge&quot;);&#xA;&#x9;}&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;/**&#xA;&#x9; * @generated&#xA;&#x9; */&#xA;&#x9;public org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel getFigureEdgeLabelFigure() {&#xA;&#x9;&#x9;return this;&#xA;&#x9;}&#xA;&#xA;}&#xA;&#xA;">
+          <attributes xsi:type="gmfgen:LabelOffsetAttributes" y="40"/>
+        </viewmap>
+        <modelFacet xsi:type="gmfgen:FeatureLabelModelFacet" parser="//@labelParsers/@implementations.0">
+          <metaFeatures href="gfc.genmodel#//gfc/Edge/label"/>
+        </modelFacet>
+      </labels>
     </links>
 
     <preferencePages xsi:type="gmfgen:GenStandardPreferencePage" iD="br.ufjf.capivara.diagram.general" name="Gfc Diagram">
@@ -141,6 +198,8 @@
     <childReferences parent="//@diagram" child="//@diagram/@topLevelNodes.2"/>
     <childReferences parent="//@diagram" child="//@diagram/@topLevelNodes.3"/>
     <childReferences parent="//@diagram" child="//@diagram/@topLevelNodes.4"/>
+    <childReferences parent="//@diagram" child="//@diagram/@topLevelNodes.5"/>
+    <childReferences parent="//@diagram" child="//@diagram/@topLevelNodes.6"/>
     <childReferences parent="//@diagram" child="//@diagram/@links.0" groupName="links" groupIcon="icons/linksNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.0" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@topLevelNodes.0" child="//@diagram/@links.0" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
@@ -152,6 +211,10 @@
     <childReferences parent="//@diagram/@topLevelNodes.3" child="//@diagram/@links.0" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.4" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@topLevelNodes.4" child="//@diagram/@links.0" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.5" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@topLevelNodes.5" child="//@diagram/@links.0" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.6" referenceType="out_target" groupName="target" groupIcon="icons/linkTargetNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@topLevelNodes.6" child="//@diagram/@links.0" referenceType="in_source" groupName="incoming links" groupIcon="icons/incomingLinksNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.0" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@topLevelNodes.0" child="//@diagram/@links.0" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.1" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
@@ -162,6 +225,10 @@
     <childReferences parent="//@diagram/@topLevelNodes.3" child="//@diagram/@links.0" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.4" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
     <childReferences parent="//@diagram/@topLevelNodes.4" child="//@diagram/@links.0" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.5" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@topLevelNodes.5" child="//@diagram/@links.0" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@links.0" child="//@diagram/@topLevelNodes.6" referenceType="in_source" groupName="source" groupIcon="icons/linkSourceNavigatorGroup.gif"/>
+    <childReferences parent="//@diagram/@topLevelNodes.6" child="//@diagram/@links.0" referenceType="out_target" groupName="outgoing links" groupIcon="icons/outgoingLinksNavigatorGroup.gif"/>
   </navigator>
   <diagramUpdater/>
   <propertySheet>
@@ -177,7 +244,9 @@
   </propertySheet>
   <domainGenModel href="gfc.genmodel#/"/>
   <labelParsers extensibleViaService="true">
-    <implementations xsi:type="gmfgen:PredefinedParser" uses="//@diagram/@topLevelNodes.0/@labels.0/@modelFacet //@diagram/@topLevelNodes.1/@labels.0/@modelFacet //@diagram/@topLevelNodes.2/@labels.0/@modelFacet //@diagram/@topLevelNodes.3/@labels.0/@modelFacet //@diagram/@topLevelNodes.4/@labels.0/@modelFacet"/>
+    <implementations xsi:type="gmfgen:PredefinedParser" uses="//@diagram/@topLevelNodes.0/@labels.0/@modelFacet //@diagram/@topLevelNodes.1/@labels.0/@modelFacet //@diagram/@topLevelNodes.2/@labels.0/@modelFacet //@diagram/@topLevelNodes.3/@labels.0/@modelFacet //@diagram/@topLevelNodes.4/@labels.0/@modelFacet //@diagram/@topLevelNodes.5/@labels.0/@modelFacet //@diagram/@topLevelNodes.6/@labels.0/@modelFacet //@diagram/@links.0/@labels.0/@modelFacet"/>
   </labelParsers>
-
+  <contextMenus context="//@diagram">
+    <items xsi:type="gmfgen:LoadResourceAction"/>
+  </contextMenus>
 </gmfgen:GenEditorGenerator>

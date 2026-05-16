@@ -96,6 +96,14 @@ public class GfcAdapterFactory extends AdapterFactoryImpl {
 				return createExitNodeAdapter();
 			}
 			@Override
+			public Adapter caseSwitchNode(SwitchNode object) {
+				return createSwitchNodeAdapter();
+			}
+			@Override
+			public Adapter caseCaseNode(CaseNode object) {
+				return createCaseNodeAdapter();
+			}
+			@Override
 			public Adapter caseEdge(Edge object) {
 				return createEdgeAdapter();
 			}
@@ -200,6 +208,34 @@ public class GfcAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLoopDecisionNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link gfc.SwitchNode <em>Switch Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see gfc.SwitchNode
+	 * @generated
+	 */
+	public Adapter createSwitchNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link gfc.CaseNode <em>Case Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see gfc.CaseNode
+	 * @generated
+	 */
+	public Adapter createCaseNodeAdapter() {
 		return null;
 	}
 

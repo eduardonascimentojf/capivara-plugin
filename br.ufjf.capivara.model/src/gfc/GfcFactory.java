@@ -67,6 +67,24 @@ public interface GfcFactory extends EFactory {
 	LoopDecisionNode createLoopDecisionNode();
 
 	/**
+	 * Returns a new object of class '<em>Switch Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Switch Node</em>'.
+	 * @generated
+	 */
+	SwitchNode createSwitchNode();
+
+	/**
+	 * Returns a new object of class '<em>Case Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Case Node</em>'.
+	 * @generated
+	 */
+	CaseNode createCaseNode();
+
+	/**
 	 * Returns a new object of class '<em>Exit Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

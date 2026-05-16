@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"br.ufjf.capivara"},{"l":"br.ufjf.capivara.analyzer"},{"l":"br.ufjf.capivara.gmf.handlers"},{"l":"br.ufjf.capivara.handlers"},{"l":"br.ufjf.capivara.model"},{"l":"br.ufjf.capivara.views"}];updateSearchResults();

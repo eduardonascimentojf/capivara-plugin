@@ -17,11 +17,11 @@
         <diagramLabel
             href="gfc.gmfgraph#EntryNodeLabel"/>
         <features
-            href="gfc.ecore#//Node/id"/>
+            href="gfc.ecore#//Node/label"/>
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="gfc.gmftool#//@palette/@tools.0/@tools.1"/>
+          href="gfc.gmftool#//@palette/@tools.0/@tools.2"/>
       <diagramNode
           href="gfc.gmfgraph#EntryNode"/>
     </ownedChild>
@@ -37,11 +37,11 @@
         <diagramLabel
             href="gfc.gmfgraph#ProcessingNodeLabel"/>
         <features
-            href="gfc.ecore#//Node/id"/>
+            href="gfc.ecore#//Node/label"/>
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="gfc.gmftool#//@palette/@tools.0/@tools.4"/>
+          href="gfc.gmftool#//@palette/@tools.0/@tools.5"/>
       <diagramNode
           href="gfc.gmfgraph#ProcessingNode"/>
     </ownedChild>
@@ -57,11 +57,11 @@
         <diagramLabel
             href="gfc.gmfgraph#DecisionNodeLabel"/>
         <features
-            href="gfc.ecore#//Node/id"/>
+            href="gfc.ecore#//Node/label"/>
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="gfc.gmftool#//@palette/@tools.0/@tools.0"/>
+          href="gfc.gmftool#//@palette/@tools.0/@tools.1"/>
       <diagramNode
           href="gfc.gmfgraph#DecisionNode"/>
     </ownedChild>
@@ -77,11 +77,11 @@
         <diagramLabel
             href="gfc.gmfgraph#LoopDecisionNodeLabel"/>
         <features
-            href="gfc.ecore#//Node/id"/>
+            href="gfc.ecore#//Node/label"/>
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="gfc.gmftool#//@palette/@tools.0/@tools.3"/>
+          href="gfc.gmftool#//@palette/@tools.0/@tools.4"/>
       <diagramNode
           href="gfc.gmfgraph#LoopDecisionNode"/>
     </ownedChild>
@@ -97,18 +97,65 @@
         <diagramLabel
             href="gfc.gmfgraph#ExitNodeLabel"/>
         <features
-            href="gfc.ecore#//Node/id"/>
+            href="gfc.ecore#//Node/label"/>
       </labelMappings>
       <tool
           xsi:type="gmftool:CreationTool"
-          href="gfc.gmftool#//@palette/@tools.0/@tools.2"/>
+          href="gfc.gmftool#//@palette/@tools.0/@tools.3"/>
       <diagramNode
           href="gfc.gmfgraph#ExitNode"/>
+    </ownedChild>
+  </nodes>
+  <nodes>
+    <containmentFeature
+        href="gfc.ecore#//Flowchart/nodes"/>
+    <ownedChild>
+      <domainMetaElement
+          href="gfc.ecore#//SwitchNode"/>
+      <labelMappings
+          xsi:type="gmfmap:FeatureLabelMapping">
+        <diagramLabel
+            href="gfc.gmfgraph#SwitchNodeLabel"/>
+        <features
+            href="gfc.ecore#//Node/label"/>
+      </labelMappings>
+      <tool
+          xsi:type="gmftool:CreationTool"
+          href="gfc.gmftool#//@palette/@tools.0/@tools.6"/>
+      <diagramNode
+          href="gfc.gmfgraph#SwitchNode"/>
+    </ownedChild>
+  </nodes>
+  <nodes>
+    <containmentFeature
+        href="gfc.ecore#//Flowchart/nodes"/>
+    <ownedChild>
+      <domainMetaElement
+          href="gfc.ecore#//CaseNode"/>
+      <labelMappings
+          xsi:type="gmfmap:FeatureLabelMapping">
+        <diagramLabel
+            href="gfc.gmfgraph#CaseNodeLabel"/>
+        <features
+            href="gfc.ecore#//Node/label"/>
+      </labelMappings>
+      <tool
+          xsi:type="gmftool:CreationTool"
+          href="gfc.gmftool#//@palette/@tools.0/@tools.0"/>
+      <diagramNode
+          href="gfc.gmfgraph#CaseNode"/>
     </ownedChild>
   </nodes>
   <links>
     <domainMetaElement
         href="gfc.ecore#//Edge"/>
+    <labelMappings
+        xsi:type="gmfmap:FeatureLabelMapping">
+      <diagramLabel
+          href="gfc.gmfgraph#EdgeLabel"/>
+      <features
+          href="gfc.ecore#//Edge/label"/>
+    </labelMappings>
     <containmentFeature
         href="gfc.ecore#//Flowchart/edges"/>
     <tool

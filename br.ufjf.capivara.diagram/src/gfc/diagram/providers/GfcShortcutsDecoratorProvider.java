@@ -28,7 +28,7 @@ public class GfcShortcutsDecoratorProvider extends AbstractProvider implements I
 	/**
 	* @generated
 	*/
-	public static final String SHORTCUTS_DECORATOR_ID = "shortcuts"; //$NON-NLS-1$
+	public static final String SHORTCUTS_DECORATOR_ID = "shortcuts";   
 
 	/**
 	* @generated
@@ -48,7 +48,7 @@ public class GfcShortcutsDecoratorProvider extends AbstractProvider implements I
 	public void createDecorators(IDecoratorTarget decoratorTarget) {
 		View view = (View) decoratorTarget.getAdapter(View.class);
 		if (view != null) {
-			EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+			EAnnotation annotation = view.getEAnnotation("Shortcut");   
 			if (annotation != null) {
 				decoratorTarget.installDecorator(SHORTCUTS_DECORATOR_ID, new ShortcutsDecorator(decoratorTarget));
 			}
@@ -80,7 +80,7 @@ public class GfcShortcutsDecoratorProvider extends AbstractProvider implements I
 		public void refresh() {
 			removeDecoration();
 			EditPart editPart = (EditPart) getDecoratorTarget().getAdapter(EditPart.class);
-			Image image = GfcDiagramEditorPlugin.getInstance().getBundledImage("icons/shortcut.gif"); //$NON-NLS-1$
+			Image image = GfcDiagramEditorPlugin.getInstance().getBundledImage("icons/shortcut.gif");   
 			if (editPart instanceof ShapeEditPart) {
 				setDecoration(getDecoratorTarget().addShapeDecoration(image, IDecoratorTarget.Direction.SOUTH_WEST, 0,
 						false));

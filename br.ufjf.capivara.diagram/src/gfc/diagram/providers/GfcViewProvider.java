@@ -29,6 +29,7 @@ import org.eclipse.gmf.runtime.notation.DecorationNode;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.Location;
 import org.eclipse.gmf.runtime.notation.MeasurementUnit;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
@@ -43,9 +44,12 @@ import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 
+import gfc.diagram.edit.parts.CaseNodeEditPart;
+import gfc.diagram.edit.parts.CaseNodeIdEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
+import gfc.diagram.edit.parts.EdgeLabelEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
 import gfc.diagram.edit.parts.EntryNodeIdEditPart;
 import gfc.diagram.edit.parts.ExitNodeEditPart;
@@ -55,6 +59,8 @@ import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeIdEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeIdEditPart;
 import gfc.diagram.part.GfcVisualIDRegistry;
 
 /**
@@ -143,6 +149,8 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 				case DecisionNodeEditPart.VISUAL_ID:
 				case LoopDecisionNodeEditPart.VISUAL_ID:
 				case ExitNodeEditPart.VISUAL_ID:
+				case SwitchNodeEditPart.VISUAL_ID:
+				case CaseNodeEditPart.VISUAL_ID:
 					if (domainElement == null
 							|| visualID != GfcVisualIDRegistry.getNodeVisualID(op.getContainerView(), domainElement)) {
 						return false; // visual id in semantic hint should match visual id for domain element
@@ -155,7 +163,8 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 		}
 		return EntryNodeEditPart.VISUAL_ID == visualID || ProcessingNodeEditPart.VISUAL_ID == visualID
 				|| DecisionNodeEditPart.VISUAL_ID == visualID || LoopDecisionNodeEditPart.VISUAL_ID == visualID
-				|| ExitNodeEditPart.VISUAL_ID == visualID;
+				|| ExitNodeEditPart.VISUAL_ID == visualID || SwitchNodeEditPart.VISUAL_ID == visualID
+				|| CaseNodeEditPart.VISUAL_ID == visualID;
 	}
 
 	/**
@@ -214,6 +223,10 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 			return createLoopDecisionNode_2004(domainElement, containerView, index, persisted, preferencesHint);
 		case ExitNodeEditPart.VISUAL_ID:
 			return createExitNode_2005(domainElement, containerView, index, persisted, preferencesHint);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return createSwitchNode_2006(domainElement, containerView, index, persisted, preferencesHint);
+		case CaseNodeEditPart.VISUAL_ID:
+			return createCaseNode_2007(domainElement, containerView, index, persisted, preferencesHint);
 		}
 		// can't happen, provided #provides(CreateNodeViewOperation) is correct
 		return null;
@@ -415,6 +428,76 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 	/**
 	* @generated
 	*/
+	public Node createSwitchNode_2006(EObject domainElement, View containerView, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		Node node = NotationFactory.eINSTANCE.createNode();
+		node.getStyles().add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle());
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(GfcVisualIDRegistry.getType(SwitchNodeEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		FontStyle nodeFontStyle = (FontStyle) node.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore, IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter.getColor(prefStore,
+					IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB).intValue());
+		}
+		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(prefStore,
+				IPreferenceConstants.PREF_FILL_COLOR);
+		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5006 = createLabel(node, GfcVisualIDRegistry.getType(SwitchNodeIdEditPart.VISUAL_ID));
+		return node;
+	}
+
+	/**
+	* @generated
+	*/
+	public Node createCaseNode_2007(EObject domainElement, View containerView, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+		Node node = NotationFactory.eINSTANCE.createNode();
+		node.getStyles().add(NotationFactory.eINSTANCE.createDescriptionStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFontStyle());
+		node.getStyles().add(NotationFactory.eINSTANCE.createFillStyle());
+		node.setLayoutConstraint(NotationFactory.eINSTANCE.createBounds());
+		node.setType(GfcVisualIDRegistry.getType(CaseNodeEditPart.VISUAL_ID));
+		ViewUtil.insertChildView(containerView, node, index, persisted);
+		node.setElement(domainElement);
+		stampShortcut(containerView, node);
+		// initializeFromPreferences 
+		final IPreferenceStore prefStore = (IPreferenceStore) preferencesHint.getPreferenceStore();
+		FontStyle nodeFontStyle = (FontStyle) node.getStyle(NotationPackage.Literals.FONT_STYLE);
+		if (nodeFontStyle != null) {
+			FontData fontData = PreferenceConverter.getFontData(prefStore, IPreferenceConstants.PREF_DEFAULT_FONT);
+			nodeFontStyle.setFontName(fontData.getName());
+			nodeFontStyle.setFontHeight(fontData.getHeight());
+			nodeFontStyle.setBold((fontData.getStyle() & SWT.BOLD) != 0);
+			nodeFontStyle.setItalic((fontData.getStyle() & SWT.ITALIC) != 0);
+			org.eclipse.swt.graphics.RGB fontRGB = PreferenceConverter.getColor(prefStore,
+					IPreferenceConstants.PREF_FONT_COLOR);
+			nodeFontStyle.setFontColor(FigureUtilities.RGBToInteger(fontRGB).intValue());
+		}
+		org.eclipse.swt.graphics.RGB fillRGB = PreferenceConverter.getColor(prefStore,
+				IPreferenceConstants.PREF_FILL_COLOR);
+		ViewUtil.setStructuralFeatureValue(node, NotationPackage.eINSTANCE.getFillStyle_FillColor(),
+				FigureUtilities.RGBToInteger(fillRGB));
+		Node label5007 = createLabel(node, GfcVisualIDRegistry.getType(CaseNodeIdEditPart.VISUAL_ID));
+		return node;
+	}
+
+	/**
+	* @generated
+	*/
 	public Edge createEdge_4001(EObject domainElement, View containerView, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
 		Edge edge = NotationFactory.eINSTANCE.createEdge();
@@ -446,6 +529,11 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 		if (routing != null) {
 			ViewUtil.setStructuralFeatureValue(edge, NotationPackage.eINSTANCE.getRoutingStyle_Routing(), routing);
 		}
+		Node label6001 = createLabel(edge, GfcVisualIDRegistry.getType(EdgeLabelEditPart.VISUAL_ID));
+		label6001.setLayoutConstraint(NotationFactory.eINSTANCE.createLocation());
+		Location location6001 = (Location) label6001.getLayoutConstraint();
+		location6001.setX(0);
+		location6001.setY(40);
 		return edge;
 	}
 
@@ -455,8 +543,8 @@ public class GfcViewProvider extends AbstractProvider implements IViewProvider {
 	private void stampShortcut(View containerView, Node target) {
 		if (!FlowchartEditPart.MODEL_ID.equals(GfcVisualIDRegistry.getModelID(containerView))) {
 			EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-			shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
-			shortcutAnnotation.getDetails().put("modelID", FlowchartEditPart.MODEL_ID); //$NON-NLS-1$
+			shortcutAnnotation.setSource("Shortcut"); 
+			shortcutAnnotation.getDetails().put("modelID", FlowchartEditPart.MODEL_ID);
 			target.getEAnnotations().add(shortcutAnnotation);
 		}
 	}

@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Capivara
 Bundle-SymbolicName: br.ufjf.capivara;singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.1.qualifier
+Export-Package: br.ufjf.capivara.util
 Bundle-Activator: br.ufjf.capivara.Activator
 Bundle-Vendor: UFJF
-Require-Bundle: org.eclipse.ui.ide;visibility:=reexport,
- br.ufjf.capivara.model.edit;bundle-version="1.0.0",
- br.ufjf.capivara.model;bundle-version="0.1.0",
- br.ufjf.capivara.diagram;bundle-version="1.0.0";visibility:=reexport,
+Require-Bundle: br.ufjf.capivara.model;bundle-version="1.2.1";visibility:=reexport,
+ br.ufjf.capivara.model.edit;bundle-version="1.2.1";visibility:=reexport,
+ br.ufjf.capivara.diagram;bundle-version="1.2.1";visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jdt.core,
@@ -22,7 +23,13 @@ Require-Bundle: org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.gmf.runtime.emf.type.core,
  org.eclipse.draw2d;bundle-version="3.10.100",
  org.eclipse.gef;bundle-version="3.11.0",
- org.eclipse.emf.transaction.ui;bundle-version="1.5.0"
+ org.eclipse.emf.transaction.ui;bundle-version="1.5.0",
+ org.eclipse.eclemma.core;bundle-version="3.1.10",
+ org.jacoco.core;bundle-version="0.8.13",
+ org.eclipse.elk.alg.common;bundle-version="0.11.0",
+ org.eclipse.elk.core;bundle-version="0.11.0",
+ org.eclipse.elk.graph;bundle-version="0.11.0",
+ org.eclipse.elk.core.service;bundle-version="0.11.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: br.ufjf.capivara.singleton.true
 Bundle-ActivationPolicy: lazy

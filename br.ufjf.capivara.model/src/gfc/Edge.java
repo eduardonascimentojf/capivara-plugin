@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  * </ul>
  *
  * @see gfc.GfcPackage#getEdge()
- * @model annotation="gmf.link source='source' target='target' target.decoration='arrow' color='0,0,0' width='2'"
+ * @model annotation="gmf.link source='source' target='target' target.decoration='arrow' color='0,0,0' width='2' label='label'"
  * @generated
  */
 public interface Edge extends EObject {

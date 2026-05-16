@@ -144,7 +144,7 @@ public class GfcNavigatorActionProvider extends CommonActionProvider {
 			try {
 				page.openEditor(editorInput, GfcDiagramEditor.ID);
 			} catch (PartInitException e) {
-				GfcDiagramEditorPlugin.getInstance().logError("Exception while openning diagram", e); //$NON-NLS-1$
+				GfcDiagramEditorPlugin.getInstance().logError("Exception while openning diagram", e);
 			}
 		}
 

@@ -23,12 +23,14 @@ public class GfcModelingAssistantProviderOfFlowchartEditPart extends GfcModeling
 	@Override
 
 	public List<IElementType> getTypesForPopupBar(IAdaptable host) {
-		List<IElementType> types = new ArrayList<IElementType>(5);
+		List<IElementType> types = new ArrayList<IElementType>(7);
 		types.add(GfcElementTypes.EntryNode_2001);
 		types.add(GfcElementTypes.ProcessingNode_2002);
 		types.add(GfcElementTypes.DecisionNode_2003);
 		types.add(GfcElementTypes.LoopDecisionNode_2004);
 		types.add(GfcElementTypes.ExitNode_2005);
+		types.add(GfcElementTypes.SwitchNode_2006);
+		types.add(GfcElementTypes.CaseNode_2007);
 		return types;
 	}
 

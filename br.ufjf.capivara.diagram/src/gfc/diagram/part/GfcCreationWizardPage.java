@@ -51,7 +51,7 @@ public class GfcCreationWizardPage extends WizardNewFileCreationPage {
 	protected IPath getFilePath() {
 		IPath path = getContainerFullPath();
 		if (path == null) {
-			path = new Path(""); //$NON-NLS-1$
+			path = new Path(""); 
 		}
 		String fileName = getFileName();
 		if (fileName != null) {

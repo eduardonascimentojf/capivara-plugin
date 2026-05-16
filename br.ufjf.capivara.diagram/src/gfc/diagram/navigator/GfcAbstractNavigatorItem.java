@@ -20,7 +20,7 @@ public abstract class GfcAbstractNavigatorItem extends PlatformObject {
 		final Class[] supportedTypes = new Class[] { ITabbedPropertySheetPageContributor.class };
 		final ITabbedPropertySheetPageContributor propertySheetPageContributor = new ITabbedPropertySheetPageContributor() {
 			public String getContributorId() {
-				return "br.ufjf.capivara.diagram"; //$NON-NLS-1$
+				return "br.ufjf.capivara.diagram"; 
 			}
 		};
 		Platform.getAdapterManager().registerAdapters(new IAdapterFactory() {

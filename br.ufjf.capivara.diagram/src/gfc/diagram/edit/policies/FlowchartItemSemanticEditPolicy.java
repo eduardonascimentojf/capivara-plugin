@@ -10,11 +10,13 @@ import org.eclipse.gmf.runtime.emf.commands.core.commands.DuplicateEObjectsComma
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 
+import gfc.diagram.edit.commands.CaseNodeCreateCommand;
 import gfc.diagram.edit.commands.DecisionNodeCreateCommand;
 import gfc.diagram.edit.commands.EntryNodeCreateCommand;
 import gfc.diagram.edit.commands.ExitNodeCreateCommand;
 import gfc.diagram.edit.commands.LoopDecisionNodeCreateCommand;
 import gfc.diagram.edit.commands.ProcessingNodeCreateCommand;
+import gfc.diagram.edit.commands.SwitchNodeCreateCommand;
 import gfc.diagram.providers.GfcElementTypes;
 
 /**
@@ -47,6 +49,12 @@ public class FlowchartItemSemanticEditPolicy extends GfcBaseItemSemanticEditPoli
 		}
 		if (GfcElementTypes.ExitNode_2005 == req.getElementType()) {
 			return getGEFWrapper(new ExitNodeCreateCommand(req));
+		}
+		if (GfcElementTypes.SwitchNode_2006 == req.getElementType()) {
+			return getGEFWrapper(new SwitchNodeCreateCommand(req));
+		}
+		if (GfcElementTypes.CaseNode_2007 == req.getElementType()) {
+			return getGEFWrapper(new CaseNodeCreateCommand(req));
 		}
 		return super.getCreateCommand(req);
 	}

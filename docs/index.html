@@ -5,428 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capivara - Plugin de Análise</title>
     <style>
-        /* Reset e Fontes */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
-            line-height: 1.6; 
-            margin: 0; 
-            color: #333; 
-            background-color: #fff;
-        }
-
-        /* Layout Principal */
-        .container {
-            display: flex;
-            max-width: 1000px;
-            margin: auto;
-            padding: 2em;
-            gap: 40px;
-        }
-
-        /* Área de Texto (Esquerda) */
-        .content-area {
-            flex: 1;
-            min-width: 0;
-        }
-
-        /* Sidebar de Versões (Direita) */
-        .version-sidebar {
-            width: 120px;
-            flex-shrink: 0;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-            border-left: 1px solid #eee;
-            padding-left: 15px;
-            text-align: left;
-        }
-
-        .version-sidebar h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #999;
-            font-size: 0.75em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .version-link {
-            display: block;
-            padding: 5px 0;
-            color: #0366d6;
-            text-decoration: none;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: all 0.2s;
-            position: relative;
-        }
-
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; color: #333; background-color: #fff; }
+        .container { display: flex; max-width: 1000px; margin: auto; padding: 2em; gap: 40px; }
+        .content-area { flex: 1; min-width: 0; }
+        .version-sidebar { width: 150px; flex-shrink: 0; height: fit-content; position: sticky; top: 40px; border-left: 1px solid #eee; padding-left: 15px; text-align: left; }
+        .version-sidebar h4 { margin-top: 20px; margin-bottom: 10px; color: #999; font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; }
+        .version-sidebar h4:first-child { margin-top: 0; }
+        .version-link { display: block; padding: 5px 0; color: #0366d6; text-decoration: none; font-size: 0.95em; position: relative; }
         .version-link:hover { color: #000; }
-
-        .version-link.active {
-            font-weight: bold;
-            color: #24292e;
-        }
-
-        .version-link.active::before {
-            content: "•";
-            color: #28a745;
-            position: absolute;
-            left: -12px;
-            top: 4px;
-            font-size: 1.2em;
-            line-height: 1;
-        }
-
-        /* Controle de Visibilidade */
-        .doc-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-        .doc-section.visible { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; margin-top: 10px; }
-            to { opacity: 1; margin-top: 0; }
-        }
-
-        /* --- Estilos de Conteúdo --- */
+        .version-link.active { font-weight: bold; color: #24292e; }
+        .version-link.active::before { content: "•"; color: #28a745; position: absolute; left: -12px; top: 4px; font-size: 1.2em; line-height: 1; }
         h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2em; }
         h1 { font-size: 2em; border: none; text-align: center; margin-top: 0; }
-        
-        code { 
-            background-color: #f6f8fa; 
-            padding: 0.2em 0.4em; 
-            border-radius: 6px; 
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
-            font-size: 0.9em; 
-        }
-        
-        pre { 
-            background-color: #f6f8fa; 
-            padding: 1.2em; 
-            border-radius: 6px; 
-            white-space: pre;
-            overflow-x: auto; 
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            border: 1px solid #eee;
-        }
-
-        /* Imagens globais */
+        code { background-color: #f6f8fa; padding: 0.2em 0.4em; border-radius: 6px; font-family: "SFMono-Regular", Consolas, monospace; font-size: 0.9em; }
+        pre { background-color: #f6f8fa; padding: 1.2em; border-radius: 6px; overflow-x: auto; font-family: "SFMono-Regular", Consolas, monospace; font-size: 14px; border: 1px solid #eee; }
         img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 8px; }
-        
-        img.badge-shield {
-            display: inline-block;
-            margin: 5px;
-            vertical-align: middle;
-        }
-
-        blockquote { border-left: 4px solid #ddd; padding-left: 1em; color: #666; margin-left: 0; }
-        
+        img.demo-gif { width: 100%; max-width: 750px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin: 1.5em auto; }
+        img.cover-legend { max-width: 450px; margin: 1.5em auto; }
+        img.badge-shield { display: inline-block; margin: 5px; vertical-align: middle; }
         table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f6f8fa; }
-        
-        details { border: 1px solid #ddd; padding: 1em; border-radius: 6px; margin-bottom: 1em; }
-        summary { font-weight: bold; cursor: pointer; }
-        
-        .badge-title { 
-            background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 12px; 
-            font-size: 0.5em; vertical-align: middle; margin-left: 5px; border: 1px solid #c3e6cb; 
-            position: relative; top: -3px; font-weight: bold; text-transform: uppercase;
-        }
-
-        /* Estilo para alertas de remoção/mudança */
-        .alert-box {
-            background-color: #fff8c5;
-            border: 1px solid #e3d16f;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.9em;
-            margin: 15px 0;
-        }
-
+        .badge-title { background: #cce5ff; color: #004085; padding: 2px 8px; border-radius: 12px; font-size: 0.5em; vertical-align: middle; margin-left: 5px; border: 1px solid #b8daff; position: relative; top: -3px; font-weight: bold; text-transform: uppercase; }
+        .alert-box { background-color: #e8f0fe; border: 1px solid #1a73e8; color: #1967d2; padding: 12px; border-radius: 6px; font-size: 0.9em; margin: 15px 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    
     <main class="content-area">
-        
         <p align="center">
-            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+            <img src="assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
         </p>
 
-        <div id="v1-1-0" class="doc-section visible">
-            <h1>
-                Capivara 1.1.7 <span class="badge-title">Atual</span>
-            </h1>
-            
-            <p align="center">
-                Análise visual nativa com GMF/Eugenia.
-                <br />
-                <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.1.7-green">
-                <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
-            </p>
+        <h1>Capivara 1.2.0 <span class="badge-title">Atual</span></h1>
+        
+        <p align="center">
+            Mapeamento Dinâmico de Cobertura de Código.
+            <br />
+            <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.2.0-green">
+            <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+        </p>
 
-            <nav>
-                <h2>📜 Sumário</h2>
-                <ul>
-                    <li><a href="#novidades-110">O que mudou?</a></li>
-                    <li><a href="#instalacao-110">Instalação</a></li>
-                    <li><a href="#como-usar-110">Como Usar</a></li>
-                    <li><a href="#exemplo-110">Exemplo de Análise</a></li>
-                    <li><a href="#visualizacao">Visualização Gráfica</a></li>
-                    <li><a href="#legenda-110">Legenda</a></li>
-                </ul>
-            </nav>
-
-            <h2 id="novidades-110">✨ O que mudou?</h2>
-            
-            <p>A versão 1.1.7 traz uma reformulação completa na forma de visualizar os dados:</p>
-            
-            <h3>Novas Funcionalidades</h3>
+        <nav>
+            <h2>Sumário</h2>
             <ul>
-                <li><strong>Visualização Integrada (GMF):</strong> O grafo agora é renderizado nativamente dentro do Eclipse, eliminando a necessidade de ferramentas externas.</li>
-                <li><strong>Interatividade:</strong> Funcionalidade de mover as arestas e nós para reorganizar o layout do diagrama conforme sua preferência.</li>
-                <li><strong>Exportação:</strong> Adicionada a funcionalidade de exportar o diagrama como imagem (clique com o <strong>botão direito no Grafo > File</strong>).</li>
-                <li><strong>Informação Detalhada:</strong> É possível obter informações dos nós e saber se a aresta pertence ao caminho <em>true</em> ou <em>false</em> de uma condicional.</li>
+                <li><a href="#novidades-120">Novas Adições da Versão 1.2.0</a></li>
+                <li><a href="#como-usar-120">Como Usar e Ativar a Cobertura</a></li>
+                <li><a href="#legenda-cobertura">Legenda de Cobertura dos Nós</a></li>
+                <li><a href="#exportacao-png">Exportação de Diagramas (PNG)</a></li>
+                <li><a href="#instalacao">Instalação</a></li>
             </ul>
+        </nav>
 
-            <h3>Remoções e Alterações</h3>
-            <div class="alert-box">
-                <strong>⚠️ Atenção:</strong> Foi removida a funcionalidade que implementava a <strong>Tabela Verdade</strong> e a geração do grafo via código <strong>.dot</strong>.
-            </div>
+        <h2 id="novidades-120">Novas Adições da Versão 1.2.0</h2>
+        <p>A versão 1.2.0 expande as capacidades do Capivara, integrando a análise estrutural estática aos dados de execução real gerados por suítes de testes. As principais adições desta versão são:</p>
+        
+        <ul>
+            <li><strong>Análise de Cobertura de Nós:</strong> Mapeia diretamente as instruções visitadas durante os testes JUnit, destacando blocos de código totalmente executados ou ignorados.</li>
+            <li><strong>Análise de Cobertura de Arestas:</strong> Avalia as ramificações lógicas do código, identificando se caminhos condicionais e desvios de fluxo foram de fato exercitados (cenários Verdadeiro/Falso).</li>
+            <li><strong>Exportação dos GFC gerados para PNG:</strong> Adiciona um mecanismo de captura interna para salvar o modelo geométrico renderizado em formato de imagem de alta qualidade.</li>
+        </ul>
 
-            <h2 id="instalacao-110">🚀 Instalação</h2>
-            
-            <h3>Método 1: Update Site (Recomendado)</h3>
-            <ol>
-                <li>No Eclipse, acesse <strong>Help > Install New Software</strong>.</li>
-                <li>Utilize o endereço:
-                    <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
-                </li>
-                <li>Conclua a instalação e reinicie o Eclipse.</li>
-            </ol>
-
-            <h3>Método 2: Instalação Manual (Dropins)</h3>
-            <p>Caso tenha problemas com o Update Site, você pode instalar manualmente:</p>
-            <ol>
-                <li>Baixe o arquivo <code>.jar</code> mais recente na aba <strong>Releases</strong> do repositório.</li>
-                <li>Navegue até a pasta de instalação do seu Eclipse.</li>
-                <li>Localize a pasta <code>dropins</code> (se não existir, crie uma).</li>
-                <li>Copie o arquivo <code>.jar</code> para dentro desta pasta.</li>
-                <li>Reinicie o Eclipse.</li>
-            </ol>
-
-            <h2 id="como-usar-110">🖱️ Como Usar</h2>
-            <p>O menu de contexto foi atualizado com duas opções para agilizar o processo:</p>
-
-            <table style="margin-top: 15px;">
-                <thead>
-                    <tr>
-                        <th>Opção de Menu</th>
-                        <th>O que faz?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>Capivara | Node Enumerate</code></td>
-                        <td>Realiza apenas a <strong>enumeração</strong> das linhas do método selecionado (adiciona comentários /*Nó X*/ no código), sem gerar gráficos.</td>
-                    </tr>
-                    <tr>
-                        <td><code>Capivara | Generate GFC</code></td>
-                        <td>Cria o arquivo de modelo e abre automaticamente a visualização do <strong>Grafo de Fluxo de Controle (GFC)</strong>.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2 id="exemplo-110">📝 Exemplo de Análise</h2>
-            <p>Abaixo demonstramos como o plugin processa um código simples.</p>
-
-            <p><strong>1. Código de Entrada:</strong></p>
-<pre><code>public int exemplo(int a) {
-    if (a > 0) {
-        return a * 2;
-    } else {
-        return 0;
-    }
-}</code></pre>
-
-            <p><strong>2. Resultado da Enumeração (Node Enumerate):</strong></p>
-<pre><code>/*Linha 01*/ /*Nó 01*/           public int exemplo(int a) {
-/*Linha 02*/ /*Nó 02*/              if (a > 0) {
-/*Linha 03*/ /*Nó 03*/                  return a * 2;
-/*Linha 04*/ /*Nó 04*/              } else {
-/*Linha 05*/ /*Nó 04*/                  return 0;
-/*Linha 06*/ /*Nó 04*/              }
-/*Linha 07*/ /*Nó 01*/          }</code></pre>
-
-            <h2 id="visualizacao">🎨 Visualização Gráfica (Generate GFC)</h2>
-            <p>Ao utilizar a opção <strong>Generate GFC</strong> com o código acima, o diagrama será exibido desta forma:</p>
-            
-            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legenda.png" alt="GFC gerado">
-
-            <h2 id="legenda-110">🎨 Entendendo o Grafo: Legenda</h2>
-            <p>O grafo utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle.</p>
-            
-            
-            
-            <table>
-                <thead>
-                    <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong><del>ENTRY</del></strong> <del>(Verde)</del></td><td><del>O ponto de início do método.</del> (<strong>Obsoleto</strong>)</td></tr>
-                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Um ou mais comandos sequenciais.</td></tr>
-                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Uma estrutura condicional, como `if`.</td></tr>
-                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Uma estrutura de laço, como `while` ou `for`.</td></tr>
-                    <tr><td><strong>EXIT</strong> (Vermelho, Círculo Duplo)</td><td>Um ponto de término do fluxo, como `return`.</td></tr>
-                    <tr><td><strong>SWITCH</strong> (Roxo)</td><td>Início de uma estrutura de seleção múltipla (`switch`).</td></tr>
-                    <tr><td><strong>CASE</strong> (Rosa)</td><td>Um ramo ou condição específica dentro de uma estrutura `switch`.</td></tr>
-                </tbody>
-            </table>
-            
-            <p>Estamos utilizando o ELK (Eclipse Layout Kernel) para aplicar o layout no nosso Grafo de Fluxo de Controle (GFC).</p>
-
-            <p>Temos duas abordagens. Caso você tenha o Graphviz instalado em sua máquina, usamos o algoritmo DOT para fazer o mapeamento e entregar um grafo com uma distribuição visualmente melhor. Caso você não o tenha, utilizamos um algoritmo padrão do ELK.</p>
-
-            <p>Na rotina de gerar o GFC, existe um delay para a aplicação do layout, portanto, pedimos que espere. Caso o layout tenha saído 'estranho', faça a rotina de gerar o GFC novamente; isso normalmente resolve o problema de distribuição.</p>
-
+        <div class="alert-box">
+            <strong>Retrocompatibilidade Garantida:</strong> Todas as funcionalidades básicas implementadas na versão anterior (<strong>1.1.7</strong>), como o parser de código via AST, geração de grafos abstratos e a própria rotina de <em>Node Enumeration</em>, continuam totalmente válidas e operando em conjunto com o novo ecossistema de cobertura.
         </div>
 
+        <h2 id="como-usar-120">Como usar a Cobertura no GFC</h2>
+        <p>Para cruzar os dados, o plugin adiciona um menu de contexto dinâmico no editor de código do Eclipse. Basta clicar com o botão direito sobre o método desejado e explorar o painel de cobertura.</p>
 
-        <div id="v1-0-0" class="doc-section">
-            <h1>
-                Capivara 1.0.0
-            </h1>
+        <table>
+            <thead>
+                <tr><th>Nova Opção de Menu</th><th>O que faz?</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Capivara | Coverage Analysis GFC > Node Coverage</code></td>
+                    <td>Avalia o fluxo com base em instruções executadas de forma estrita, colorindo os nós de processamento.</td>
+                </tr>
+                <tr>
+                    <td><code>Capivara | Coverage Analysis GFC > Edge Coverage</code></td>
+                    <td>Avalia o fluxo com foco nas arestas de decisões lógicas, verificando caminhos condicionais.</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <p align="center">
-              Geração de Grafos DOT e Tabelas Verdade.
-              <br />
-              <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.0.0-blue">
-              <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
-            </p>
-            
-            <nav>
-                <h2>📜 Sumário</h2>
-                <ul>
-                    <li><a href="#o-que-o-plugin-faz">O que o Plugin Faz?</a></li>
-                    <li><a href="#instalacao-100">Instalação</a></li>
-                    <li><a href="#como-usar-100">Como Usar</a></li>
-                    <li><a href="#exemplo-de-analise">Exemplo de Análise</a></li>
-                    <li><a href="#entendendo-o-grafo-100">Entendendo o Grafo</a></li>
-                </ul>
-            </nav>
-            
-            <h2 id="o-que-o-plugin-faz">🤔 O que o Plugin Faz?</h2>
-            <p>O <strong>Capivara</strong> auxilia na criação de casos de teste gerando:</p>
-            <ol>
-                <li><strong>Enumeração de Nós:</strong> Mapeia linhas para nós.</li>
-                <li><strong>Tabela Verdade:</strong> Causa-efeito (2<sup>n</sup>).</li>
-                <li><strong>Grafo de Fluxo (DOT):</strong> Código para visualização externa.</li>
-            </ol>
-            
-            <h2 id="instalacao-100">🚀 Instalação</h2>
-            
-            <h3>Método 1: Update Site (Recomendado)</h3>
-            <p>Utilize o endereço:</p>
-            <blockquote>https://eduardonascimentojf.github.io/capivara-plugin/</blockquote>
 
-            <h3>Método 2: Instalação Manual (Dropins)</h3>
-            <ol>
-                <li>Baixe o arquivo <code>.jar</code> da versão 1.0.0 em <strong>Releases</strong>.</li>
-                <li>Localize a pasta <code>dropins</code> na instalação do Eclipse.</li>
-                <li>Copie o arquivo para lá e reinicie a IDE.</li>
-            </ol>
+        <h2 id="legenda-cobertura">Legenda de Cobertura dos Nós</h2>
+        <p>Ao ativar o mapeamento dinâmico, o Grafo de Fluxo de Controle (GFC) reajusta as suas cores seguindo estritamente a especificação de diagnóstico do motor de cobertura:</p>
 
-            <h2 id="como-usar-100">🖱️ Como Usar</h2>
-            <ol>
-                <li>Selecione o método no Eclipse.</li>
-                <li>Clique com botão direito > <strong>"Analisar Código para Testes"</strong>.</li>
-            </ol>
-            <img src="../assets/demo.gif" alt="Demonstração de Uso">
+        <img src="assets/legendaCobertura.png" class="cover-legend" alt="Legenda de Cobertura: Covered, Partial, Missed">
 
-            <h2 id="exemplo-de-analise">✨ Exemplo de Análise</h2>
-            <p><strong>Código de Entrada:</strong></p>
-<pre><code>public int exemplo(int a) {
-    if (a > 0) {
-        return a * 2;
-    } else {
-        return 0;
-    }
-}</code></pre>
-            
-            <details>
-                <summary><strong>1. Enumeração de Nós</strong></summary>
-<pre><code>/*Linha 01*/ /*Nó 01*/    public int exemplo(int a) {
-/*Linha 02*/ /*Nó 02*/        if (a > 0) {
-/*Linha 03*/ /*Nó 03*/            return a * 2;
-/*Linha 04*/ /*Nó 01*/        } else {
-/*Linha 05*/ /*Nó 04*/            return 0;
-/*Linha 06*/ /*Nó 01*/        }
-/*Linha 07*/ /*Nó 01*/    }</code></pre>
-            </details>
+        <table>
+            <thead>
+                <tr><th>Indicador Visual</th><th>Significado Diagnóstico (Padrão EclEmma)</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span style="color: #28a745; font-weight: bold;">Verde (Covered)</span></td>
+                    <td><strong>Totalmente Coberto:</strong> 100% das instruções contidas neste nó estrutural foram exercitadas e validadas com sucesso.</td>
+                </tr>
+                <tr>
+                    <td><span style="color: #b58e1a; font-weight: bold; background-color: #fff8c5; padding: 2px 4px; border-radius: 4px;">Amarelo (Partial)</span></td>
+                    <td>
+                        <strong>Linhas Parcialmente Cobertas:</strong> Conforme definição oficial do EclEmma, indica que algumas instruções ou ramificações foram omitidas. 
+                        Isso ocorre tipicamente em nós com <strong>condições compostas</strong> (ex: <code>if (A && B)</code>). Mesmo que o bloco seja executado, o nó permanece amarelo caso subcombinações lógicas internas da expressão booleana tenham deixado de ser testadas.
+                    </td>
+                </tr>
+                <tr>
+                    <td><span style="color: #dc3545; font-weight: bold;">Vermelho (Missed)</span></td>
+                    <td><strong>Não Coberto:</strong> Alerta máximo. Este trecho de código foi completamente ignorado e nenhuma instrução interna foi disparada pela suíte de testes atual.</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <details>
-                <summary><strong>2. Tabela Verdade</strong></summary>
-<pre><code>Caso | a > 0                     | Resultado (Efeito)       
-------------------------------------------------------------
-1    | F                         | 0                        
-2    | V                         | a * 2</code></pre>
-            </details>
+        <h2 id="exportacao-png">Exportação de Diagramas (PNG)</h2>
+        <p>A nova rotina de exportação foi projetada para facilitar a extração de evidências e a elaboração de relatórios acadêmicos ou profissionais. Após organizar a distribuição geométrica dos nós e aplicar os dados de cobertura desejados, você pode salvar o estado atual do grafo:</p>
+        
+        <ol>
+            <li>Clique com o botão direito em qualquer área vazia (fundo) do painel onde o grafo está renderizado.</li>
+            <li>Selecione a opção <strong>Export Diagram as PNG</strong> no menu flutuante.</li>
+            <li>Uma janela nativa do sistema operacional será aberta para que você escolha o diretório de destino e dê um nome ao arquivo.</li>
+            <li>A imagem será salva preservando a colorização e o score da análise ativa, tornando-se uma ferramenta perfeita para documentação.</li>
+        </ol>
 
-            <details>
-                <summary><strong>3. Grafo (Código DOT)</strong></summary>
-                <p>Copie e cole no <a href="https://dreampuf.github.io/GraphvizOnline" target="_blank">Graphviz Online</a>.</p>
-<pre><code>digraph G {
-  rankdir=TB;
-  1 -> 2;
-  2 -> 3;
-  2 -> 4;
-}</code></pre>
-            </details>
-
-            <h2 id="entendendo-o-grafo-100">🎨 Legenda</h2>
-            
-            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legendaa.png" alt="Legenda dos Nós do Grafo">
-            
-            <table>
-                <thead>
-                    <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
-                    <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Comandos sequenciais.</td></tr>
-                    <tr><td><strong>DECISION</strong> (Azul)</td><td>Estrutura condicional (if).</td></tr>
-                    <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Estrutura de laço (while).</td></tr>
-                    <tr><td><strong>EXIT</strong> (Vermelho)</td><td>Término do fluxo (return).</td></tr>
-                </tbody>
-            </table>
-        </div>
-
+        <h2 id="instalacao">Instalação</h2>
+        <p>Para configurar agora mesmo em sua máquina, copie o link estável abaixo:</p>
+        <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
+        <p>Insira-o no seu Eclipse através do menu <strong>Help > Install New Software... > Add</strong> e selecione a categoria <strong>Capivara Tools</strong>. Para mais detalhes sobre instalação via Dropins ou configuração de variáveis de ambiente do Graphviz, acesse o nosso tutorial completo.</p>
     </main>
 
     <aside class="version-sidebar">
+        <h4>Documentação</h4>
+        <a href="site/tutorial.html" class="version-link">🎓 Tutorial</a>
+        <a href="javadoc/index.html" target="_blank" class="version-link">📦 JavaDocs ↗</a>
+        
         <h4>Versões</h4>
-        <a onclick="switchVersion('v1-1-0', this)" class="version-link active">1.1.7</a>
-        <a onclick="switchVersion('v1-0-0', this)" class="version-link">1.0.0</a>
+        <a href="index.html" class="version-link active">1.2.0</a>
+        <a href="site/v117.html" class="version-link">1.1.7</a>
+        <a href="site/v100.html" class="version-link">1.0.0</a>
     </aside>
-
 </div>
-
-<script>
-    function switchVersion(id, btn) {
-        document.querySelectorAll('.doc-section').forEach(div => div.classList.remove('visible'));
-        document.getElementById(id).classList.add('visible');
-        document.querySelectorAll('.version-link').forEach(link => link.classList.remove('active'));
-        btn.classList.add('active');
-        window.scrollTo(0, 0);
-    }
-</script>
 
 </body>
 </html>

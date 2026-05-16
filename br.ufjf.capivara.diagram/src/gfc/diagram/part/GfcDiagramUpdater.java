@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.tooling.runtime.update.DiagramUpdater;
 
+import gfc.CaseNode;
 import gfc.DecisionNode;
 import gfc.Edge;
 import gfc.EntryNode;
@@ -25,6 +26,8 @@ import gfc.GfcPackage;
 import gfc.LoopDecisionNode;
 import gfc.Node;
 import gfc.ProcessingNode;
+import gfc.SwitchNode;
+import gfc.diagram.edit.parts.CaseNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
@@ -32,6 +35,7 @@ import gfc.diagram.edit.parts.ExitNodeEditPart;
 import gfc.diagram.edit.parts.FlowchartEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
 import gfc.diagram.providers.GfcElementTypes;
 
 /**
@@ -89,6 +93,14 @@ public class GfcDiagramUpdater {
 				result.add(new GfcNodeDescriptor(childElement, visualID));
 				continue;
 			}
+			if (visualID == SwitchNodeEditPart.VISUAL_ID) {
+				result.add(new GfcNodeDescriptor(childElement, visualID));
+				continue;
+			}
+			if (visualID == CaseNodeEditPart.VISUAL_ID) {
+				result.add(new GfcNodeDescriptor(childElement, visualID));
+				continue;
+			}
 		}
 		return result;
 	}
@@ -110,6 +122,10 @@ public class GfcDiagramUpdater {
 			return getLoopDecisionNode_2004ContainedLinks(view);
 		case ExitNodeEditPart.VISUAL_ID:
 			return getExitNode_2005ContainedLinks(view);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return getSwitchNode_2006ContainedLinks(view);
+		case CaseNodeEditPart.VISUAL_ID:
+			return getCaseNode_2007ContainedLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001ContainedLinks(view);
 		}
@@ -131,6 +147,10 @@ public class GfcDiagramUpdater {
 			return getLoopDecisionNode_2004IncomingLinks(view);
 		case ExitNodeEditPart.VISUAL_ID:
 			return getExitNode_2005IncomingLinks(view);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return getSwitchNode_2006IncomingLinks(view);
+		case CaseNodeEditPart.VISUAL_ID:
+			return getCaseNode_2007IncomingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001IncomingLinks(view);
 		}
@@ -152,6 +172,10 @@ public class GfcDiagramUpdater {
 			return getLoopDecisionNode_2004OutgoingLinks(view);
 		case ExitNodeEditPart.VISUAL_ID:
 			return getExitNode_2005OutgoingLinks(view);
+		case SwitchNodeEditPart.VISUAL_ID:
+			return getSwitchNode_2006OutgoingLinks(view);
+		case CaseNodeEditPart.VISUAL_ID:
+			return getCaseNode_2007OutgoingLinks(view);
 		case EdgeEditPart.VISUAL_ID:
 			return getEdge_4001OutgoingLinks(view);
 		}
@@ -197,9 +221,23 @@ public class GfcDiagramUpdater {
 	}
 
 	/**
-	 * @generated
-	 */
+	* @generated
+	*/
 	public static List<GfcLinkDescriptor> getExitNode_2005ContainedLinks(View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getSwitchNode_2006ContainedLinks(View view) {
+		return Collections.emptyList();
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getCaseNode_2007ContainedLinks(View view) {
 		return Collections.emptyList();
 	}
 
@@ -259,10 +297,34 @@ public class GfcDiagramUpdater {
 	}
 
 	/**
-	 * @generated
-	 */
+	* @generated
+	*/
 	public static List<GfcLinkDescriptor> getExitNode_2005IncomingLinks(View view) {
 		ExitNode modelElement = (ExitNode) view.getElement();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
+		result.addAll(getIncomingTypeModelFacetLinks_Edge_4001(modelElement, crossReferences));
+		return result;
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getSwitchNode_2006IncomingLinks(View view) {
+		SwitchNode modelElement = (SwitchNode) view.getElement();
+		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
+				.find(view.eResource().getResourceSet().getResources());
+		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
+		result.addAll(getIncomingTypeModelFacetLinks_Edge_4001(modelElement, crossReferences));
+		return result;
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getCaseNode_2007IncomingLinks(View view) {
+		CaseNode modelElement = (CaseNode) view.getElement();
 		Map<EObject, Collection<EStructuralFeature.Setting>> crossReferences = EcoreUtil.CrossReferencer
 				.find(view.eResource().getResourceSet().getResources());
 		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
@@ -318,10 +380,30 @@ public class GfcDiagramUpdater {
 	}
 
 	/**
-	 * @generated
-	 */
+	* @generated
+	*/
 	public static List<GfcLinkDescriptor> getExitNode_2005OutgoingLinks(View view) {
 		ExitNode modelElement = (ExitNode) view.getElement();
+		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Edge_4001(modelElement));
+		return result;
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getSwitchNode_2006OutgoingLinks(View view) {
+		SwitchNode modelElement = (SwitchNode) view.getElement();
+		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
+		result.addAll(getOutgoingTypeModelFacetLinks_Edge_4001(modelElement));
+		return result;
+	}
+
+	/**
+	* @generated
+	*/
+	public static List<GfcLinkDescriptor> getCaseNode_2007OutgoingLinks(View view) {
+		CaseNode modelElement = (CaseNode) view.getElement();
 		LinkedList<GfcLinkDescriptor> result = new LinkedList<GfcLinkDescriptor>();
 		result.addAll(getOutgoingTypeModelFacetLinks_Edge_4001(modelElement));
 		return result;

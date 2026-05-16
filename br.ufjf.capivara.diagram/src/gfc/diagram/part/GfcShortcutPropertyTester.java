@@ -17,7 +17,7 @@ public class GfcShortcutPropertyTester extends PropertyTester {
 	/**
 	* @generated
 	*/
-	protected static final String SHORTCUT_PROPERTY = "isShortcut"; //$NON-NLS-1$
+	protected static final String SHORTCUT_PROPERTY = "isShortcut";   
 
 	/**
 	* @generated
@@ -28,9 +28,9 @@ public class GfcShortcutPropertyTester extends PropertyTester {
 		}
 		View view = (View) receiver;
 		if (SHORTCUT_PROPERTY.equals(method)) {
-			EAnnotation annotation = view.getEAnnotation("Shortcut"); //$NON-NLS-1$
+			EAnnotation annotation = view.getEAnnotation("Shortcut");   
 			if (annotation != null) {
-				return FlowchartEditPart.MODEL_ID.equals(annotation.getDetails().get("modelID")); //$NON-NLS-1$
+				return FlowchartEditPart.MODEL_ID.equals(annotation.getDetails().get("modelID"));   
 			}
 		}
 		return false;

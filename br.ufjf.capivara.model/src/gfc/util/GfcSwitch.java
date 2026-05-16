@@ -113,6 +113,20 @@ public class GfcSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case GfcPackage.SWITCH_NODE: {
+				SwitchNode switchNode = (SwitchNode)theEObject;
+				T result = caseSwitchNode(switchNode);
+				if (result == null) result = caseNode(switchNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case GfcPackage.CASE_NODE: {
+				CaseNode caseNode = (CaseNode)theEObject;
+				T result = caseCaseNode(caseNode);
+				if (result == null) result = caseNode(caseNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case GfcPackage.EDGE: {
 				Edge edge = (Edge)theEObject;
 				T result = caseEdge(edge);
@@ -210,6 +224,36 @@ public class GfcSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLoopDecisionNode(LoopDecisionNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Switch Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Switch Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSwitchNode(SwitchNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Case Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Case Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCaseNode(CaseNode object) {
 		return null;
 	}
 

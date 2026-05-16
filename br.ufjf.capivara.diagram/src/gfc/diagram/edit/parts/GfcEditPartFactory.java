@@ -58,8 +58,23 @@ public class GfcEditPartFactory implements EditPartFactory {
 			case ExitNodeIdEditPart.VISUAL_ID:
 				return new ExitNodeIdEditPart(view);
 
+			case SwitchNodeEditPart.VISUAL_ID:
+				return new SwitchNodeEditPart(view);
+
+			case SwitchNodeIdEditPart.VISUAL_ID:
+				return new SwitchNodeIdEditPart(view);
+
+			case CaseNodeEditPart.VISUAL_ID:
+				return new CaseNodeEditPart(view);
+
+			case CaseNodeIdEditPart.VISUAL_ID:
+				return new CaseNodeIdEditPart(view);
+
 			case EdgeEditPart.VISUAL_ID:
 				return new EdgeEditPart(view);
+
+			case EdgeLabelEditPart.VISUAL_ID:
+				return new EdgeLabelEditPart(view);
 
 			}
 		}

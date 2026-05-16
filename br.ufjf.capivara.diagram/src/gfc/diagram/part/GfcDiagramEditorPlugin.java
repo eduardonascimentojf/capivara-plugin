@@ -34,7 +34,7 @@ public class GfcDiagramEditorPlugin extends AbstractUIPlugin {
 	/**
 	* @generated
 	*/
-	public static final String ID = "br.ufjf.capivara.diagram"; //$NON-NLS-1$
+	public static final String ID = "br.ufjf.capivara.diagram"; 
 
 	/**
 	* @generated
@@ -197,7 +197,7 @@ public class GfcDiagramEditorPlugin extends AbstractUIPlugin {
 	 * @generated
 	 */
 	public static String getString(String key) {
-		return Platform.getResourceString(getInstance().getBundle(), "%" + key); //$NON-NLS-1$
+		return Platform.getResourceString(getInstance().getBundle(), "%" + key); 
 	}
 
 	/**

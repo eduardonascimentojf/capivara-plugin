@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: br.ufjf.capivara.diagram
 Bundle-Name: %pluginName
 Bundle-SymbolicName: br.ufjf.capivara.diagram; singleton:=true
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.1.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: gfc.diagram.part.GfcDiagramEditorPlugin
 Bundle-Vendor: %providerName
@@ -11,9 +11,9 @@ Bundle-Localization: plugin
 Export-Package: gfc.diagram.edit.parts,
  gfc.diagram.part,
  gfc.diagram.providers
-Require-Bundle: org.eclipse.emf.edit.ui,
- br.ufjf.capivara.model.edit;visibility:=reexport,
- br.ufjf.capivara.model;visibility:=reexport,
+Require-Bundle: br.ufjf.capivara.model;bundle-version="1.2.1";visibility:=reexport,
+ br.ufjf.capivara.model.edit;bundle-version="1.2.1";visibility:=reexport,
+ org.eclipse.emf.edit.ui,
  org.eclipse.gef;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,

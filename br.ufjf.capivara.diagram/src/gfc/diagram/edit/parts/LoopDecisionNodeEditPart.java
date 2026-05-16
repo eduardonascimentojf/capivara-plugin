@@ -4,13 +4,13 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label; // NOVO IMPORT
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.common.notify.Notification; // NOVO IMPORT
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -28,8 +28,9 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
-import gfc.Node; // NOVO IMPORT
+import gfc.Node;
 import gfc.diagram.edit.policies.LoopDecisionNodeItemSemanticEditPolicy;
 import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
 import gfc.diagram.part.GfcVisualIDRegistry;
@@ -39,7 +40,6 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 	public static final int VISUAL_ID = 2004;
 	protected IFigure contentPane;
 	protected IFigure primaryShape;
-	private WrappingLabel fFigureLoopDecisionNodeLabelFigure;
 
 	public LoopDecisionNodeEditPart(View view) {
 		super(view);
@@ -51,6 +51,7 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, createLayoutEditPolicy());
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE, new NonResizableEditPolicy());
 		installEditPolicy(org.eclipse.gef.EditPolicy.COMPONENT_ROLE, new ReadOnlyComponentEditPolicy());
+
 	}
 
 	protected LayoutEditPolicy createLayoutEditPolicy() {
@@ -75,134 +76,42 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected IFigure createNodeShape() {
-		Ellipse ellipse = new Ellipse();
-		ellipse.setForegroundColor(new Color(null, 255, 165, 0));
+		LoopDecisionNodeFigure ellipse = new LoopDecisionNodeFigure();
+		
+		ellipse.setPreferredSize(new Dimension(40, 40));
+		ellipse.setMinimumSize(new Dimension(40, 40));
+		ellipse.setSize(40, 40);
+		ellipse.setOpaque(true);
+
+		// Cores Padrão
+		ellipse.setForegroundColor(new Color(null, 255, 165, 0)); // Laranja (Loop)
+		ellipse.setBackgroundColor(new Color(null, 255, 255, 255)); // Branco
 		ellipse.setLineWidth(2);
-		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-
-		GridLayout gl = new GridLayout(1, false);
-		gl.horizontalSpacing = 0;
-		gl.verticalSpacing = 0;
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
-		ellipse.setLayoutManager(gl);
-
-		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
-
-		fFigureLoopDecisionNodeLabelFigure = new WrappingLabel();
-		fFigureLoopDecisionNodeLabelFigure.setText("");
-		fFigureLoopDecisionNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
-		fFigureLoopDecisionNodeLabelFigure.setAlignment(PositionConstants.CENTER);
-		fFigureLoopDecisionNodeLabelFigure.setPreferredSize(-1, -1);
-
-		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
-		gd.widthHint = -1;
-		gd.heightHint = -1;
-
-		ellipse.add(fFigureLoopDecisionNodeLabelFigure);
-		ellipse.setConstraint(fFigureLoopDecisionNodeLabelFigure, gd);
 
 		primaryShape = ellipse;
 		return primaryShape;
 	}
 
-	public IFigure getPrimaryShape() {
-		return primaryShape;
+	@Override
+	public void activate() {
+		super.activate();
+		Display.getDefault().asyncExec(() -> {
+			if (isActive())
+				refreshVisuals();
+		});
+	}
+
+	public LoopDecisionNodeFigure getPrimaryShape() {
+		return (LoopDecisionNodeFigure) primaryShape;
 	}
 
 	protected boolean addFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof LoopDecisionNodeIdEditPart) {
-			((LoopDecisionNodeIdEditPart) childEditPart).setLabel(fFigureLoopDecisionNodeLabelFigure);
+			((LoopDecisionNodeIdEditPart) childEditPart).setLabel(getPrimaryShape().getFigureLoopDecisionNodeLabelFigure());
 			return true;
 		}
 		return false;
 	}
-
-	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
-
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
-		refreshTooltip();
-	}
-
-	@Override
-	protected void handleNotificationEvent(Notification notification) {
-		super.handleNotificationEvent(notification);
-		if (notification.getFeature() instanceof org.eclipse.emf.ecore.EAttribute
-				&& ((org.eclipse.emf.ecore.EAttribute) notification.getFeature()).getName().equals("label")) {
-			refreshTooltip();
-		}
-	}
-
-	/**
-	* @generated
-	*/
-	public class LoopDecisionNodeFigure extends Ellipse {
-
-		/**
-		 * @generated
-		 */
-		private WrappingLabel fFigureLoopDecisionNodeLabelFigure;
-
-		/**
-		 * @generated
-		 */
-		public LoopDecisionNodeFigure() {
-			this.setForegroundColor(THIS_FORE);
-			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
-					getMapMode().DPtoLP(5)));
-			createContents();
-		}
-
-		/**
-		 * @generated
-		 */
-		private void createContents() {
-
-			fFigureLoopDecisionNodeLabelFigure = new WrappingLabel();
-
-			fFigureLoopDecisionNodeLabelFigure.setText("LoopDecisionNode");
-
-			this.add(fFigureLoopDecisionNodeLabelFigure);
-
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getFigureLoopDecisionNodeLabelFigure() {
-			return fFigureLoopDecisionNodeLabelFigure;
-		}
-
-	}
-
-	/**
-	* @generated
-	*/
-	static final Color THIS_FORE = new Color(null, 255, 165, 0);
-
-	protected void refreshTooltip() {
-		IFigure figure = getFigure();
-		if (figure == null) {
-			return;
-		}
-
-		Object modelElement = resolveSemanticElement();
-		if (modelElement instanceof Node) {
-			Node node = (Node) modelElement;
-			String tooltipText = node.getLabel();
-
-			if (tooltipText != null && !tooltipText.isEmpty()) {
-				figure.setToolTip(new Label(tooltipText));
-			} else {
-				figure.setToolTip(null);
-			}
-		}
-	}
-
-	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	protected boolean removeFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof LoopDecisionNodeIdEditPart) {
@@ -230,8 +139,7 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
-		return result;
+		return new DefaultSizeNodeFigure(40, 40);
 	}
 
 	protected NodeFigure createNodeFigure() {
@@ -240,6 +148,8 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
+
+		refreshTooltip(); 
 		return figure;
 	}
 
@@ -257,6 +167,78 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 			return contentPane;
 		}
 		return super.getContentPane();
+	}
+
+	@Override
+	protected void refreshVisuals() {
+		if (!isActive() || getFigure() == null || primaryShape == null)
+			return;
+		super.refreshVisuals();
+
+		Node node = (Node) resolveSemanticElement();
+		if (node != null) {
+			int status = node.getCoverageStatus();
+
+			Color cor = new Color(null, 255, 255, 255); // Branco
+
+			switch (status) {
+			case 1:
+				cor = new Color(null, 102, 255, 102);
+				break; // Verde
+			case 2:
+				cor = new Color(null, 255, 215, 0);
+				break; // Amarelo
+			case 3:
+				cor = new Color(null, 255, 82, 82);
+				break; // Vermelho
+			}
+
+			primaryShape.setBackgroundColor(cor);
+			if (getPrimaryShape() != null && getPrimaryShape().getFigureLoopDecisionNodeLabelFigure() != null) {
+				getPrimaryShape().getFigureLoopDecisionNodeLabelFigure().setText(String.valueOf(node.getId()));
+			}
+		}
+		refreshTooltip();
+	}
+
+	@Override
+	protected void handleNotificationEvent(Notification event) {
+		if (gfc.GfcPackage.eINSTANCE.getNode_CoverageStatus().equals(event.getFeature())) {
+			Display.getDefault().asyncExec(() -> {
+				if (isActive())
+					refreshVisuals();
+			});
+		}
+		
+		if (event.getNotifier() == getModel()
+				&& EcorePackage.eINSTANCE.getEModelElement_EAnnotations().equals(event.getFeature())) {
+			handleMajorSemanticChange();
+		} else {
+			super.handleNotificationEvent(event);
+		}
+		
+		refreshTooltip();
+	}
+
+	protected void refreshTooltip() {
+		final IFigure targetFigure = getPrimaryShape();
+		if (targetFigure == null)
+			return;
+		final Node node = (Node) resolveSemanticElement();
+		final String text = (node != null) ? node.getLabel() : null;
+
+		Display.getDefault().asyncExec(() -> {
+			try {
+				if (targetFigure.getParent() != null) {
+					if (text != null && !text.isEmpty()) {
+						targetFigure.setToolTip(new Label(text));
+					} else {
+						targetFigure.setToolTip(null);
+					}
+				}
+			} catch (Exception e) {
+			}
+		});
 	}
 
 	protected void setForegroundColor(Color color) {
@@ -286,4 +268,39 @@ public class LoopDecisionNodeEditPart extends ShapeNodeEditPart {
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(GfcVisualIDRegistry.getType(LoopDecisionNodeIdEditPart.VISUAL_ID));
 	}
+
+	public class LoopDecisionNodeFigure extends Ellipse {
+		private WrappingLabel fFigureLoopDecisionNodeLabelFigure;
+
+		public LoopDecisionNodeFigure() {
+			// Layout para centralizar o texto
+			GridLayout layoutThis = new GridLayout(1, false);
+			layoutThis.marginHeight = 0;
+			layoutThis.marginWidth = 0;
+			layoutThis.horizontalSpacing = 0;
+			layoutThis.verticalSpacing = 0;
+			this.setLayoutManager(layoutThis);
+			
+			this.setForegroundColor(THIS_FORE);
+			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
+					getMapMode().DPtoLP(5)));
+			createContents();
+		}
+
+		private void createContents() {
+			fFigureLoopDecisionNodeLabelFigure = new WrappingLabel();
+			fFigureLoopDecisionNodeLabelFigure.setText("");
+			fFigureLoopDecisionNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
+			fFigureLoopDecisionNodeLabelFigure.setAlignment(PositionConstants.CENTER);
+			
+			this.add(fFigureLoopDecisionNodeLabelFigure, new GridData(GridData.CENTER, GridData.CENTER, true, true));
+		}
+
+		public WrappingLabel getFigureLoopDecisionNodeLabelFigure() {
+			return fFigureLoopDecisionNodeLabelFigure;
+		}
+	}
+
+	static final Color THIS_FORE = new Color(null, 255, 165, 0); // Laranja
 }

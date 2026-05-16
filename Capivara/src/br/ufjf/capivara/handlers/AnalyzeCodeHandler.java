@@ -14,6 +14,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.jface.dialogs.MessageDialog;
 import br.ufjf.capivara.analyzer.CodeAnalyzer;
 import br.ufjf.capivara.analyzer.GFCVisitor;
 import br.ufjf.capivara.views.AnalysisResultView;
@@ -47,7 +48,7 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 		if (editor == null) {
 			return null;
 		}
-
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 		ISelection selection = editor.getSite().getSelectionProvider().getSelection();
 		if (selection instanceof ITextSelection) {
 			String selectedText = ((ITextSelection) selection).getText();
@@ -59,11 +60,15 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 
 				MethodDeclaration method = findMethod(astRoot);
 				if (method == null) {
-					System.out.println("AVISO: Nenhum método Java válido foi encontrado no código selecionado.");
-					return null;
+				    MessageDialog.openError(
+				        window.getShell(), 
+				        "Analysis Error", 
+				        "No valid Java method was found in the selection.\n\n" +
+				        "Please ensure you select the entire method or the method body before running the analysis."
+				    );
+				    return null;
 				}
 
-				// Mantido apenas para gerar o mapa de linhas para nós (usado na anotação do código)
 				GFCVisitor cfgVisitor = new GFCVisitor();
 				cfgVisitor.setup(astRoot);
 				astRoot.accept(cfgVisitor);
@@ -88,8 +93,6 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
 			IWorkbenchPage page = window.getActivePage();
 			AnalysisResultView view = (AnalysisResultView) page.showView(AnalysisResultView.ID);
-			
-			// CORREÇÃO: Removemos os ", null, null" que causavam o erro
 			view.displayResults(annotatedCode);
 			
 		} catch (PartInitException e) {
@@ -134,8 +137,8 @@ public class AnalyzeCodeHandler extends AbstractHandler {
 			// A linha no CompilationUnit é a linha do editor + 1 (por causa do "class Wrapper {")
 			int currentLineInCU = i + 2; 
 			Integer nodeId = lineToNodeMap.get(currentLineInCU);
-			String nodeLabel = (nodeId != null) ? String.format("/*Nó %02d*/", nodeId) : "/* */";
-			sb.append(String.format("/*Linha %02d*/ %s \t%s\n", (i + 1), nodeLabel, codeLines[i]));
+			String nodeLabel = (nodeId != null) ? String.format("/*Node %02d*/", nodeId) : "/* */";
+			sb.append(String.format("/*Line %02d*/ %s \t%s\n", (i + 1), nodeLabel, codeLines[i]));
 		}
 		return sb.toString();
 	}

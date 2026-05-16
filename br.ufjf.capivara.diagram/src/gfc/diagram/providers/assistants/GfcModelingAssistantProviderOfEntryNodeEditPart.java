@@ -11,11 +11,13 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 
+import gfc.diagram.edit.parts.CaseNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
 import gfc.diagram.edit.parts.ExitNodeEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
 import gfc.diagram.providers.GfcElementTypes;
 import gfc.diagram.providers.GfcModelingAssistantProvider;
 
@@ -75,6 +77,12 @@ public class GfcModelingAssistantProviderOfEntryNodeEditPart extends GfcModeling
 		if (targetEditPart instanceof ExitNodeEditPart) {
 			types.add(GfcElementTypes.Edge_4001);
 		}
+		if (targetEditPart instanceof SwitchNodeEditPart) {
+			types.add(GfcElementTypes.Edge_4001);
+		}
+		if (targetEditPart instanceof CaseNodeEditPart) {
+			types.add(GfcElementTypes.Edge_4001);
+		}
 		return types;
 	}
 
@@ -99,6 +107,8 @@ public class GfcModelingAssistantProviderOfEntryNodeEditPart extends GfcModeling
 			types.add(GfcElementTypes.DecisionNode_2003);
 			types.add(GfcElementTypes.LoopDecisionNode_2004);
 			types.add(GfcElementTypes.ExitNode_2005);
+			types.add(GfcElementTypes.SwitchNode_2006);
+			types.add(GfcElementTypes.CaseNode_2007);
 		}
 		return types;
 	}
@@ -143,6 +153,8 @@ public class GfcModelingAssistantProviderOfEntryNodeEditPart extends GfcModeling
 			types.add(GfcElementTypes.DecisionNode_2003);
 			types.add(GfcElementTypes.LoopDecisionNode_2004);
 			types.add(GfcElementTypes.ExitNode_2005);
+			types.add(GfcElementTypes.SwitchNode_2006);
+			types.add(GfcElementTypes.CaseNode_2007);
 		}
 		return types;
 	}

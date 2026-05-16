@@ -80,7 +80,7 @@ public class EdgeCreateCommand extends EditElementCommand {
 	*/
 	protected CommandResult doExecuteWithResult(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
 		if (!canExecute()) {
-			throw new ExecutionException("Invalid arguments in create link command"); //$NON-NLS-1$
+			throw new ExecutionException("Invalid arguments in create link command"); 
 		}
 
 		Edge newElement = GfcFactory.eINSTANCE.createEdge();

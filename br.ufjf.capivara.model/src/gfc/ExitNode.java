@@ -10,7 +10,7 @@ package gfc;
  *
  *
  * @see gfc.GfcPackage#getExitNode()
- * @model annotation="gmf.node figure='gfc.diagram.figures.DoubleEllipseFigure' label.icon='false' label.placement='internal' label='id' size='40,40'"
+ * @model annotation="gmf.node figure='gfc.diagram.figures.DoubleEllipseFigure' label.icon='false' label.placement='internal' label='label' size='40,40'"
  * @generated
  */
 public interface ExitNode extends Node {

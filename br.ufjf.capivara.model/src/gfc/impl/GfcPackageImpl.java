@@ -2,6 +2,7 @@
  */
 package gfc.impl;
 
+import gfc.CaseNode;
 import gfc.DecisionNode;
 import gfc.Edge;
 import gfc.EntryNode;
@@ -12,6 +13,7 @@ import gfc.GfcPackage;
 import gfc.LoopDecisionNode;
 import gfc.Node;
 import gfc.ProcessingNode;
+import gfc.SwitchNode;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -68,6 +70,20 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 	 * @generated
 	 */
 	private EClass loopDecisionNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass switchNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass caseNodeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -209,6 +225,26 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 	 * @generated
 	 */
 	@Override
+	public EAttribute getNode_LineNumber() {
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EAttribute getNode_CoverageStatus() {
+		return (EAttribute)nodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public EClass getEntryNode() {
 		return entryNodeEClass;
 	}
@@ -241,6 +277,26 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 	@Override
 	public EClass getLoopDecisionNode() {
 		return loopDecisionNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getSwitchNode() {
+		return switchNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public EClass getCaseNode() {
+		return caseNodeEClass;
 	}
 
 	/**
@@ -329,6 +385,8 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 		nodeEClass = createEClass(NODE);
 		createEAttribute(nodeEClass, NODE__ID);
 		createEAttribute(nodeEClass, NODE__LABEL);
+		createEAttribute(nodeEClass, NODE__LINE_NUMBER);
+		createEAttribute(nodeEClass, NODE__COVERAGE_STATUS);
 
 		entryNodeEClass = createEClass(ENTRY_NODE);
 
@@ -339,6 +397,10 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 		loopDecisionNodeEClass = createEClass(LOOP_DECISION_NODE);
 
 		exitNodeEClass = createEClass(EXIT_NODE);
+
+		switchNodeEClass = createEClass(SWITCH_NODE);
+
+		caseNodeEClass = createEClass(CASE_NODE);
 
 		edgeEClass = createEClass(EDGE);
 		createEReference(edgeEClass, EDGE__SOURCE);
@@ -379,6 +441,8 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 		decisionNodeEClass.getESuperTypes().add(this.getNode());
 		loopDecisionNodeEClass.getESuperTypes().add(this.getNode());
 		exitNodeEClass.getESuperTypes().add(this.getNode());
+		switchNodeEClass.getESuperTypes().add(this.getNode());
+		caseNodeEClass.getESuperTypes().add(this.getNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(flowchartEClass, Flowchart.class, "Flowchart", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -388,6 +452,8 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 		initEClass(nodeEClass, Node.class, "Node", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNode_Id(), ecorePackage.getEInt(), "id", "0", 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getNode_Label(), ecorePackage.getEString(), "label", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNode_LineNumber(), ecorePackage.getEInt(), "lineNumber", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNode_CoverageStatus(), ecorePackage.getEInt(), "coverageStatus", "0", 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(entryNodeEClass, EntryNode.class, "EntryNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -398,6 +464,10 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 		initEClass(loopDecisionNodeEClass, LoopDecisionNode.class, "LoopDecisionNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(exitNodeEClass, ExitNode.class, "ExitNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(switchNodeEClass, SwitchNode.class, "SwitchNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(caseNodeEClass, CaseNode.class, "CaseNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getEdge_Source(), this.getNode(), null, "source", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -446,7 +516,7 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "figure", "ellipse",
 			   "label.icon", "false",
 			   "label.placement", "internal",
-			   "label", "id",
+			   "label", "label",
 			   "size", "40,40",
 			   "border.color", "40,167,69"
 		   });
@@ -457,7 +527,7 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "figure", "ellipse",
 			   "label.icon", "false",
 			   "label.placement", "internal",
-			   "label", "id",
+			   "label", "label",
 			   "size", "40,40",
 			   "border.color", "0,0,0"
 		   });
@@ -468,7 +538,7 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "figure", "ellipse",
 			   "label.icon", "false",
 			   "label.placement", "internal",
-			   "label", "id",
+			   "label", "label",
 			   "size", "40,40",
 			   "border.color", "0,123,255"
 		   });
@@ -479,7 +549,7 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "figure", "ellipse",
 			   "label.icon", "false",
 			   "label.placement", "internal",
-			   "label", "id",
+			   "label", "label",
 			   "size", "40,40",
 			   "border.color", "255,165,0"
 		   });
@@ -490,8 +560,30 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "figure", "gfc.diagram.figures.DoubleEllipseFigure",
 			   "label.icon", "false",
 			   "label.placement", "internal",
-			   "label", "id",
+			   "label", "label",
 			   "size", "40,40"
+		   });
+		addAnnotation
+		  (switchNodeEClass,
+		   source,
+		   new String[] {
+			   "figure", "ellipse",
+			   "label.icon", "false",
+			   "label.placement", "internal",
+			   "label", "label",
+			   "size", "40,40",
+			   "border.color", "128,0,128"
+		   });
+		addAnnotation
+		  (caseNodeEClass,
+		   source,
+		   new String[] {
+			   "figure", "ellipse",
+			   "label.icon", "false",
+			   "label.placement", "internal",
+			   "label", "label",
+			   "size", "40,40",
+			   "border.color", "255,0,255"
 		   });
 	}
 
@@ -511,7 +603,8 @@ public class GfcPackageImpl extends EPackageImpl implements GfcPackage {
 			   "target", "target",
 			   "target.decoration", "arrow",
 			   "color", "0,0,0",
-			   "width", "2"
+			   "width", "2",
+			   "label", "label"
 		   });
 	}
 

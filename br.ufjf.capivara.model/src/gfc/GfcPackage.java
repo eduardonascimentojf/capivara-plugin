@@ -121,13 +121,31 @@ public interface GfcPackage extends EPackage {
 	int NODE__LABEL = 1;
 
 	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__LINE_NUMBER = 2;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NODE__COVERAGE_STATUS = 3;
+
+	/**
 	 * The number of structural features of the '<em>Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NODE_FEATURE_COUNT = 2;
+	int NODE_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link gfc.impl.EntryNodeImpl <em>Entry Node</em>}' class.
@@ -156,6 +174,24 @@ public interface GfcPackage extends EPackage {
 	 * @ordered
 	 */
 	int ENTRY_NODE__LABEL = NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTRY_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ENTRY_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
 
 	/**
 	 * The number of structural features of the '<em>Entry Node</em>' class.
@@ -195,6 +231,24 @@ public interface GfcPackage extends EPackage {
 	int PROCESSING_NODE__LABEL = NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESSING_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROCESSING_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
+
+	/**
 	 * The number of structural features of the '<em>Processing Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -230,6 +284,24 @@ public interface GfcPackage extends EPackage {
 	 * @ordered
 	 */
 	int DECISION_NODE__LABEL = NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECISION_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DECISION_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
 
 	/**
 	 * The number of structural features of the '<em>Decision Node</em>' class.
@@ -269,6 +341,24 @@ public interface GfcPackage extends EPackage {
 	int LOOP_DECISION_NODE__LABEL = NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_DECISION_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LOOP_DECISION_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
+
+	/**
 	 * The number of structural features of the '<em>Loop Decision Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -276,6 +366,26 @@ public interface GfcPackage extends EPackage {
 	 * @ordered
 	 */
 	int LOOP_DECISION_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link gfc.impl.SwitchNodeImpl <em>Switch Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see gfc.impl.SwitchNodeImpl
+	 * @see gfc.impl.GfcPackageImpl#getSwitchNode()
+	 * @generated
+	 */
+	int SWITCH_NODE = 7;
+
+	/**
+	 * The meta object id for the '{@link gfc.impl.CaseNodeImpl <em>Case Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see gfc.impl.CaseNodeImpl
+	 * @see gfc.impl.GfcPackageImpl#getCaseNode()
+	 * @generated
+	 */
+	int CASE_NODE = 8;
 
 	/**
 	 * The meta object id for the '{@link gfc.impl.ExitNodeImpl <em>Exit Node</em>}' class.
@@ -306,6 +416,24 @@ public interface GfcPackage extends EPackage {
 	int EXIT_NODE__LABEL = NODE__LABEL;
 
 	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXIT_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
+
+	/**
 	 * The number of structural features of the '<em>Exit Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -315,6 +443,96 @@ public interface GfcPackage extends EPackage {
 	int EXIT_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_NODE__ID = NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_NODE__LABEL = NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
+
+	/**
+	 * The number of structural features of the '<em>Switch Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SWITCH_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_NODE__ID = NODE__ID;
+
+	/**
+	 * The feature id for the '<em><b>Label</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_NODE__LABEL = NODE__LABEL;
+
+	/**
+	 * The feature id for the '<em><b>Line Number</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_NODE__LINE_NUMBER = NODE__LINE_NUMBER;
+
+	/**
+	 * The feature id for the '<em><b>Coverage Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_NODE__COVERAGE_STATUS = NODE__COVERAGE_STATUS;
+
+	/**
+	 * The number of structural features of the '<em>Case Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CASE_NODE_FEATURE_COUNT = NODE_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link gfc.impl.EdgeImpl <em>Edge</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -322,7 +540,7 @@ public interface GfcPackage extends EPackage {
 	 * @see gfc.impl.GfcPackageImpl#getEdge()
 	 * @generated
 	 */
-	int EDGE = 7;
+	int EDGE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Source</b></em>' reference.
@@ -426,6 +644,28 @@ public interface GfcPackage extends EPackage {
 	EAttribute getNode_Label();
 
 	/**
+	 * Returns the meta object for the attribute '{@link gfc.Node#getLineNumber <em>Line Number</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Line Number</em>'.
+	 * @see gfc.Node#getLineNumber()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EAttribute getNode_LineNumber();
+
+	/**
+	 * Returns the meta object for the attribute '{@link gfc.Node#getCoverageStatus <em>Coverage Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Coverage Status</em>'.
+	 * @see gfc.Node#getCoverageStatus()
+	 * @see #getNode()
+	 * @generated
+	 */
+	EAttribute getNode_CoverageStatus();
+
+	/**
 	 * Returns the meta object for class '{@link gfc.EntryNode <em>Entry Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -464,6 +704,26 @@ public interface GfcPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLoopDecisionNode();
+
+	/**
+	 * Returns the meta object for class '{@link gfc.SwitchNode <em>Switch Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Switch Node</em>'.
+	 * @see gfc.SwitchNode
+	 * @generated
+	 */
+	EClass getSwitchNode();
+
+	/**
+	 * Returns the meta object for class '{@link gfc.CaseNode <em>Case Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Case Node</em>'.
+	 * @see gfc.CaseNode
+	 * @generated
+	 */
+	EClass getCaseNode();
 
 	/**
 	 * Returns the meta object for class '{@link gfc.ExitNode <em>Exit Node</em>}'.
@@ -593,6 +853,22 @@ public interface GfcPackage extends EPackage {
 		EAttribute NODE__LABEL = eINSTANCE.getNode_Label();
 
 		/**
+		 * The meta object literal for the '<em><b>Line Number</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE__LINE_NUMBER = eINSTANCE.getNode_LineNumber();
+
+		/**
+		 * The meta object literal for the '<em><b>Coverage Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NODE__COVERAGE_STATUS = eINSTANCE.getNode_CoverageStatus();
+
+		/**
 		 * The meta object literal for the '{@link gfc.impl.EntryNodeImpl <em>Entry Node</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -631,6 +907,26 @@ public interface GfcPackage extends EPackage {
 		 * @generated
 		 */
 		EClass LOOP_DECISION_NODE = eINSTANCE.getLoopDecisionNode();
+
+		/**
+		 * The meta object literal for the '{@link gfc.impl.SwitchNodeImpl <em>Switch Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see gfc.impl.SwitchNodeImpl
+		 * @see gfc.impl.GfcPackageImpl#getSwitchNode()
+		 * @generated
+		 */
+		EClass SWITCH_NODE = eINSTANCE.getSwitchNode();
+
+		/**
+		 * The meta object literal for the '{@link gfc.impl.CaseNodeImpl <em>Case Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see gfc.impl.CaseNodeImpl
+		 * @see gfc.impl.GfcPackageImpl#getCaseNode()
+		 * @generated
+		 */
+		EClass CASE_NODE = eINSTANCE.getCaseNode();
 
 		/**
 		 * The meta object literal for the '{@link gfc.impl.ExitNodeImpl <em>Exit Node</em>}' class.

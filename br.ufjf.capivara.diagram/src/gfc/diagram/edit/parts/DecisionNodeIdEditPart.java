@@ -1,6 +1,5 @@
 /*
- * 
- */
+ * */
 package gfc.diagram.edit.parts;
 
 import java.util.Collections;
@@ -47,6 +46,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 
+import gfc.Node;
 import gfc.diagram.edit.policies.GfcTextSelectionEditPolicy;
 import gfc.diagram.part.GfcVisualIDRegistry;
 import gfc.diagram.providers.GfcElementTypes;
@@ -202,6 +202,10 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 	* @generated
 	*/
 	protected String getLabelText() {
+		EObject element = resolveSemanticElement();
+		if (element instanceof Node) {
+			return String.valueOf(((Node) element).getId());
+		}
 		String text = null;
 		EObject parserElement = getParserElement();
 		if (parserElement != null && getParser() != null) {
@@ -226,7 +230,7 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 	*/
 	public String getEditText() {
 		if (getParserElement() == null || getParser() == null) {
-			return ""; //$NON-NLS-1$
+			return ""; 
 		}
 		return getParser().getEditString(new EObjectAdapter(getParserElement()), getParserOptions().intValue());
 	}
@@ -263,7 +267,6 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 					}
 				}
 
-				// shouldn't get here
 				return null;
 			}
 		};
@@ -458,7 +461,7 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 			EObject element = resolveSemanticElement();
 			parserElements = ((ISemanticParser) getParser()).getSemanticElementsBeingParsed(element);
 			for (int i = 0; i < parserElements.size(); i++) {
-				addListenerFilter("SemanticModel" + i, this, (EObject) parserElements.get(i)); //$NON-NLS-1$
+				addListenerFilter("SemanticModel" + i, this, (EObject) parserElements.get(i)); 
 			}
 		} else {
 			super.addSemanticListeners();
@@ -471,7 +474,7 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 	protected void removeSemanticListeners() {
 		if (parserElements != null) {
 			for (int i = 0; i < parserElements.size(); i++) {
-				removeListenerFilter("SemanticModel" + i); //$NON-NLS-1$
+				removeListenerFilter("SemanticModel" + i); 
 			}
 		} else {
 			super.removeSemanticListeners();
@@ -532,7 +535,7 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 	*/
 	protected void addNotationalListeners() {
 		super.addNotationalListeners();
-		addListenerFilter("PrimaryView", this, getPrimaryView()); //$NON-NLS-1$
+		addListenerFilter("PrimaryView", this, getPrimaryView()); 
 	}
 
 	/**
@@ -540,7 +543,7 @@ public class DecisionNodeIdEditPart extends CompartmentEditPart implements IText
 	*/
 	protected void removeNotationalListeners() {
 		super.removeNotationalListeners();
-		removeListenerFilter("PrimaryView"); //$NON-NLS-1$
+		removeListenerFilter("PrimaryView"); 
 	}
 
 	/**

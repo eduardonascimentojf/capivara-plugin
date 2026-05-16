@@ -35,7 +35,7 @@ public class GfcCreateShortcutDecorationsCommand extends AbstractTransactionalCo
 	*/
 	public GfcCreateShortcutDecorationsCommand(TransactionalEditingDomain editingDomain, View parentView,
 			List viewDescriptors) {
-		super(editingDomain, "Create Shortcuts", getWorkspaceFiles(parentView)); //$NON-NLS-1$
+		super(editingDomain, "Create Shortcuts", getWorkspaceFiles(parentView));  
 		myDescriptors = viewDescriptors;
 	}
 
@@ -54,10 +54,10 @@ public class GfcCreateShortcutDecorationsCommand extends AbstractTransactionalCo
 		for (Iterator it = myDescriptors.iterator(); it.hasNext();) {
 			CreateViewRequest.ViewDescriptor nextDescriptor = (CreateViewRequest.ViewDescriptor) it.next();
 			View view = (View) nextDescriptor.getAdapter(View.class);
-			if (view != null && view.getEAnnotation("Shortcut") == null) { //$NON-NLS-1$
+			if (view != null && view.getEAnnotation("Shortcut") == null) {  
 				EAnnotation shortcutAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-				shortcutAnnotation.setSource("Shortcut"); //$NON-NLS-1$
-				shortcutAnnotation.getDetails().put("modelID", FlowchartEditPart.MODEL_ID); //$NON-NLS-1$
+				shortcutAnnotation.setSource("Shortcut");  
+				shortcutAnnotation.getDetails().put("modelID", FlowchartEditPart.MODEL_ID);  
 				view.getEAnnotations().add(shortcutAnnotation);
 			}
 		}

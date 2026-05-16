@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Block;
+import org.eclipse.jdt.core.dom.BreakStatement;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
@@ -21,32 +22,44 @@ import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.ReturnStatement;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.SwitchStatement;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
 import br.ufjf.capivara.model.Edge;
-
+/**
+ * Visitador AST encarregado de gerar o Grafo de Fluxo de Controle (CFG) de um método.
+ * <p>
+ * A classe mapeia os nós da sintaxe Java para nós lógicos do grafo (PROCESSING, DECISION, 
+ * LOOP_DECISION, SWITCH_DECISION e EXIT), calculando as arestas de transição e correlacionando
+ * as linhas físicas do editor de texto aos IDs dos nós gerados.
+ * </p>
+ */
 public class GFCVisitor extends ASTVisitor {
 
     private CompilationUnit compilationUnit;
+    
     private final Map<Integer, List<Edge>> graphEdges = new HashMap<>();
     private final Map<Integer, String> nodeTypes = new HashMap<>();
     private final Map<Integer, String> nodeLabels = new HashMap<>();
-    private int nodeCounter = 0;
-    private final Stack<Integer> predecessorStack = new Stack<>();
     private final Map<Integer, Integer> lineToNodeMap = new HashMap<>();
     private final Map<Integer, List<Integer>> nodeToLinesMap = new TreeMap<>();
+    
+    private int nodeCounter = 0;
+    
+    private final Stack<Integer> predecessorStack = new Stack<>();
+    
     private Integer currentSequentialNode = null;
     private boolean inSequentialBlock = false;
+    
     private String currentMethodReturnType = "";
-
-    // nova pilha para sinalizar qual rótulo aplicar às arestas de decisão enquanto visitamos um ramo
+    
     private final Stack<String> branchLabelStack = new Stack<>();
-    // conjunto para marcar nós de decisão que possuem saída "false" (fall-through / exit do ramo)
     private final Set<Integer> decisionNodesWithFalseExit = new HashSet<>();
+    
+    private final List<Integer> pendingClosingBraceLines = new ArrayList<>();
 
     private static class ControlStructureVisitor extends ASTVisitor {
         private boolean hasControlStructure = false;
@@ -73,6 +86,7 @@ public class GFCVisitor extends ASTVisitor {
         currentMethodReturnType = "";
         branchLabelStack.clear();
         decisionNodesWithFalseExit.clear();
+        pendingClosingBraceLines.clear();
     }
 
     public Map<Integer, List<Edge>> getGraphEdges() { return this.graphEdges; }
@@ -81,244 +95,457 @@ public class GFCVisitor extends ASTVisitor {
     public Map<Integer, List<Integer>> getNodeToLinesMap() { return this.nodeToLinesMap; }
     public Map<Integer, Integer> getLineToNodeMap() { return lineToNodeMap; }
 
+
     @Override
     public boolean visit(MethodDeclaration node) {
-        int methodNodeId = createNode("ENTRY");
-        String methodName = node.getName().getIdentifier();
         if (node.getReturnType2() != null) {
             currentMethodReturnType = node.getReturnType2().toString();
         } else {
             currentMethodReturnType = "void";
         }
-        @SuppressWarnings("unchecked")
-        String params = ((List<SingleVariableDeclaration>) node.parameters()).stream()
-                .map(p -> p.getType().toString() + " " + p.getName().getIdentifier())
-                .collect(Collectors.joining(", "));
-        String fullLabel = "Método: " + methodName + "(" + params + ")";
-        nodeLabels.put(methodNodeId, fullLabel);
-        mapLineToNode(node, methodNodeId);
-        predecessorStack.push(methodNodeId);
+        
         if (node.getBody() != null) {
             node.getBody().accept(this);
         }
+        
+        if (nodeCounter > 0) {
+            int startLine = compilationUnit.getLineNumber(node.getStartPosition());
+            int bodyStartLine = compilationUnit.getLineNumber(node.getBody().getStartPosition());
+            int endLine = compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+            
+            for (int i = startLine; i <= bodyStartLine; i++) {
+                forceMapLineToNode(i, 1);
+            }
+            forceMapLineToNode(endLine, 1);
+        }
+        
         predecessorStack.clear();
         currentMethodReturnType = "";
+        currentSequentialNode = null;
+        inSequentialBlock = false;
+        pendingClosingBraceLines.clear();
         return false;
     }
-    
+    /**
+     * Processa a estrutura condicional IF-ELSE. Cria ramificações true/false, bifurca o fluxo 
+     * empilhando o nó de decisão e intercepta o retorno dos blocos filhos para unificar os caminhos no final.
+     */
     @Override
     public boolean visit(IfStatement node) {
-        finishSequentialBlock();
-        int decisionNode = createNode("DECISION");
-        nodeLabels.put(decisionNode, "IF: " + node.getExpression().toString());
-        mapLineToNode(node.getExpression(), decisionNode);
-    
-        while (!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), decisionNode, ""); }
+        int decisionNode;
+
+        // IF
+        if (inSequentialBlock && currentSequentialNode != null) {
+            decisionNode = currentSequentialNode;
+            String oldLabel = nodeLabels.get(decisionNode);
+            nodeLabels.put(decisionNode, oldLabel + "\nIF: " + node.getExpression().toString());
+            nodeTypes.put(decisionNode, "DECISION");
+            mapLineToNode(node.getExpression(), decisionNode);
+            // Encerra bloco sequencial para os filhos
+            inSequentialBlock = false;
+            currentSequentialNode = null;
+        } else {
+            finishSequentialBlock();
+            decisionNode = createNode("DECISION");
+            nodeLabels.put(decisionNode, "IF: " + node.getExpression().toString());
+            mapLineToNode(node.getExpression(), decisionNode);
+            while (!predecessorStack.isEmpty()) { 
+            	addEdge(predecessorStack.pop(), decisionNode, ""); 
+            }
+        }
 
         List<Integer> branchEndNodes = new ArrayList<>();
         Statement thenStmt = node.getThenStatement();
 
-        // VISIT THEN BRANCH (rotular arestas de decision -> then com "true")
         predecessorStack.push(decisionNode);
         branchLabelStack.push("true");
-        if (thenStmt != null) { thenStmt.accept(this); }
+        if (thenStmt != null) { 
+        	thenStmt.accept(this); 
+        }
         branchLabelStack.pop();
+        currentSequentialNode = null;
+        inSequentialBlock = false;
 
-        // coletar nós finais do branch THEN (tudo que foi empilhado além do decisionNode)
-        while (!predecessorStack.isEmpty() && predecessorStack.peek() != decisionNode) { branchEndNodes.add(predecessorStack.pop()); }
-        if (!predecessorStack.isEmpty()) predecessorStack.pop();
+        collectBranchEndNodes(decisionNode, branchEndNodes);
 
-        if (thenStmt instanceof Block && node.getElseStatement() == null) {
-            int thenEndPosition = thenStmt.getStartPosition() + thenStmt.getLength() - 1;
-            int thenEndLine = compilationUnit.getLineNumber(thenEndPosition);
-            mapSingleLineToNode(thenEndLine, decisionNode);
+    
+        if (thenStmt instanceof Block) {
+            int thenEndLine = compilationUnit.getLineNumber(thenStmt.getStartPosition() + thenStmt.getLength() - 1);
+            if (!lineToNodeMap.containsKey(thenEndLine)) {
+                pendingClosingBraceLines.add(thenEndLine);
+            }
         }
 
         Statement elseStmt = node.getElseStatement();
         if (elseStmt != null) {
+            //  ELSE
             if (containsControlStructure(elseStmt)) {
-                // VISIT ELSE BRANCH (rotular arestas de decision -> else com "false")
                 predecessorStack.push(decisionNode);
                 branchLabelStack.push("false");
                 elseStmt.accept(this);
                 branchLabelStack.pop();
-
-                while (!predecessorStack.isEmpty() && predecessorStack.peek() != decisionNode) { branchEndNodes.add(predecessorStack.pop()); }
-                if (!predecessorStack.isEmpty()) predecessorStack.pop();
+                collectBranchEndNodes(decisionNode, branchEndNodes);
             } else {
-                // else simples: criamos um nó e ligamos com label "false"
                 String nodeType = determineNodeTypeForStatement(elseStmt);
                 int elseNode = createNode(nodeType);
                 nodeLabels.put(elseNode, getComprehensiveNodeLabel(elseStmt));
                 mapLineToNode(elseStmt, elseNode);
                 addEdge(decisionNode, elseNode, "false");
-                branchEndNodes.add(elseNode);
+                if (!"EXIT".equals(nodeType)) {
+                    branchEndNodes.add(elseNode);
+                }
+            }
+            
+            if (elseStmt instanceof Block) {
+                int elseEndLine = compilationUnit.getLineNumber(elseStmt.getStartPosition() + elseStmt.getLength() - 1);
+                if (!lineToNodeMap.containsKey(elseEndLine)) {
+                    pendingClosingBraceLines.add(elseEndLine);
+                }
             }
         } else {
-            // se não há else, o próprio decisionNode representa o caminho "false" (fall-through).
-            // marcamos o nó para que, quando for usado como predecessor para o próximo nó, a aresta seja rotulada como "false".
             decisionNodesWithFalseExit.add(decisionNode);
             branchEndNodes.add(decisionNode);
         }
 
         predecessorStack.clear();
         predecessorStack.addAll(branchEndNodes);
+        
         currentSequentialNode = null;
         inSequentialBlock = false;
         return false;
     }
-
+    /**
+     * Transforma a instrução de retorno em um nó terminal (EXIT).
+     */
     @Override
     public boolean visit(ReturnStatement node) {
-        finishSequentialBlock();
-        int returnNode = createNode("EXIT");
-        String returnValue = "";
-        if (node.getExpression() != null) {
-            returnValue = node.getExpression().toString();
-        }
-        String retType = (currentMethodReturnType != null && !currentMethodReturnType.isEmpty()) ? currentMethodReturnType : "void";
-        String label;
-        if (returnValue.isEmpty()) {
-            label = retType + " : return";
+        int returnNode;
+        if (inSequentialBlock && currentSequentialNode != null) {
+            returnNode = currentSequentialNode;
+            String oldLabel = nodeLabels.get(returnNode);
+            String retVal = (node.getExpression() != null) ? node.getExpression().toString() : "";
+            String retLabel = "return" + (retVal.isEmpty() ? "" : " " + retVal);
+            nodeLabels.put(returnNode, oldLabel + "\n" + retLabel);
+            nodeTypes.put(returnNode, "EXIT");
+            mapLineToNode(node, returnNode);
         } else {
-            label = retType + " : return " + returnValue;
-        }
-        nodeLabels.put(returnNode, label);
-        mapLineToNode(node, returnNode);
-        while(!predecessorStack.isEmpty()){
-            addEdge(predecessorStack.pop(), returnNode, "");
+            finishSequentialBlock();
+            returnNode = createNode("EXIT");
+            String returnValue = "";
+            if (node.getExpression() != null) {
+                returnValue = node.getExpression().toString();
+            }
+            String retType = (currentMethodReturnType != null && !currentMethodReturnType.isEmpty()) ? currentMethodReturnType : "void";
+            String label = returnValue.isEmpty() ? retType + " : return" : retType + " : return " + returnValue;
+            
+            nodeLabels.put(returnNode, label);
+            mapLineToNode(node, returnNode);
+            
+            while(!predecessorStack.isEmpty()){
+                addEdge(predecessorStack.pop(), returnNode, "");
+            }
         }
         currentSequentialNode = null;
         inSequentialBlock = false;
         return false;
     }
+    /**
+     * Mapeia a estrutura complexa do SWITCH e Gerencia os (cases), 
+     */
+    
+    @SuppressWarnings({ "unchecked", "deprecation" })
+    @Override
+    public boolean visit(SwitchStatement node) {
+        int switchNode;
+        if (inSequentialBlock && currentSequentialNode != null) {
+            switchNode = currentSequentialNode;
+            String oldLabel = nodeLabels.get(switchNode);
+            nodeLabels.put(switchNode, oldLabel + "\nSWITCH (" + node.getExpression().toString() + ")");
+            nodeTypes.put(switchNode, "SWITCH_DECISION");
+            mapLineToNode(node.getExpression(), switchNode);
+            inSequentialBlock = false;
+            currentSequentialNode = null;
+        } else {
+            finishSequentialBlock();
+            switchNode = createNode("SWITCH_DECISION");
+            nodeLabels.put(switchNode, "SWITCH (" + node.getExpression().toString() + ")");
+            mapLineToNode(node.getExpression(), switchNode);
+            while (!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), switchNode, ""); }
+        }
 
+        List<Integer> nodesGoingToExit = new ArrayList<>(); 
+        List<String> pendingEdgeLabels = new ArrayList<>();
+        List<ASTNode> pendingCaseASTs = new ArrayList<>();
+        Integer currentCaseNodeId = null; 
+        Integer fallThroughNode = null;
+
+        List<Statement> statements = node.statements();
+
+        if (statements.isEmpty()) {
+            nodesGoingToExit.add(switchNode);
+        }
+
+        for (Statement stmt : statements) {
+            if (stmt instanceof SwitchCase) {
+                SwitchCase sc = (SwitchCase) stmt;
+                if (currentCaseNodeId != null) {
+                    fallThroughNode = currentCaseNodeId;
+                    currentCaseNodeId = null;
+                }
+                String edgeLabel = sc.isDefault() ? "default" : (sc.getExpression() != null ? sc.getExpression().toString() : "?");
+                pendingEdgeLabels.add(edgeLabel);
+                pendingCaseASTs.add(sc);
+            } else {
+                if (currentCaseNodeId == null) {
+                    currentCaseNodeId = createNode("CASE");
+                    nodeLabels.put(currentCaseNodeId, ""); 
+                    for (String label : pendingEdgeLabels) { addEdge(switchNode, currentCaseNodeId, label); }
+                    for (ASTNode caseAst : pendingCaseASTs) {
+                        String caseText = caseAst.toString().trim();
+                        String currentLbl = nodeLabels.get(currentCaseNodeId);
+                        if (currentLbl.isEmpty()) nodeLabels.put(currentCaseNodeId, caseText);
+                        else nodeLabels.put(currentCaseNodeId, currentLbl + "\n" + caseText);
+                        mapLineToNode(caseAst, currentCaseNodeId);
+                    }
+                    if (fallThroughNode != null) {
+                        if (!"EXIT".equals(nodeTypes.get(fallThroughNode))) { addEdge(fallThroughNode, currentCaseNodeId, ""); }
+                        fallThroughNode = null;
+                    }
+                    pendingEdgeLabels.clear();
+                    pendingCaseASTs.clear();
+                }
+
+                String stmtLabel = getNodeLabel(stmt);
+                String currentLabel = nodeLabels.get(currentCaseNodeId);
+                if (currentLabel.isEmpty()) { nodeLabels.put(currentCaseNodeId, stmtLabel); } 
+                else if (!currentLabel.contains(stmtLabel)) { nodeLabels.put(currentCaseNodeId, currentLabel + "\n" + stmtLabel); }
+                mapLineToNode(stmt, currentCaseNodeId);
+
+                if (stmt instanceof BreakStatement) {
+                    nodesGoingToExit.add(currentCaseNodeId);
+                    currentCaseNodeId = null; 
+                } else if (stmt instanceof ReturnStatement) {
+                    nodeTypes.put(currentCaseNodeId, "EXIT");
+                    currentCaseNodeId = null; 
+                }
+            }
+        }
+
+        if (!pendingEdgeLabels.isEmpty()) {
+             int finalNodeId = createNode("CASE");
+             StringBuilder sb = new StringBuilder();
+             for (ASTNode caseAst : pendingCaseASTs) {
+                 if (sb.length() > 0) sb.append("\n");
+                 sb.append(caseAst.toString().trim());
+                 mapLineToNode(caseAst, finalNodeId);
+             }
+             nodeLabels.put(finalNodeId, sb.toString());
+             for (String label : pendingEdgeLabels) { addEdge(switchNode, finalNodeId, label); }
+             if (fallThroughNode != null && !"EXIT".equals(nodeTypes.get(fallThroughNode))) {
+                 addEdge(fallThroughNode, finalNodeId, "");
+             }
+             nodesGoingToExit.add(finalNodeId);
+        } else {
+             if (currentCaseNodeId != null && !"EXIT".equals(nodeTypes.get(currentCaseNodeId))) {
+                nodesGoingToExit.add(currentCaseNodeId);
+             }
+             if (fallThroughNode != null && !"EXIT".equals(nodeTypes.get(fallThroughNode))) {
+                nodesGoingToExit.add(fallThroughNode);
+             }
+        }
+
+        finishSequentialBlock(); 
+        predecessorStack.clear();
+        predecessorStack.addAll(nodesGoingToExit);
+        currentSequentialNode = null;
+        inSequentialBlock = false;
+        return false;
+    }
+    /**
+     * Processa laços WHILE. Cria um nó de decisão de looping e realimenta a origem do laço
+     * com as arestas coletadas ao fim da execução do bloco interno.
+     */
     @Override
     public boolean visit(WhileStatement node) {
-        finishSequentialBlock();
-        int decisionNode = createNode("LOOP_DECISION");
-        nodeLabels.put(decisionNode, "WHILE: " + node.getExpression().toString());
-        mapLineToNode(node, decisionNode);
-        while(!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), decisionNode, ""); }
-
-        // loop: saída para o corpo deve ser rotulada "true"
+        int decisionNode;
+        if (inSequentialBlock && currentSequentialNode != null) {
+            decisionNode = currentSequentialNode;
+            String oldLabel = nodeLabels.get(decisionNode);
+            nodeLabels.put(decisionNode, oldLabel + "\nWHILE: " + node.getExpression().toString());
+            nodeTypes.put(decisionNode, "LOOP_DECISION");
+            mapLineToNode(node.getExpression(), decisionNode);
+            inSequentialBlock = false;
+            currentSequentialNode = null;
+        } else {
+            finishSequentialBlock(); 
+            decisionNode = createNode("LOOP_DECISION");
+            nodeLabels.put(decisionNode, "WHILE: " + node.getExpression().toString());
+            mapLineToNode(node.getExpression(), decisionNode);
+            while(!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), decisionNode, ""); }
+        }
+        
         decisionNodesWithFalseExit.add(decisionNode);
         Stack<Integer> bodyPredecessors = new Stack<>();
         bodyPredecessors.push(decisionNode);
 
-        // sinaliza rótulo "true" ao visitar o corpo
         branchLabelStack.push("true");
         visitLoopBody(node.getBody(), bodyPredecessors);
         branchLabelStack.pop();
+        
+        if (node.getBody() instanceof Block) {
+            int endLine = compilationUnit.getLineNumber(node.getBody().getStartPosition() + node.getBody().getLength() - 1);
+            pendingClosingBraceLines.remove(Integer.valueOf(endLine));
+            lineToNodeMap.remove(endLine); 
+            pendingClosingBraceLines.add(endLine);
+        }
 
-        for (Integer bodyEndNode : bodyPredecessors) { addEdge(bodyEndNode, decisionNode, ""); }
+        for (Integer bodyEndNode : bodyPredecessors) { 
+            if (!"EXIT".equals(nodeTypes.get(bodyEndNode))) addEdge(bodyEndNode, decisionNode, ""); 
+        }
         predecessorStack.clear();
         predecessorStack.push(decisionNode);
         currentSequentialNode = null;
         inSequentialBlock = false;
         return false;
     }
-
+    
+    /**
+     * Processa laços FOR convencionais. Isola a inicialização, a condição e 
+     * cria um nó de incremento (PROCESSING) que faz a ponte do looping.
+     */
     @SuppressWarnings("unchecked")
     @Override
     public boolean visit(ForStatement node) {
         finishSequentialBlock();
         int decisionNode = createNode("LOOP_DECISION");
+        
         String init = ((List<ASTNode>)node.initializers()).stream().map(ASTNode::toString).collect(Collectors.joining(", "));
         String cond = node.getExpression() == null ? "" : node.getExpression().toString();
         String update = ((List<ASTNode>)node.updaters()).stream().map(ASTNode::toString).collect(Collectors.joining(", "));
+        
         nodeLabels.put(decisionNode, String.format("FOR (%s; %s; %s)", init, cond, update));
-        mapLineToNode(node, decisionNode);
+        
+        int startLine = compilationUnit.getLineNumber(node.getStartPosition());
+        mapSingleLineToNode(startLine, decisionNode);
+        if (node.getExpression() != null) mapLineToNode(node.getExpression(), decisionNode);
+        
         while(!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), decisionNode, ""); }
 
-        // loop: saída para o corpo deve ser rotulada "true"
         decisionNodesWithFalseExit.add(decisionNode);
+        
         Stack<Integer> bodyPredecessors = new Stack<>();
         bodyPredecessors.push(decisionNode);
-
-        // sinaliza rótulo "true" ao visitar o corpo
+        
+        Stack<Integer> globalStack = new Stack<>();
+        globalStack.addAll(this.predecessorStack);
+        this.predecessorStack.clear();
+        this.predecessorStack.addAll(bodyPredecessors);
+        
         branchLabelStack.push("true");
-        visitLoopBody(node.getBody(), bodyPredecessors);
+        if (node.getBody() != null) { node.getBody().accept(this); }
         branchLabelStack.pop();
+        
+        int endLine = compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
+        pendingClosingBraceLines.remove(Integer.valueOf(endLine));
 
-        for (Integer bodyEndNode : bodyPredecessors) { addEdge(bodyEndNode, decisionNode, ""); }
-        predecessorStack.clear();
-        predecessorStack.push(decisionNode);
+        Stack<Integer> currentBodyEnds = new Stack<>();
+        currentBodyEnds.addAll(this.predecessorStack);
+
+        int incrementNode = createNode("PROCESSING");
+        nodeLabels.put(incrementNode, update.isEmpty() ? "inc" : update);
+        
+        lineToNodeMap.remove(endLine); 
+        forceMapLineToNode(endLine, incrementNode);
+        
+        while (!currentBodyEnds.isEmpty()) {
+            int p = currentBodyEnds.pop();
+            if (!"EXIT".equals(nodeTypes.get(p))) {
+                addEdge(p, incrementNode, "");
+            }
+        }
+        
+        addEdge(incrementNode, decisionNode, "");
+        
+        this.predecessorStack.clear();
+        this.predecessorStack.addAll(globalStack);
+        this.predecessorStack.push(decisionNode);
+        
         currentSequentialNode = null;
         inSequentialBlock = false;
         return false;
     }
-
+    /**
+     * Processa estruturas DO-WHILE garantindo que o corpo seja percorrido antes do nó 
+     * de validação.
+     */
     @Override
     public boolean visit(DoStatement node) {
         finishSequentialBlock();
+        
         int predecessor = predecessorStack.isEmpty() ? -1 : predecessorStack.pop();
-        int bodyEntryNode = createNode("PROCESSING");
-        nodeLabels.put(bodyEntryNode, "DO");
-        mapLineToNode(node, bodyEntryNode);
-        if (predecessor != -1) { addEdge(predecessor, bodyEntryNode, ""); }
-        Stack<Integer> bodyPredecessors = new Stack<>();
-        bodyPredecessors.push(bodyEntryNode);
-        visitLoopBody(node.getBody(), bodyPredecessors);
-        int decisionNode = createNode("LOOP_DECISION");
+        int loopNode = createNode("LOOP_DECISION");
+        nodeLabels.put(loopNode, "DO-WHILE LOOP");
+        mapSingleLineToNode(compilationUnit.getLineNumber(node.getStartPosition()), loopNode);
+        
+        if (predecessor != -1) { addEdge(predecessor, loopNode, ""); }
+        
+        currentSequentialNode = loopNode;
+        inSequentialBlock = true;
+        
+        if (node.getBody() != null) {
+            node.getBody().accept(this);
+        }
+        
         String condExpr = node.getExpression() != null ? node.getExpression().toString() : "";
-        nodeLabels.put(decisionNode, "DO-WHILE: " + condExpr);
-        mapLineToNode(node.getExpression(), decisionNode);
-        for (Integer bodyEndNode : bodyPredecessors) { addEdge(bodyEndNode, decisionNode, ""); }
-        addEdge(decisionNode, bodyEntryNode, "true");
-
-        // do-while também tem saída "false" para o caminho de continuação
-        decisionNodesWithFalseExit.add(decisionNode);
-
+        String currentLbl = nodeLabels.get(loopNode);
+        if (!currentLbl.contains("WHILE")) {
+            nodeLabels.put(loopNode, currentLbl + "\nWHILE (" + condExpr + ")");
+        }
+        mapLineToNode(node.getExpression(), loopNode);
+        
+        int endPos = node.getStartPosition() + node.getLength() - 1;
+        mapSingleLineToNode(compilationUnit.getLineNumber(endPos), loopNode);
+        
+        if (node.getBody() instanceof Block) {
+             int bodyEnd = node.getBody().getStartPosition() + node.getBody().getLength() - 1;
+             mapSingleLineToNode(compilationUnit.getLineNumber(bodyEnd), loopNode);
+        }
+        
+        addEdge(loopNode, loopNode, "true");
+        decisionNodesWithFalseExit.add(loopNode);
+        
         predecessorStack.clear();
-        predecessorStack.push(decisionNode);
+        predecessorStack.push(loopNode);
+        
         currentSequentialNode = null;
         inSequentialBlock = false;
+        
         return false;
     }
 
     @Override
-    public boolean visit(EnhancedForStatement node) {
-        finishSequentialBlock();
-        int decisionNode = createNode("LOOP_DECISION");
-        String paramName = node.getParameter().getName().getIdentifier();
-        String expr = node.getExpression() != null ? node.getExpression().toString() : "<expr>";
-        nodeLabels.put(decisionNode, "FOR-EACH: " + paramName + " in " + expr);
-        mapLineToNode(node, decisionNode);
-        while(!predecessorStack.isEmpty()) { addEdge(predecessorStack.pop(), decisionNode, ""); }
-
-        // loop: saída para o corpo deve ser rotulada "true"
-        decisionNodesWithFalseExit.add(decisionNode);
-        Stack<Integer> bodyPredecessors = new Stack<>();
-        bodyPredecessors.push(decisionNode);
-
-        // sinaliza rótulo "true" ao visitar o corpo
-        branchLabelStack.push("true");
-        visitLoopBody(node.getBody(), bodyPredecessors);
-        branchLabelStack.pop();
-
-        for (Integer bodyEndNode : bodyPredecessors) { addEdge(bodyEndNode, decisionNode, ""); }
-        predecessorStack.clear();
-        predecessorStack.push(decisionNode);
-        currentSequentialNode = null;
-        inSequentialBlock = false;
-        return false;
+    public boolean visit(VariableDeclarationStatement node) { 
+    	handleSequentialStatement(node); 
+    	return false; 
     }
 
     @Override
-    public boolean visit(VariableDeclarationStatement node) { handleSequentialStatement(node); return false; }
-
-    @Override
-    public boolean visit(ExpressionStatement node) { handleSequentialStatement(node); return false; }
-
+    public boolean visit(ExpressionStatement node) { 
+    	handleSequentialStatement(node); 
+    	return false; 
+    }
+    /**
+     * Centraliza o tratamento de comandos puramente sequenciais. 
+     * Junta declarações ou expressões seguidas acumulando-as sob o mesmo nó conceitual "PROCESSING".
+     */
     private void handleSequentialStatement(ASTNode node) {
         if (!inSequentialBlock || currentSequentialNode == null) {
             finishSequentialBlock();
             currentSequentialNode = createNode("PROCESSING");
             nodeLabels.put(currentSequentialNode, getNodeLabel(node));
-            // quando conectamos predecessores ao novo nó sequencial, addEdge decidirá automaticamente
-            // se deve usar "true"/"false" conforme o contexto (branchLabelStack / decisionNodesWithFalseExit).
-            while(!predecessorStack.isEmpty()){ addEdge(predecessorStack.pop(), currentSequentialNode, ""); }
+            while(!predecessorStack.isEmpty()){ 
+                addEdge(predecessorStack.pop(), currentSequentialNode, ""); 
+            }
             predecessorStack.push(currentSequentialNode);
             inSequentialBlock = true;
         } else {
@@ -331,12 +558,34 @@ public class GFCVisitor extends ASTVisitor {
         mapLineToNode(node, currentSequentialNode);
     }
 
+
+    private void collectBranchEndNodes(int decisionNode, List<Integer> targetList) {
+        while (!predecessorStack.isEmpty() && predecessorStack.peek() != decisionNode) { 
+            int p = predecessorStack.pop();
+            if (!"EXIT".equals(nodeTypes.get(p))) {
+                targetList.add(p);
+            }
+        }
+        if (!predecessorStack.isEmpty() && predecessorStack.peek() == decisionNode) {
+            predecessorStack.pop();
+        }
+    }
+
     private void visitLoopBody(Statement body, Stack<Integer> localPredecessorStack) {
         Stack<Integer> globalStack = new Stack<>();
         globalStack.addAll(this.predecessorStack);
         this.predecessorStack.clear();
         this.predecessorStack.addAll(localPredecessorStack);
+        
         if (body != null) { body.accept(this); }
+        
+        if (body != null) {
+            int endLine = compilationUnit.getLineNumber(body.getStartPosition() + body.getLength() - 1);
+            if (!lineToNodeMap.containsKey(endLine)) {
+                pendingClosingBraceLines.add(endLine);
+            }
+        }
+
         localPredecessorStack.clear();
         localPredecessorStack.addAll(this.predecessorStack);
         this.predecessorStack.clear();
@@ -346,21 +595,27 @@ public class GFCVisitor extends ASTVisitor {
     private void finishSequentialBlock() {
         if (inSequentialBlock && currentSequentialNode != null) { inSequentialBlock = false; }
     }
-
+    /**
+     * Registra e instancia um novo identificador numérico de nó no grafo, resolvendo também 
+     * pendências acumuladas de mapeamento de linhas anteriores (como fechamento de chaves).
+     */
     private int createNode(String type) {
         nodeCounter++;
         nodeTypes.put(nodeCounter, type);
+        
+        if (!pendingClosingBraceLines.isEmpty()) {
+            for (int line : pendingClosingBraceLines) {
+                if (!lineToNodeMap.containsKey(line)) {
+                    mapSingleLineToNode(line, nodeCounter);
+                }
+            }
+            pendingClosingBraceLines.clear();
+        }
         return nodeCounter;
     }
-
     /**
-     * addEdge agora decide o rótulo quando label == "" e o nó 'from' é DECISION/LOOP_DECISION:
-     * - se houver um label atual em branchLabelStack, usa esse (tipicamente "true" ou "false")
-     * - senão, se o nó estiver marcado em decisionNodesWithFalseExit, usa "false"
-     * - caso contrário, mantém vazio
-     *
-     * Observação: aqui tratamos o caso da classe Edge ser imutável — se já existir uma aresta para o mesmo destino
-     * sem label e precisarmos atualizá-la, removemos e recriamos a aresta com o novo label.
+     * Interconecta dois nós gerando um objeto {@link Edge}, inferindo automaticamente 
+     * rótulos condicionais contextuais baseados no topo da pilha de controle da ramificação.
      */
     private void addEdge(int from, int to, String label) {
         if (from <= 0 || to <= 0) return;
@@ -368,41 +623,25 @@ public class GFCVisitor extends ASTVisitor {
         String fromType = nodeTypes.get(from);
         if ((effectiveLabel == null || effectiveLabel.isEmpty())
                 && ( "DECISION".equals(fromType) || "LOOP_DECISION".equals(fromType) )) {
-            if (!branchLabelStack.isEmpty()) {
-                effectiveLabel = branchLabelStack.peek();
-            } else if (decisionNodesWithFalseExit.contains(from)) {
-                effectiveLabel = "false";
-            } else {
-                effectiveLabel = "";
-            }
+            if (!branchLabelStack.isEmpty()) { effectiveLabel = branchLabelStack.peek(); }
+            else if (decisionNodesWithFalseExit.contains(from)) { effectiveLabel = "false"; }
+            else { effectiveLabel = ""; }
         }
-
         List<Edge> edges = getOrCreateEdges(from);
-        // procura se já existe uma aresta para 'to'
         int existingIndex = -1;
         for (int i = 0; i < edges.size(); i++) {
-            Edge e = edges.get(i);
-            if (e.getDestinationNodeId() == to) {
-                existingIndex = i;
-                break;
-            }
+            if (edges.get(i).getDestinationNodeId() == to) { existingIndex = i; break; }
         }
-
-        if (existingIndex == -1) {
-            // não existe: adiciona nova aresta com effectiveLabel (pode ser vazio)
-            edges.add(new Edge(to, effectiveLabel));
-        } else {
-            // já existe uma aresta; checar se precisa atualizar label
+        if (existingIndex == -1) { edges.add(new Edge(to, effectiveLabel)); }
+        else {
             Edge existing = edges.get(existingIndex);
             String existingLabel = existing.getLabel();
             boolean existingEmpty = (existingLabel == null || existingLabel.isEmpty());
             boolean newNonEmpty = (effectiveLabel != null && !effectiveLabel.isEmpty());
             if (existingEmpty && newNonEmpty) {
-                // remove a antiga e coloca a nova com label (para suportar Edge imutável)
                 edges.remove(existingIndex);
                 edges.add(new Edge(to, effectiveLabel));
             }
-            // se já existe label (ou novo label vazio), mantemos a aresta como está
         }
     }
 
@@ -411,37 +650,48 @@ public class GFCVisitor extends ASTVisitor {
         int startLine = compilationUnit.getLineNumber(node.getStartPosition());
         int endLine = compilationUnit.getLineNumber(node.getStartPosition() + node.getLength() - 1);
         for (int line = startLine; line <= endLine; line++) {
-            lineToNodeMap.put(line, nodeId);
-        }
-        List<Integer> lines = nodeToLinesMap.computeIfAbsent(nodeId, k -> new ArrayList<>());
-        for (int line = startLine; line <= endLine; line++) {
-            if (!lines.contains(line)) {
-                lines.add(line);
+            if (lineToNodeMap.containsKey(line)) {
+                int existingId = lineToNodeMap.get(line);
+                String existingType = nodeTypes.get(existingId);
+                String newType = nodeTypes.get(nodeId);
+                if (("DECISION".equals(existingType) || "LOOP_DECISION".equals(existingType)) 
+                        && "PROCESSING".equals(newType)) {
+                    continue;
+                }
             }
+            lineToNodeMap.put(line, nodeId);
+            List<Integer> lines = nodeToLinesMap.computeIfAbsent(nodeId, k -> new ArrayList<>());
+            if (!lines.contains(line)) { lines.add(line); }
         }
     }
 
-    private void mapSingleLineToNode(int line, int nodeId) {
+    private void forceMapLineToNode(int line, int nodeId) {
         if (compilationUnit == null) return;
         lineToNodeMap.put(line, nodeId);
         List<Integer> lines = nodeToLinesMap.computeIfAbsent(nodeId, k -> new ArrayList<>());
-        if (!lines.contains(line)) {
-            lines.add(line);
+        if (!lines.contains(line)) lines.add(0, line);
+    }
+    
+    private void mapSingleLineToNode(int line, int nodeId) {
+        if (compilationUnit == null) return;
+        if (lineToNodeMap.containsKey(line)) {
+             int existingId = lineToNodeMap.get(line);
+             String existingType = nodeTypes.get(existingId);
+             String newType = nodeTypes.get(nodeId);
+             if (("DECISION".equals(existingType) || "LOOP_DECISION".equals(existingType)) 
+                     && "PROCESSING".equals(newType)) {
+                 return;
+             }
         }
+        lineToNodeMap.put(line, nodeId);
+        List<Integer> lines = nodeToLinesMap.computeIfAbsent(nodeId, k -> new ArrayList<>());
+        if (!lines.contains(line)) lines.add(line);
     }
 
     private String getNodeLabel(ASTNode node) {
-        if (node instanceof ReturnStatement) {
-            ReturnStatement ret = (ReturnStatement) node;
-            return "RETURN" + (ret.getExpression() != null ? ": " + ret.getExpression().toString() : "");
-        } else if (node instanceof VariableDeclarationStatement) {
-            return "VAR: " + node.toString().trim().replace("\n", "").replace("\r", "");
-        } else if (node instanceof ExpressionStatement) {
-            return "EXPR: " + ((ExpressionStatement) node).getExpression().toString();
-        }
         return node.toString().trim().replace("\n", "").replace("\r", "");
     }
-
+    
     private String getComprehensiveNodeLabel(Statement statement) {
         if (statement instanceof Block) {
             StringBuilder labelBuilder = new StringBuilder();
@@ -451,9 +701,7 @@ public class GFCVisitor extends ASTVisitor {
                     labelBuilder.append(getNodeLabel((ASTNode) st)).append("\n");
                 }
             }
-            if (labelBuilder.length() > 0) {
-                labelBuilder.setLength(labelBuilder.length() - 1);
-            }
+            if (labelBuilder.length() > 0) labelBuilder.setLength(labelBuilder.length() - 1);
             return labelBuilder.toString();
         }
         return getNodeLabel(statement);
@@ -474,6 +722,7 @@ public class GFCVisitor extends ASTVisitor {
             return "LOOP_DECISION";
         }
         if (statement instanceof IfStatement) return "DECISION";
+        if (statement instanceof SwitchStatement) return "SWITCH_DECISION";
         if (statement instanceof Block) {
             Block block = (Block) statement;
             if (block.statements().size() == 1) {

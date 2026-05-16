@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.actions.ActionIds;
@@ -71,12 +72,12 @@ public class GfcDiagramEditor extends DiagramDocumentEditor implements IGotoMark
 	/**
 	* @generated
 	*/
-	public static final String ID = "gfc.diagram.part.GfcDiagramEditorID"; //$NON-NLS-1$
+	public static final String ID = "gfc.diagram.part.GfcDiagramEditorID"; 
 
 	/**
 	* @generated
 	*/
-	public static final String CONTEXT_ID = "gfc.diagram.ui.diagramContext"; //$NON-NLS-1$
+	public static final String CONTEXT_ID = "gfc.diagram.ui.diagramContext"; 
 
 	/**
 	* @generated

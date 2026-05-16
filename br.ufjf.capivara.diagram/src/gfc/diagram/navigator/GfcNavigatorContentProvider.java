@@ -28,6 +28,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 
+import gfc.diagram.edit.parts.CaseNodeEditPart;
 import gfc.diagram.edit.parts.DecisionNodeEditPart;
 import gfc.diagram.edit.parts.EdgeEditPart;
 import gfc.diagram.edit.parts.EntryNodeEditPart;
@@ -35,6 +36,7 @@ import gfc.diagram.edit.parts.ExitNodeEditPart;
 import gfc.diagram.edit.parts.FlowchartEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeEditPart;
+import gfc.diagram.edit.parts.SwitchNodeEditPart;
 import gfc.diagram.part.GfcVisualIDRegistry;
 import gfc.diagram.part.Messages;
 
@@ -234,7 +236,7 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			result.addAll(getForeignShortcuts((Diagram) view, parentElement));
 			Diagram sv = (Diagram) view;
 			GfcNavigatorGroup links = new GfcNavigatorGroup(Messages.NavigatorGroupName_Flowchart_1000_links,
-					"icons/linksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/linksNavigatorGroup.gif", parentElement); 
 			Collection<View> connectedViews;
 			connectedViews = getChildrenByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EntryNodeEditPart.VISUAL_ID));
@@ -251,6 +253,12 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			connectedViews = getChildrenByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(ExitNodeEditPart.VISUAL_ID));
 			result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(SwitchNodeEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement, false));
+			connectedViews = getChildrenByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(CaseNodeEditPart.VISUAL_ID));
+			result.addAll(createNavigatorItems(connectedViews, parentElement, false));
 			connectedViews = getDiagramLinksByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
 			links.addChildren(createNavigatorItems(connectedViews, links, false));
@@ -264,10 +272,10 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			LinkedList<GfcAbstractNavigatorItem> result = new LinkedList<GfcAbstractNavigatorItem>();
 			Node sv = (Node) view;
 			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
-					Messages.NavigatorGroupName_EntryNode_2001_incominglinks, "icons/incomingLinksNavigatorGroup.gif", //$NON-NLS-1$
+					Messages.NavigatorGroupName_EntryNode_2001_incominglinks, "icons/incomingLinksNavigatorGroup.gif", 
 					parentElement);
 			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
-					Messages.NavigatorGroupName_EntryNode_2001_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", //$NON-NLS-1$
+					Messages.NavigatorGroupName_EntryNode_2001_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", 
 					parentElement);
 			Collection<View> connectedViews;
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
@@ -290,10 +298,10 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			Node sv = (Node) view;
 			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_ProcessingNode_2002_incominglinks,
-					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); 
 			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_ProcessingNode_2002_outgoinglinks,
-					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); 
 			Collection<View> connectedViews;
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
@@ -315,10 +323,10 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			Node sv = (Node) view;
 			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_DecisionNode_2003_incominglinks,
-					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); 
 			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_DecisionNode_2003_outgoinglinks,
-					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); 
 			Collection<View> connectedViews;
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
@@ -340,10 +348,10 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			Node sv = (Node) view;
 			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_LoopDecisionNode_2004_incominglinks,
-					"icons/incomingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/incomingLinksNavigatorGroup.gif", parentElement); 
 			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
 					Messages.NavigatorGroupName_LoopDecisionNode_2004_outgoinglinks,
-					"icons/outgoingLinksNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/outgoingLinksNavigatorGroup.gif", parentElement); 
 			Collection<View> connectedViews;
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
@@ -364,10 +372,60 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			LinkedList<GfcAbstractNavigatorItem> result = new LinkedList<GfcAbstractNavigatorItem>();
 			Node sv = (Node) view;
 			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
-					Messages.NavigatorGroupName_ExitNode_2005_incominglinks, "icons/incomingLinksNavigatorGroup.gif", //$NON-NLS-1$
+					Messages.NavigatorGroupName_ExitNode_2005_incominglinks, "icons/incomingLinksNavigatorGroup.gif", 
 					parentElement);
 			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
-					Messages.NavigatorGroupName_ExitNode_2005_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", //$NON-NLS-1$
+					Messages.NavigatorGroupName_ExitNode_2005_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", 
+					parentElement);
+			Collection<View> connectedViews;
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			incominglinks.addChildren(createNavigatorItems(connectedViews, incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews, outgoinglinks, true));
+			if (!incominglinks.isEmpty()) {
+				result.add(incominglinks);
+			}
+			if (!outgoinglinks.isEmpty()) {
+				result.add(outgoinglinks);
+			}
+			return result.toArray();
+		}
+
+		case SwitchNodeEditPart.VISUAL_ID: {
+			LinkedList<GfcAbstractNavigatorItem> result = new LinkedList<GfcAbstractNavigatorItem>();
+			Node sv = (Node) view;
+			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
+					Messages.NavigatorGroupName_SwitchNode_2006_incominglinks, "icons/incomingLinksNavigatorGroup.gif", 
+					parentElement);
+			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
+					Messages.NavigatorGroupName_SwitchNode_2006_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", 
+					parentElement);
+			Collection<View> connectedViews;
+			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			incominglinks.addChildren(createNavigatorItems(connectedViews, incominglinks, true));
+			connectedViews = getOutgoingLinksByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(EdgeEditPart.VISUAL_ID));
+			outgoinglinks.addChildren(createNavigatorItems(connectedViews, outgoinglinks, true));
+			if (!incominglinks.isEmpty()) {
+				result.add(incominglinks);
+			}
+			if (!outgoinglinks.isEmpty()) {
+				result.add(outgoinglinks);
+			}
+			return result.toArray();
+		}
+
+		case CaseNodeEditPart.VISUAL_ID: {
+			LinkedList<GfcAbstractNavigatorItem> result = new LinkedList<GfcAbstractNavigatorItem>();
+			Node sv = (Node) view;
+			GfcNavigatorGroup incominglinks = new GfcNavigatorGroup(
+					Messages.NavigatorGroupName_CaseNode_2007_incominglinks, "icons/incomingLinksNavigatorGroup.gif", 
+					parentElement);
+			GfcNavigatorGroup outgoinglinks = new GfcNavigatorGroup(
+					Messages.NavigatorGroupName_CaseNode_2007_outgoinglinks, "icons/outgoingLinksNavigatorGroup.gif", 
 					parentElement);
 			Collection<View> connectedViews;
 			connectedViews = getIncomingLinksByType(Collections.singleton(sv),
@@ -389,9 +447,9 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			LinkedList<GfcAbstractNavigatorItem> result = new LinkedList<GfcAbstractNavigatorItem>();
 			Edge sv = (Edge) view;
 			GfcNavigatorGroup target = new GfcNavigatorGroup(Messages.NavigatorGroupName_Edge_4001_target,
-					"icons/linkTargetNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/linkTargetNavigatorGroup.gif", parentElement); 
 			GfcNavigatorGroup source = new GfcNavigatorGroup(Messages.NavigatorGroupName_Edge_4001_source,
-					"icons/linkSourceNavigatorGroup.gif", parentElement); //$NON-NLS-1$
+					"icons/linkSourceNavigatorGroup.gif", parentElement); 
 			Collection<View> connectedViews;
 			connectedViews = getLinksTargetByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EntryNodeEditPart.VISUAL_ID));
@@ -408,6 +466,12 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			connectedViews = getLinksTargetByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(ExitNodeEditPart.VISUAL_ID));
 			target.addChildren(createNavigatorItems(connectedViews, target, true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(SwitchNodeEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target, true));
+			connectedViews = getLinksTargetByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(CaseNodeEditPart.VISUAL_ID));
+			target.addChildren(createNavigatorItems(connectedViews, target, true));
 			connectedViews = getLinksSourceByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(EntryNodeEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source, true));
@@ -422,6 +486,12 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 			source.addChildren(createNavigatorItems(connectedViews, source, true));
 			connectedViews = getLinksSourceByType(Collections.singleton(sv),
 					GfcVisualIDRegistry.getType(ExitNodeEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source, true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(SwitchNodeEditPart.VISUAL_ID));
+			source.addChildren(createNavigatorItems(connectedViews, source, true));
+			connectedViews = getLinksSourceByType(Collections.singleton(sv),
+					GfcVisualIDRegistry.getType(CaseNodeEditPart.VISUAL_ID));
 			source.addChildren(createNavigatorItems(connectedViews, source, true));
 			if (!target.isEmpty()) {
 				result.add(target);
@@ -546,7 +616,7 @@ public class GfcNavigatorContentProvider implements ICommonContentProvider {
 		LinkedList<View> result = new LinkedList<View>();
 		for (Iterator<View> it = diagram.getChildren().iterator(); it.hasNext();) {
 			View nextView = it.next();
-			if (!isOwnView(nextView) && nextView.getEAnnotation("Shortcut") != null) { //$NON-NLS-1$
+			if (!isOwnView(nextView) && nextView.getEAnnotation("Shortcut") != null) { 
 				result.add(nextView);
 			}
 		}

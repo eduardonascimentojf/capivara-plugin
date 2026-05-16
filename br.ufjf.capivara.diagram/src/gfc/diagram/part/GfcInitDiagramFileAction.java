@@ -77,7 +77,7 @@ public class GfcInitDiagramFileAction implements IObjectActionDelegate {
 			Resource resource = resourceSet.getResource(domainModelURI, true);
 			diagramRoot = (EObject) resource.getContents().get(0);
 		} catch (WrappedException ex) {
-			GfcDiagramEditorPlugin.getInstance().logError("Unable to load resource: " + domainModelURI, ex); //$NON-NLS-1$
+			GfcDiagramEditorPlugin.getInstance().logError("Unable to load resource: " + domainModelURI, ex); 
 		}
 		if (diagramRoot == null) {
 			MessageDialog.openError(getShell(), Messages.InitDiagramFile_ResourceErrorDialogTitle,
@@ -86,6 +86,6 @@ public class GfcInitDiagramFileAction implements IObjectActionDelegate {
 		}
 		Wizard wizard = new GfcNewDiagramFileWizard(domainModelURI, diagramRoot, editingDomain);
 		wizard.setWindowTitle(NLS.bind(Messages.InitDiagramFile_WizardTitle, FlowchartEditPart.MODEL_ID));
-		GfcDiagramEditorUtil.runWizard(getShell(), wizard, "InitDiagramFile"); //$NON-NLS-1$
+		GfcDiagramEditorUtil.runWizard(getShell(), wizard, "InitDiagramFile"); 
 	}
 }

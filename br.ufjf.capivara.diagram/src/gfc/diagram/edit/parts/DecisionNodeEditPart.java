@@ -4,14 +4,13 @@ import org.eclipse.draw2d.Ellipse;
 import org.eclipse.draw2d.GridData;
 import org.eclipse.draw2d.GridLayout;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label; // NOVO IMPORT
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.Shape;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.emf.common.notify.Notification; // NOVO IMPORT
-import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -28,8 +27,9 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
-import gfc.Node; // NOVO IMPORT
+import gfc.Node;
 import gfc.diagram.edit.policies.DecisionNodeItemSemanticEditPolicy;
 import gfc.diagram.edit.policies.ReadOnlyComponentEditPolicy;
 import gfc.diagram.part.GfcVisualIDRegistry;
@@ -76,24 +76,24 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 
 	protected IFigure createNodeShape() {
 		Ellipse ellipse = new Ellipse();
-		ellipse.setForegroundColor(new Color(null, 0, 123, 255));
+		ellipse.setForegroundColor(new Color(null, 0, 123, 255)); // Azul
+		ellipse.setBackgroundColor(new Color(null, 255, 255, 255)); // Branco
 		ellipse.setLineWidth(2);
-		ellipse.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
+
+		ellipse.setPreferredSize(new Dimension(40, 40));
 
 		GridLayout gl = new GridLayout(1, false);
-		gl.horizontalSpacing = 0;
-		gl.verticalSpacing = 0;
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
+		gl.horizontalSpacing = 0;
+		gl.verticalSpacing = 0;
 		ellipse.setLayoutManager(gl);
-
 		ellipse.setBorder(new MarginBorder(2, 2, 2, 2));
 
 		fFigureDecisionNodeLabelFigure = new WrappingLabel();
 		fFigureDecisionNodeLabelFigure.setText("");
 		fFigureDecisionNodeLabelFigure.setTextAlignment(PositionConstants.CENTER);
 		fFigureDecisionNodeLabelFigure.setAlignment(PositionConstants.CENTER);
-		fFigureDecisionNodeLabelFigure.setPreferredSize(-1, -1);
 
 		GridData gd = new GridData(GridData.CENTER, GridData.CENTER, true, true);
 		gd.widthHint = -1;
@@ -104,6 +104,15 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 
 		primaryShape = ellipse;
 		return primaryShape;
+	}
+
+	@Override
+	public void activate() {
+		super.activate();
+		Display.getDefault().asyncExec(() -> {
+			if (isActive())
+				refreshVisuals();
+		});
 	}
 
 	public IFigure getPrimaryShape() {
@@ -117,92 +126,6 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 		}
 		return false;
 	}
-
-	// --- INÍCIO DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
-
-	@Override
-	protected void refreshVisuals() {
-		super.refreshVisuals();
-		refreshTooltip();
-	}
-
-	@Override
-	protected void handleNotificationEvent(Notification notification) {
-		super.handleNotificationEvent(notification);
-		if (notification.getFeature() instanceof org.eclipse.emf.ecore.EAttribute
-				&& ((org.eclipse.emf.ecore.EAttribute) notification.getFeature()).getName().equals("label")) {
-			refreshTooltip();
-		}
-	}
-
-	/**
-	* @generated
-	*/
-	public class DecisionNodeFigure extends Ellipse {
-
-		/**
-		 * @generated
-		 */
-		private WrappingLabel fFigureDecisionNodeLabelFigure;
-
-		/**
-		 * @generated
-		 */
-		public DecisionNodeFigure() {
-			this.setForegroundColor(THIS_FORE);
-			this.setPreferredSize(new Dimension(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40)));
-			this.setBorder(new MarginBorder(getMapMode().DPtoLP(5), getMapMode().DPtoLP(5), getMapMode().DPtoLP(5),
-					getMapMode().DPtoLP(5)));
-			createContents();
-		}
-
-		/**
-		 * @generated
-		 */
-		private void createContents() {
-
-			fFigureDecisionNodeLabelFigure = new WrappingLabel();
-
-			fFigureDecisionNodeLabelFigure.setText("DecisionNode");
-
-			this.add(fFigureDecisionNodeLabelFigure);
-
-		}
-
-		/**
-		 * @generated
-		 */
-		public WrappingLabel getFigureDecisionNodeLabelFigure() {
-			return fFigureDecisionNodeLabelFigure;
-		}
-
-	}
-
-	/**
-	* @generated
-	*/
-	static final Color THIS_FORE = new Color(null, 0, 123, 255);
-
-	protected void refreshTooltip() {
-		IFigure figure = getFigure();
-		if (figure == null) {
-			return;
-		}
-
-		Object modelElement = resolveSemanticElement();
-		if (modelElement instanceof Node) {
-			Node node = (Node) modelElement;
-			String tooltipText = node.getLabel();
-
-			if (tooltipText != null && !tooltipText.isEmpty()) {
-				figure.setToolTip(new Label(tooltipText));
-			} else {
-				figure.setToolTip(null);
-			}
-		}
-	}
-
-	// --- FIM DO CÓDIGO ADICIONADO PARA O TOOLTIP ---
 
 	protected boolean removeFixedChild(EditPart childEditPart) {
 		if (childEditPart instanceof DecisionNodeIdEditPart) {
@@ -230,8 +153,7 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	protected NodeFigure createNodePlate() {
-		DefaultSizeNodeFigure result = new DefaultSizeNodeFigure(40, 40);
-		return result;
+		return new DefaultSizeNodeFigure(40, 40);
 	}
 
 	protected NodeFigure createNodeFigure() {
@@ -240,6 +162,7 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 		IFigure shape = createNodeShape();
 		figure.add(shape);
 		contentPane = setupContentPane(shape);
+		refreshTooltip();
 		return figure;
 	}
 
@@ -253,37 +176,111 @@ public class DecisionNodeEditPart extends ShapeNodeEditPart {
 	}
 
 	public IFigure getContentPane() {
-		if (contentPane != null) {
+		if (contentPane != null)
 			return contentPane;
-		}
 		return super.getContentPane();
-	}
-
-	protected void setForegroundColor(Color color) {
-		if (primaryShape != null) {
-			primaryShape.setForegroundColor(color);
-		}
-	}
-
-	protected void setBackgroundColor(Color color) {
-		if (primaryShape != null) {
-			primaryShape.setBackgroundColor(color);
-		}
-	}
-
-	protected void setLineWidth(int width) {
-		if (primaryShape instanceof Shape) {
-			((Shape) primaryShape).setLineWidth(width);
-		}
-	}
-
-	protected void setLineType(int style) {
-		if (primaryShape instanceof Shape) {
-			((Shape) primaryShape).setLineStyle(style);
-		}
 	}
 
 	public EditPart getPrimaryChildEditPart() {
 		return getChildBySemanticHint(GfcVisualIDRegistry.getType(DecisionNodeIdEditPart.VISUAL_ID));
 	}
+
+	@Override
+	protected void refreshVisuals() {
+		if (!isActive() || getFigure() == null || primaryShape == null)
+			return;
+		super.refreshVisuals();
+
+		Node node = (Node) resolveSemanticElement();
+		if (node != null) {
+			int status = node.getCoverageStatus();
+
+			// Cores Padrão
+			Color cor = new Color(null, 255, 255, 255); // Branco
+
+			switch (status) {
+			case 1:
+				cor = new Color(null, 102, 255, 102);
+				break; // Verde
+			case 2:
+				cor = new Color(null, 255, 215, 0);
+				break; // Amarelo
+			case 3:
+				cor = new Color(null, 255, 82, 82);
+				break; // Vermelho
+			}
+
+			primaryShape.setBackgroundColor(cor);
+		}
+		refreshTooltip();
+	}
+
+	@Override
+	protected void handleNotificationEvent(Notification event) {
+		if (gfc.GfcPackage.eINSTANCE.getNode_CoverageStatus().equals(event.getFeature())) {
+			Display.getDefault().asyncExec(() -> {
+				if (isActive())
+					refreshVisuals();
+			});
+		}
+		super.handleNotificationEvent(event);
+		refreshTooltip();
+	}
+
+	protected void refreshTooltip() {
+		final IFigure targetFigure = getPrimaryShape();
+		if (targetFigure == null)
+			return;
+		final Node node = (Node) resolveSemanticElement();
+		final String text = (node != null) ? node.getLabel() : null;
+
+		Display.getDefault().asyncExec(() -> {
+			try {
+				if (targetFigure.getParent() != null) {
+					if (text != null && !text.isEmpty()) {
+						targetFigure.setToolTip(new Label(text));
+					} else {
+						targetFigure.setToolTip(null);
+					}
+				}
+			} catch (Exception e) {
+			}
+		});
+	}
+
+	protected void setForegroundColor(Color color) {
+		if (primaryShape != null)
+			primaryShape.setForegroundColor(color);
+	}
+
+	protected void setBackgroundColor(Color color) {
+		if (primaryShape != null)
+			primaryShape.setBackgroundColor(color);
+	}
+
+	protected void setLineWidth(int width) {
+		if (primaryShape instanceof Shape)
+			((Shape) primaryShape).setLineWidth(width);
+	}
+
+	protected void setLineType(int style) {
+		if (primaryShape instanceof Shape)
+			((Shape) primaryShape).setLineStyle(style);
+	}
+
+	public class DecisionNodeFigure extends Ellipse {
+		private WrappingLabel fFigureDecisionNodeLabelFigure;
+
+		public DecisionNodeFigure() {
+		}
+
+		public WrappingLabel getFigureDecisionNodeLabelFigure() {
+			return fFigureDecisionNodeLabelFigure;
+		}
+	}
+
+	/**
+	* @generated
+	*/
+	static final Color THIS_FORE = new Color(null, 0, 123, 255);
 }

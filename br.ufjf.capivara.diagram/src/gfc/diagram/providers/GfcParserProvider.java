@@ -17,11 +17,14 @@ import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.View;
 
 import gfc.GfcPackage;
+import gfc.diagram.edit.parts.CaseNodeIdEditPart;
 import gfc.diagram.edit.parts.DecisionNodeIdEditPart;
+import gfc.diagram.edit.parts.EdgeLabelEditPart;
 import gfc.diagram.edit.parts.EntryNodeIdEditPart;
 import gfc.diagram.edit.parts.ExitNodeIdEditPart;
 import gfc.diagram.edit.parts.LoopDecisionNodeIdEditPart;
 import gfc.diagram.edit.parts.ProcessingNodeIdEditPart;
+import gfc.diagram.edit.parts.SwitchNodeIdEditPart;
 import gfc.diagram.parsers.MessageFormatParser;
 import gfc.diagram.part.GfcVisualIDRegistry;
 
@@ -33,86 +36,137 @@ public class GfcParserProvider extends AbstractProvider implements IParserProvid
 	/**
 	* @generated
 	*/
-	private IParser entryNodeId_5001Parser;
+	private IParser entryNodeLabel_5001Parser;
 
 	/**
 	* @generated
 	*/
-	private IParser getEntryNodeId_5001Parser() {
-		if (entryNodeId_5001Parser == null) {
-			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Id() };
+	private IParser getEntryNodeLabel_5001Parser() {
+		if (entryNodeLabel_5001Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
 			MessageFormatParser parser = new MessageFormatParser(features);
-			entryNodeId_5001Parser = parser;
+			entryNodeLabel_5001Parser = parser;
 		}
-		return entryNodeId_5001Parser;
+		return entryNodeLabel_5001Parser;
 	}
 
 	/**
 	* @generated
 	*/
-	private IParser processingNodeId_5002Parser;
+	private IParser processingNodeLabel_5002Parser;
 
 	/**
 	* @generated
 	*/
-	private IParser getProcessingNodeId_5002Parser() {
-		if (processingNodeId_5002Parser == null) {
-			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Id() };
+	private IParser getProcessingNodeLabel_5002Parser() {
+		if (processingNodeLabel_5002Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
 			MessageFormatParser parser = new MessageFormatParser(features);
-			processingNodeId_5002Parser = parser;
+			processingNodeLabel_5002Parser = parser;
 		}
-		return processingNodeId_5002Parser;
+		return processingNodeLabel_5002Parser;
 	}
 
 	/**
 	* @generated
 	*/
-	private IParser decisionNodeId_5003Parser;
+	private IParser decisionNodeLabel_5003Parser;
 
 	/**
 	* @generated
 	*/
-	private IParser getDecisionNodeId_5003Parser() {
-		if (decisionNodeId_5003Parser == null) {
-			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Id() };
+	private IParser getDecisionNodeLabel_5003Parser() {
+		if (decisionNodeLabel_5003Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
 			MessageFormatParser parser = new MessageFormatParser(features);
-			decisionNodeId_5003Parser = parser;
+			decisionNodeLabel_5003Parser = parser;
 		}
-		return decisionNodeId_5003Parser;
+		return decisionNodeLabel_5003Parser;
 	}
 
 	/**
 	* @generated
 	*/
-	private IParser loopDecisionNodeId_5004Parser;
+	private IParser loopDecisionNodeLabel_5004Parser;
 
 	/**
 	* @generated
 	*/
-	private IParser getLoopDecisionNodeId_5004Parser() {
-		if (loopDecisionNodeId_5004Parser == null) {
-			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Id() };
+	private IParser getLoopDecisionNodeLabel_5004Parser() {
+		if (loopDecisionNodeLabel_5004Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
 			MessageFormatParser parser = new MessageFormatParser(features);
-			loopDecisionNodeId_5004Parser = parser;
+			loopDecisionNodeLabel_5004Parser = parser;
 		}
-		return loopDecisionNodeId_5004Parser;
+		return loopDecisionNodeLabel_5004Parser;
 	}
 
 	/**
 	* @generated
 	*/
-	private IParser exitNodeId_5005Parser;
+	private IParser exitNodeLabel_5005Parser;
 
 	/**
 	* @generated
 	*/
-	private IParser getExitNodeId_5005Parser() {
-		if (exitNodeId_5005Parser == null) {
-			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Id() };
+	private IParser getExitNodeLabel_5005Parser() {
+		if (exitNodeLabel_5005Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
 			MessageFormatParser parser = new MessageFormatParser(features);
-			exitNodeId_5005Parser = parser;
+			exitNodeLabel_5005Parser = parser;
 		}
-		return exitNodeId_5005Parser;
+		return exitNodeLabel_5005Parser;
+	}
+
+	/**
+	* @generated
+	*/
+	private IParser switchNodeLabel_5006Parser;
+
+	/**
+	* @generated
+	*/
+	private IParser getSwitchNodeLabel_5006Parser() {
+		if (switchNodeLabel_5006Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			switchNodeLabel_5006Parser = parser;
+		}
+		return switchNodeLabel_5006Parser;
+	}
+
+	/**
+	* @generated
+	*/
+	private IParser caseNodeLabel_5007Parser;
+
+	/**
+	* @generated
+	*/
+	private IParser getCaseNodeLabel_5007Parser() {
+		if (caseNodeLabel_5007Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getNode_Label() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			caseNodeLabel_5007Parser = parser;
+		}
+		return caseNodeLabel_5007Parser;
+	}
+
+	/**
+	* @generated
+	*/
+	private IParser edgeLabel_6001Parser;
+
+	/**
+	* @generated
+	*/
+	private IParser getEdgeLabel_6001Parser() {
+		if (edgeLabel_6001Parser == null) {
+			EAttribute[] features = new EAttribute[] { GfcPackage.eINSTANCE.getEdge_Label() };
+			MessageFormatParser parser = new MessageFormatParser(features);
+			edgeLabel_6001Parser = parser;
+		}
+		return edgeLabel_6001Parser;
 	}
 
 	/**
@@ -121,15 +175,21 @@ public class GfcParserProvider extends AbstractProvider implements IParserProvid
 	protected IParser getParser(int visualID) {
 		switch (visualID) {
 		case EntryNodeIdEditPart.VISUAL_ID:
-			return getEntryNodeId_5001Parser();
+			return getEntryNodeLabel_5001Parser();
 		case ProcessingNodeIdEditPart.VISUAL_ID:
-			return getProcessingNodeId_5002Parser();
+			return getProcessingNodeLabel_5002Parser();
 		case DecisionNodeIdEditPart.VISUAL_ID:
-			return getDecisionNodeId_5003Parser();
+			return getDecisionNodeLabel_5003Parser();
 		case LoopDecisionNodeIdEditPart.VISUAL_ID:
-			return getLoopDecisionNodeId_5004Parser();
+			return getLoopDecisionNodeLabel_5004Parser();
 		case ExitNodeIdEditPart.VISUAL_ID:
-			return getExitNodeId_5005Parser();
+			return getExitNodeLabel_5005Parser();
+		case SwitchNodeIdEditPart.VISUAL_ID:
+			return getSwitchNodeLabel_5006Parser();
+		case CaseNodeIdEditPart.VISUAL_ID:
+			return getCaseNodeLabel_5007Parser();
+		case EdgeLabelEditPart.VISUAL_ID:
+			return getEdgeLabel_6001Parser();
 		}
 		return null;
 	}
