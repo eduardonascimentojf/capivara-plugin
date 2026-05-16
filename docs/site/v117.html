@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capivara - Versão 1.1.7</title>
+    <style>
+        /* Reset e Fontes */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            color: #333; 
+            background-color: #fff;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            padding: 2em;
+            gap: 40px;
+        }
+
+        /* Área de Texto (Esquerda) */
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Sidebar de Navegação (Direita) */
+        .version-sidebar {
+            width: 150px;
+            flex-shrink: 0;
+            height: fit-content;
+            position: sticky;
+            top: 40px;
+            border-left: 1px solid #eee;
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .version-sidebar h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #999;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .version-sidebar h4:first-child {
+            margin-top: 0;
+        }
+
+        .version-link {
+            display: block;
+            padding: 5px 0;
+            color: #0366d6;
+            text-decoration: none;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .version-link:hover { color: #000; }
+
+        .version-link.active {
+            font-weight: bold;
+            color: #24292e;
+        }
+
+        .version-link.active::before {
+            content: "•";
+            color: #28a745;
+            position: absolute;
+            left: -12px;
+            top: 4px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* --- Estilos de Conteúdo --- */
+        h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2em; }
+        h1 { font-size: 2em; border: none; text-align: center; margin-top: 0; }
+        
+        code { 
+            background-color: #f6f8fa; 
+            padding: 0.2em 0.4em; 
+            border-radius: 6px; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
+            font-size: 0.9em; 
+        }
+        
+        pre { 
+            background-color: #f6f8fa; 
+            padding: 1.2em; 
+            border-radius: 6px; 
+            white-space: pre;
+            overflow-x: auto; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #eee;
+        }
+
+        /* Imagens globais */
+        img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 8px; }
+        
+        img.badge-shield {
+            display: inline-block;
+            margin: 5px;
+            vertical-align: middle;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f6f8fa; }
+
+        /* Estilo para alertas de remoção/mudança */
+        .alert-box {
+            background-color: #fff8c5;
+            border: 1px solid #e3d16f;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <main class="content-area">
+        
+        <p align="center">
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+        </p>
+
+        <h1>
+            Capivara 1.1.7
+        </h1>
+        
+        <p align="center">
+            Análise visual nativa com GMF/Eugenia.
+            <br />
+            <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.1.7-blue">
+            <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+        </p>
+
+        <nav>
+            <h2>Sumário</h2>
+            <ul>
+                <li><a href="#novidades-110">O que mudou?</a></li>
+                <li><a href="#instalacao-110">Instalação</a></li>
+                <li><a href="#como-usar-110">Como Usar</a></li>
+                <li><a href="#exemplo-110">Exemplo de Análise</a></li>
+                <li><a href="#visualizacao">Visualização Gráfica</a></li>
+                <li><a href="#legenda-110">Legenda</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="novidades-110">O que mudou?</h2>
+        
+        <p>A versão 1.1.7 traz uma reformulação completa na forma de visualizar os dados:</p>
+        
+        <h3>Novas Funcionalidades</h3>
+        <ul>
+            <li><strong>Visualização Integrada (GMF):</strong> O grafo agora é renderizado nativamente dentro do Eclipse, eliminando a necessidade de ferramentas externas.</li>
+            <li><strong>Interatividade:</strong> Funcionalidade de mover as arestas e nós para reorganizar o layout do diagrama conforme sua preferência.</li>
+            <li><strong>Informação Detalhada:</strong> É possível obter informações detalhadas dos nós através de tooltips de auxílio e inspecionar os rótulos das arestas para identificar se pertencem ao caminho <em>true</em> ou <em>false</em> de uma estrutura condicional.</li>
+        </ul>
+
+        <h3>Remoções e Alterações</h3>
+        <div class="alert-box">
+            <strong>⚠️ Atenção:</strong> Foi removida a funcionalidade que implementava a <strong>Tabela Verdade</strong> e a geração do grafo via código <strong>.dot</strong>.
+        </div>
+
+        <h2 id="instalacao-110">Instalação</h2>
+        
+        <h3>Método 1: Update Site (Recomendado)</h3>
+        <ol>
+            <li>No Eclipse, acesse <strong>Help > Install New Software</strong>.</li>
+            <li>Utilize o endereço estável (instala sempre a versão mais recente):
+                <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
+            </li>
+            <li>Conclua a instalação e reinicie o Eclipse.</li>
+        </ol>
+
+       <div class="alert-box">
+            <strong>Nota de Suporte:</strong> O método de instalação manual via pasta <code>dropins</code> <strong>não está disponível</strong> nesta versão do plugin. A injeção direta de arquivos jar na pasta dropins impede que o motor do Eclipse valide e ative as dependências de diagramação de forma correta, resultando em falhas de inicialização do ecossistema. Use sempre o Update Site.
+        </div>
+
+        <h2 id="como-usar-110">Como Usar</h2>
+        <p>O menu de contexto foi atualizado com duas opções para agilizar o processo:</p>
+
+        <table style="margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th>Opção de Menu</th>
+                    <th>O que faz?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Capivara | Node Enumerate</code></td>
+                    <td>Realiza apenas a <strong>enumeração</strong> das linhas do método selecionado (adiciona comentários /*Nó X*/ no código), sem gerar gráficos.</td>
+                </tr>
+                <tr>
+                    <td><code>Capivara | Generate GFC</code></td>
+                    <td>Cria o arquivo de modelo e abre automaticamente a visualização do <strong>Grafo de Fluxo de Controle (GFC)</strong>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="exemplo-110">Exemplo de Análise</h2>
+        <p>Abaixo demonstramos como o plugin processa um código simples.</p>
+
+        <p><strong>1. Código de Entrada:</strong></p>
+<pre><code>public int exemplo(int a) {
+    if (a > 0) {
+        return a * 2;
+    } else {
+        return 0;
+    }
+}</code></pre>
+
+        <p><strong>2. Resultado da Enumeração (Node Enumerate):</strong></p>
+<pre><code>/*Linha 01*/ /*Nó 01*/           public int exemplo(int a) {
+/*Linha 02*/ /*Nó 02*/              if (a > 0) {
+/*Linha 03*/ /*Nó 03*/                  return a * 2;
+/*Linha 04*/ /*Nó 04*/              } else {
+/*Linha 05*/ /*Nó 04*/                  return 0;
+/*Linha 06*/ /*Nó 04*/              }
+/*Linha 07*/ /*Nó 01*/          }</code></pre>
+
+        <h2 id="visualizacao"> Visualização Gráfica (Generate GFC)</h2>
+        <p>Ao utilizar a opção <strong>Generate GFC</strong> com o código acima, o diagrama será exibido desta forma:</p>
+        
+        <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legenda.png" alt="GFC gerado">
+
+        <h2 id="legenda-110"> Entendendo o Grafo: Legenda</h2>
+        <p>O grafo utiliza cores e formas para diferenciar o papel de cada nó no fluxo de controle.</p>
+        
+        <table>
+            <thead>
+                <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong><del>ENTRY</del></strong> <del>(Verde)</del></td><td><del>O ponto de início do método.</del> (<strong>Obsoleto</strong>)</td></tr>
+                <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Um ou mais comandos sequenciais.</td></tr>
+                <tr><td><strong>DECISION</strong> (Azul)</td><td>Uma estrutura condicional, como `if`.</td></tr>
+                <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Uma estrutura de laço, como `while` ou `for`.</td></tr>
+                <tr><td><strong>EXIT</strong> (Vermelho, Círculo Duplo)</td><td>Um ponto de término do fluxo, como `return`.</td></tr>
+                <tr><td><strong>SWITCH</strong> (Roxo)</td><td>Início de uma estrutura de seleção múltipla (`switch`).</td></tr>
+                <tr><td><strong>CASE</strong> (Rosa)</td><td>Um ramo ou condição específica dentro de uma estrutura `switch`.</td></tr>
+            </tbody>
+        </table>
+        
+        <p>Estamos utilizando o ELK (Eclipse Layout Kernel) para aplicar o layout no nosso Grafo de Fluxo de Controle (GFC).</p>
+
+        <p>Temos duas abordagens. Caso você tenha o Graphviz instalado em sua máquina, usamos o algoritmo DOT para fazer o mapeamento e entregar um grafo com uma distribuição visualmente melhor. Caso você não o tenha, utilizamos um algoritmo padrão do ELK.</p>
+
+        <p>Na rotina de gerar o GFC, existe um delay para a aplicação do layout, portanto, pedimos que espere. Caso o layout tenha saído 'estranho', faça a rotina de gerar o GFC novamente; isso normalmente resolve o problema de distribuição.</p>
+
+    </main>
+
+    <aside class="version-sidebar">
+        <h4>Documentação</h4>
+        <a href="tutorial.html" class="version-link">🎓 Tutorial</a>
+        <a href="../javadoc/index.html" target="_blank" class="version-link">📦 JavaDocs ↗</a>
+        
+        <h4>Versões</h4>
+        <a href="../index.html" class="version-link">1.2.0</a>
+        <a href="v117.html" class="version-link active">1.1.7</a>
+        <a href="v100.html" class="version-link">1.0.0</a>
+    </aside>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capivara - Versão 1.0.0</title>
+    <style>
+        /* Reset e Fontes */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            color: #333; 
+            background-color: #fff;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            padding: 2em;
+            gap: 40px;
+        }
+
+        /* Área de Texto (Esquerda) */
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Sidebar de Navegação (Direita) */
+        .version-sidebar {
+            width: 150px;
+            flex-shrink: 0;
+            height: fit-content;
+            position: sticky;
+            top: 40px;
+            border-left: 1px solid #eee;
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .version-sidebar h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #999;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .version-sidebar h4:first-child {
+            margin-top: 0;
+        }
+
+        .version-link {
+            display: block;
+            padding: 5px 0;
+            color: #0366d6;
+            text-decoration: none;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .version-link:hover { color: #000; }
+
+        .version-link.active {
+            font-weight: bold;
+            color: #24292e;
+        }
+
+        .version-link.active::before {
+            content: "•";
+            color: #28a745;
+            position: absolute;
+            left: -12px;
+            top: 4px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* --- Estilos de Conteúdo --- */
+        h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2em; }
+        h1 { font-size: 2em; border: none; text-align: center; margin-top: 0; }
+        
+        code { 
+            background-color: #f6f8fa; 
+            padding: 0.2em 0.4em; 
+            border-radius: 6px; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
+            font-size: 0.9em; 
+        }
+        
+        pre { 
+            background-color: #f6f8fa; 
+            padding: 1.2em; 
+            border-radius: 6px; 
+            white-space: pre;
+            overflow-x: auto; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #eee;
+        }
+
+        /* Imagens globais */
+        img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 8px; }
+        
+        img.badge-shield {
+            display: inline-block;
+            margin: 5px;
+            vertical-align: middle;
+        }
+
+        blockquote { border-left: 4px solid #ddd; padding-left: 1em; color: #666; margin-left: 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f6f8fa; }
+        
+        details { border: 1px solid #ddd; padding: 1em; border-radius: 6px; margin-bottom: 1em; }
+        summary { font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <main class="content-area">
+        
+        <p align="center">
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+        </p>
+
+        <h1>
+            Capivara 1.0.0
+        </h1>
+
+        <p align="center">
+          Geração de Grafos DOT e Tabelas Verdade.
+          <br />
+          <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.0.0-blue">
+          <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
+        </p>
+        
+        <nav>
+            <h2>Sumário</h2>
+            <ul>
+                <li><a href="#o-que-o-plugin-faz">O que o Plugin Faz?</a></li>
+                <li><a href="#instalacao-100">Instalação</a></li>
+                <li><a href="#como-usar-100">Como Usar</a></li>
+                <li><a href="#exemplo-de-analise">Exemplo de Análise</a></li>
+                <li><a href="#entendendo-o-grafo-100">Entendendo o Grafo</a></li>
+            </ul>
+        </nav>
+        
+        <h2 id="o-que-o-plugin-faz">O que o Plugin Faz?</h2>
+        <p>O <strong>Capivara</strong> auxilia na criação de casos de teste gerando:</p>
+        <ol>
+            <li><strong>Enumeração de Nós:</strong> Mapeia linhas para nós.</li>
+            <li><strong>Tabela Verdade:</strong> Causa-efeito (2<sup>n</sup>).</li>
+            <li><strong>Grafo de Fluxo (DOT):</strong> Código para visualização externa.</li>
+        </ol>
+        
+        <h2 id="instalacao-100">Instalação</h2>
+        
+        <h3>Método 1: Update Site (Recomendado)</h3>
+        <p>Utilize o endereço estável abaixo no Eclipse para instalar sempre a versão mais recente disponível:</p>
+        <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
+
+        <h3>Método 2: Instalação Manual (Dropins)</h3>
+        <ol>
+            <li>Baixe o arquivo <code>.jar</code> da versão 1.0.0 em <strong>Releases</strong>.</li>
+            <li>Localize a pasta <code>dropins</code> na instalação do Eclipse.</li>
+            <li>Copie o arquivo para lá e reinicie a IDE.</li>
+        </ol>
+
+        <h2 id="como-usar-100">Como Usar</h2>
+        <ol>
+            <li>Selecione o método no Eclipse.</li>
+            <li>Clique com botão direito > <strong>"Analisar Código para Testes"</strong>.</li>
+        </ol>
+        <!-- Ajustado caminho relativo para buscar os assets subindo um nível -->
+        <img src="../assets/demo.gif" alt="Demonstração de Uso">
+
+        <h2 id="exemplo-de-analise">Exemplo de Análise</h2>
+        <p><strong>Código de Entrada:</strong></p>
+<pre><code>public int exemplo(int a) {
+    if (a > 0) {
+        return a * 2;
+    } else {
+        return 0;
+    }
+}</code></pre>
+        
+        <details>
+            <summary><strong>1. Enumeração de Nós</strong></summary>
+<pre><code>/*Linha 01*/ /*Nó 01*/    public int exemplo(int a) {
+/*Linha 02*/ /*Nó 02*/        if (a > 0) {
+/*Linha 03*/ /*Nó 03*/            return a * 2;
+/*Linha 04*/ /*Nó 01*/        } else {
+/*Linha 05*/ /*Nó 04*/            return 0;
+/*Linha 06*/ /*Nó 01*/        }
+/*Linha 07*/ /*Nó 01*/    }</code></pre>
+        </details>
+
+        <details>
+            <summary><strong>2. Tabela Verdade</strong></summary>
+<pre><code>Caso | a > 0                     | Resultado (Efeito)       
+------------------------------------------------------------
+1    | F                         | 0                        
+2    | V                         | a * 2</code></pre>
+        </details>
+
+        <details>
+            <summary><strong>3. Grafo (Código DOT)</strong></summary>
+            <p>Copie e cole no <a href="https://dreampuf.github.io/GraphvizOnline" target="_blank">Graphviz Online</a>.</p>
+<pre><code>digraph G {
+  rankdir=TB;
+  1 -> 2;
+  2 -> 3;
+  2 -> 4;
+}</code></pre>
+        </details>
+
+        <h2 id="entendendo-o-grafo-100">Legenda</h2>
+        
+        <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/legendaa.png" alt="Legenda dos Nós do Grafo">
+        
+        <table>
+            <thead>
+                <tr><th>Tipo de Nó</th><th>Descrição</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>ENTRY</strong> (Verde)</td><td>O ponto de início do método.</td></tr>
+                <tr><td><strong>PROCESSING</strong> (Preto)</td><td>Comandos sequenciais.</td></tr>
+                <tr><td><strong>DECISION</strong> (Azul)</td><td>Estrutura condicional (if).</td></tr>
+                <tr><td><strong>LOOP DECISION</strong> (Laranja)</td><td>Estrutura de laço (while).</td></tr>
+                <tr><td><strong>EXIT</strong> (Vermelho)</td><td>Término do fluxo (return).</td></tr>
+            </tbody>
+        </table>
+    </main>
+
+    <!-- NAVEGAÇÃO DA PASTA SITE -->
+    <aside class="version-sidebar">
+        <h4>Documentação</h4>
+        <a href="tutorial.html" class="version-link">🎓 Tutorial</a>
+        <a href="../javadoc/index.html" target="_blank" class="version-link">📦 JavaDocs ↗</a>
+        
+        <h4>Versões</h4>
+        <a href="../index.html" class="version-link">1.2.0</a>
+        <a href="v117.html" class="version-link">1.1.7</a>
+        <a href="v100.html" class="version-link active">1.0.0</a>
+    </aside>
+
+</div>
+
+</body>
+</html>

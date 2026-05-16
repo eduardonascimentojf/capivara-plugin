@@ -1,0 +1,13 @@
+br.ufjf.capivara
+br.ufjf.capivara.analyzer
+br.ufjf.capivara.gmf.handlers
+br.ufjf.capivara.handlers
+br.ufjf.capivara.listener
+br.ufjf.capivara.model
+br.ufjf.capivara.util
+br.ufjf.capivara.views
+gfc.diagram.actions
+gfc.diagram.edit.helpers
+gfc.diagram.edit.parts
+gfc.diagram.edit.policies
+gfc.diagram.figures

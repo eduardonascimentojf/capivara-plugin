@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capivara - Tutorial Oficial</title>
+    <style>
+        /* Reset e Fontes */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            color: #333; 
+            background-color: #fff;
+        }
+
+        /* Layout Principal */
+        .container {
+            display: flex;
+            max-width: 1000px;
+            margin: auto;
+            padding: 2em;
+            gap: 40px;
+        }
+
+        /* Área de Texto (Esquerda) */
+        .content-area {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Sidebar de Navegação (Direita) */
+        .version-sidebar {
+            width: 150px;
+            flex-shrink: 0;
+            height: fit-content;
+            position: sticky;
+            top: 40px;
+            border-left: 1px solid #eee;
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .version-sidebar h4 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #999;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .version-sidebar h4:first-child {
+            margin-top: 0;
+        }
+
+        .version-link {
+            display: block;
+            padding: 5px 0;
+            color: #0366d6;
+            text-decoration: none;
+            font-size: 0.95em;
+            position: relative;
+        }
+
+        .version-link:hover { color: #000; }
+
+        .version-link.active {
+            font-weight: bold;
+            color: #24292e;
+        }
+
+        .version-link.active::before {
+            content: "•";
+            color: #28a745;
+            position: absolute;
+            left: -12px;
+            top: 4px;
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        /* --- Estilos de Conteúdo --- */
+        h1, h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 2em; }
+        h1 { font-size: 2em; border: none; text-align: center; margin-top: 0; }
+        
+        code { 
+            background-color: #f6f8fa; 
+            padding: 0.2em 0.4em; 
+            border-radius: 6px; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; 
+            font-size: 0.9em; 
+        }
+        
+        pre { 
+            background-color: #f6f8fa; 
+            padding: 1.2em; 
+            border-radius: 6px; 
+            white-space: pre;
+            overflow-x: auto; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #eee;
+        }
+
+        /* Ajuste nas imagens e demonstrações para centralizarem elegantemente */
+        img { max-width: 100%; height: auto; display: block; margin: 1em auto; border-radius: 8px; }
+        img.demo-gif { width: 100%; max-width: 750px; border: 1px solid #ddd; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin: 1.5em auto; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1em 0; font-size: 0.95em; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f6f8fa; }
+
+        /* Alertas Customizados */
+        .alert-box {
+            background-color: #fff8c5;
+            border: 1px solid #e3d16f;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin: 15px 0;
+        }
+
+        .alert-box.info {
+            background-color: #e8f0fe;
+            border-color: #1a73e8;
+            color: #1967d2;
+        }
+
+        .step-title {
+            margin-top: 1.8em;
+            color: #24292e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <main class="content-area">
+        
+        <p align="center">
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+        </p>
+
+        <h1>Guia de Instalação e Uso Geral</h1>
+        <p>Aprenda a instalar o plugin Capivara na sua própria instância do Eclipse e configurá-lo para realizar análises de fluxo de controle e cobertura estrutural de código Java.</p>
+
+        <hr>
+
+        <h2>1. Instalação do Plugin</h2>
+        <p>Escolha um dos dois métodos abaixo para adicionar o Capivara ao seu Eclipse (Recomendado: <strong>Java 17+</strong> e <strong>Eclipse 2025-03</strong> ou superior).</p>
+        
+        <h3 class="step-title">Método 1: Pelo Update Site (Recomendado)</h3>
+        <p>Este método permite que o Eclipse gerencie o plugin e busque atualizações automaticamente.</p>
+        <ol>
+            <li>No menu superior do seu Eclipse, acesse <strong>Help > Install New Software...</strong></li>
+            <li>Clique no botão <strong>Add...</strong> no canto superior direito.</li>
+            <li>No campo <em>Name</em> coloque <code>Capivara Update Site</code> e no campo <em>Location</em> insira a URL estável:
+                <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
+            </li>
+            <li>Clique em <strong>Add</strong>. Marque a caixinha correspondente ao <strong>"Capivara Tools"</strong> que aparecerá na lista.</li>
+            <li>Avance clicando em <strong>Next</strong>, aceite os termos e clique em <strong>Finish</strong>.</li>
+            <li>Se a IDE exibir um alerta sobre <em>"Trust Artifacts"</em> (Artefatos não assinados), clique em <strong>Select All</strong> e confirme em <strong>Trust Selected</strong>.</li>
+            <li>Reinicie o Eclipse para concluir a ativação.</li>
+        </ol>
+
+        <h3 class="step-title">Método 2: Instalação Manual via Dropins</h3>
+        <p>Caso sua rede bloqueie downloads internos do Eclipse, você pode realizar a instalação offline:</p>
+        <ol>
+            <li>Acesse a aba <strong>Releases</strong> no repositório do projeto no GitHub e baixe o arquivo compilado <code>.jar</code> da versão desejada.</li>
+            <li>Feche o seu Eclipse.</li>
+            <li>Navegue até o diretório onde o Eclipse está instalado no seu computador.</li>
+            <li>Localize a pasta chamada <code>dropins</code> (caso ela não exista na raiz da instalação, você pode criá-la com esse nome exato).</li>
+            <li>Cole o arquivo <code>.jar</code> baixado dentro dessa pasta.</li>
+            <li>Abra o Eclipse novamente. O plugin será detectado e carregado na inicialização.</li>
+        </ol>
+
+        <hr>
+
+        <h2>2. Configuração do Graphviz</h2>
+        <p>O Capivara possui um motor gráfico interno (ELK), mas a visualização, distribuição e espaçamento dos grafos ficam consideravelmente superiores quando o <strong>Graphviz</strong> está instalado no sistema operacional. O plugin tentará localizar de forma automática o executável do Graphviz nos caminhos padrões:</p>
+        
+        <ul>
+            <li><strong>No Windows:</strong> O plugin busca o executável automaticamente nas pastas:
+                <pre><code>C:\Program Files\Graphviz\bin\dot.exe</code></pre>
+                ou
+                <pre><code>C:\Program Files (x86)\Graphviz\bin\dot.exe</code></pre>
+                <em>Certifique-se de marcar a opção "Add Graphviz to the system PATH" durante o instalador oficial do Windows.</em>
+            </li>
+            <li><strong>No Linux:</strong> O utilitário deve estar acessível globalmente pelo terminal através do comando <code>dot</code>. Você pode instalá-lo rapidamente usando o gerenciador de pacotes da sua distribuição (ex: <code>sudo apt install graphviz</code>). O link simbólico será criado automaticamente em <code>/usr/bin/dot</code>.</li>
+        </ul>
+
+        <div class="alert-box">
+            <strong>⚠️ Comportamento de Layout:</strong><br>
+            • Se o Graphviz não for encontrado, o plugin usará o motor padrão do ELK.<br>
+            • No Windows, normalmente existe um delay para o plugin pegar o path do .dot. Caso demore para aplicar o layout, verifique se o path está correto e reinicie o Eclipse.<br>
+            • Caso os nós apareçam sobrepostos ou desalinhados, basta acionar a geração do grafo novamente para reajustar a distribuição.
+        </div>
+
+        <hr>
+
+        <h2>3. Como Utilizar no seu Código</h2>
+        <p>O analisador do Capivara trabalha com foco em escopo <strong>intra-método</strong>, avaliando um método por vez. Chamadas para outras classes são representadas no grafo como nós únicos de processamento sequencial.</p>
+
+        <div class="alert-box info">
+            <strong>Dica de Seleção:</strong> <br>
+            • <strong>Na geração do GFC:</strong> Caso você opte por selecionar o bloco de código manualmente em vez de usar o atalho da assinatura, é necessário que o início da seleção seja exatamente o início do método e o final seja o fechamento de sua última chave. O parser exige que não haja nada antes ou depois da estrutura selecionada (como quebras de linha órfãs, indentações externas ou comentários fora do escopo). Esta mesma regra de bloco estrito se aplica à Análise de Cobertura.<br>
+            • <strong>Na Enumeração de Nós:</strong> O mecanismo é consideravelmente mais flexível. Basta que o método alvo esteja contido em algum ponto dentro da área selecionada para que o plugin consiga realizar o mapeamento das linhas perfeitamente.        
+        </div>
+
+        <h3 class="step-title">A. Enumeração de Nós (Node Enumeration)</h3>
+        <p>Associa as linhas de comando do seu método aos nós abstratos equivalentes do fluxo de controle.</p>
+        <ol>
+            <li>Abra qualquer classe Java no seu projeto e selecione o método alvo.</li>
+            <li>Clique com o botão direito e selecione <strong>Capivara | Node Enumeration</strong>.</li>
+            <li>Os nós mapeados serão exibidos em uma aba dedicada integrada à IDE. Caso ela suma, recupere-a em: <em>Window > Show View > Other... > Capivara Analysis</em>.</li>
+        </ol>
+        <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/enumeracao.gif" class="demo-gif" alt="Demonstração da Enumeração de Nós">
+
+        <h3 class="step-title">B. Gerar Grafo de Fluxo de Controle (GFC)</h3>
+        <p>Cria o diagrama visual e interativo do fluxo logístico da rotina.</p>
+        <ol>
+            <li>Clique com o botão direito sobre o método selecionado e escolha <strong>Capivara | Generate GFC</strong>.</li>
+            <li>O arquivo do modelo gráfico será aberto imediatamente na tela. Você pode arrastar os nós e arestas livremente para organizar a exibição.</li>
+            <li>Passe o ponteiro do mouse sobre os nós ou arestas para ler as informações detalhadas em caixas de texto flutuantes (<em>Tooltips</em>).</li>
+        </ol>
+        <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/GFC.gif" class="demo-gif" alt="Demonstração da Geração do GFC">
+
+        <h3 class="step-title">C. Análise e Plotagem de Cobertura de Testes</h3>
+        <p>Coloriza o grafo do fluxo de controle integrando dados reais obtidos pela execução de testes de software.</p>
+        <ol>
+            <li>
+                <strong>Passo Obrigatório:</strong> Antes de mais nada, execute a sua classe ou suíte de testes (JUnit) utilizando o botão de cobertura do <strong>EclEmma</strong> (o ícone do triângulo "Play" acompanhado de listras verdes na barra de ferramentas superior do Eclipse).
+            </li>
+            <li>Com o método Java selecionado no editor, clique com o botão direito e vá em <strong>Capivara | Coverage Analysis GFC</strong>.</li>
+            <li>Escolha o critério estrutural desejado para colorização:
+                <ul>
+                    <li><strong>Node Coverage:</strong> Realça em cores o percentual de nós e instruções visitadas de forma direta.</li>
+                    <li><strong>Edge Coverage:</strong> Realça as ramificações de caminhos tomados (ramos/decisões Verdadeiro e Falso).</li>
+                </ul>
+            </li>
+            <li>O grafo aberto incorporará as cores (Verde para coberto, Vermelho para não executado, Amarelo para parcial), permitindo identificar facilmente lacunas de testes.</li>
+            <li>Para extrair o relatório visual, clique com o botão direito em uma área livre do diagrama e selecione <strong>Export Diagram as PNG</strong>.</li>
+        </ol>
+        <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/COBERTURA.gif" class="demo-gif" alt="Demonstração da Análise de Cobertura">
+
+    </main>
+
+    <aside class="version-sidebar">
+        <h4>Documentação</h4>
+        <a href="tutorial.html" class="version-link active">🎓 Tutorial</a>
+        <a href="../javadoc/index.html" target="_blank" class="version-link">📦 JavaDocs ↗</a>
+        
+        <h4>Versões</h4>
+        <a href="../index.html" class="version-link">1.2.0</a>
+        <a href="v117.html" class="version-link">1.1.7</a>
+        <a href="v100.html" class="version-link">1.0.0</a>
+    </aside>
+
+</div>
+
+</body>
+</html>
