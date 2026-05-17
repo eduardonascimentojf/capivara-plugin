@@ -15,6 +15,13 @@
   <img alt="Licença" src="https://img.shields.io/badge/licença-MIT-green">
 </p>
 
+
+<p align="center">
+  Acesse a página para ter acesso ao Tutorial, documentação e mais detalhes sobre as versões:
+  <br />
+  <strong><a href="https://eduardonascimentojf.github.io/capivara-plugin/">eduardonascimentojf.github.io/capivara-plugin</a></strong>
+</p>
+
 ---
 
 ## Sumário
