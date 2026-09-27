@@ -10,7 +10,7 @@
   Um plugin para a IDE Eclipse que analisa métodos Java para gerar Grafos de Fluxo de Controle e realizar análise de cobertura de testes estruturais, auxiliando na criação e visualização de casos de teste.
   <br />
   <br />
-  <img alt="Versão" src="https://img.shields.io/badge/versão-1.2.0-blue">
+  <img alt="Versão" src="https://img.shields.io/badge/versão-1.2.2-blue">
   <img alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
   <img alt="Licença" src="https://img.shields.io/badge/licença-MIT-green">
 </p>
@@ -47,6 +47,12 @@ O **Capivara** é uma ferramenta de análise estática integrada à IDE Eclipse,
 ---
 
 ## Instalação
+
+> **Compatibilidade de Versões do Eclipse**
+> 
+> Devido ao uso de dependências e ferramentas mais recentes da plataforma, o plugin **não funciona em versões antigas do Eclipse**. Além disso, existe uma incompatibilidade conhecida com o **Eclipse 2026**.
+> 
+> **Versão Recomendada:** Para garantir o funcionamento correto e sem falhas de dependência, utilize o **Eclipse 2025**.
 
 ### Método Único: Update Site (Recomendado e Obrigatório)
 
@@ -192,7 +198,7 @@ Por ser um projeto puramente de cunho educacional e científico, o ecossistema f
 
 ## Detalhes Técnicos
 
-* **Versão Atual:** 1.2.0
+* **Versão Atual:** 1.2.2
 
 * **Plataforma Suportada:** Eclipse IDE 2024-03 ou superior (com suporte a JVM moderna)
 * **Requisitos do Ambiente:** Java 17 ou superior configurado na IDE

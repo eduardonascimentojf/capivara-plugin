@@ -15,6 +15,7 @@ import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.commands.Command;
@@ -102,7 +103,7 @@ public class FlowchartEditPart extends DiagramEditPart {
         Display.getDefault().asyncExec(new Runnable() {
             @Override
             public void run() {
-                if (isActive()) {
+                if (isActive() && getDiagramEditDomain() != null) {
                     createLegend();
                 }
             }
@@ -130,6 +131,15 @@ public class FlowchartEditPart extends DiagramEditPart {
                 }
             }
         });
+    }
+
+    @Override
+    protected void handleNotificationEvent(Notification notification) {
+        if (!isActive() || getDiagramEditDomain() == null) {
+            return;
+        }
+        super.handleNotificationEvent(notification);
+        refreshVisuals();
     }
 
     private void createLegend() {
@@ -248,7 +258,6 @@ public class FlowchartEditPart extends DiagramEditPart {
             return c;
         }
 
-      
         private Font createBoldFont() {
             FontData[] fontData = Display.getDefault().getSystemFont().getFontData();
             if (fontData != null && fontData.length > 0) {
@@ -331,7 +340,6 @@ public class FlowchartEditPart extends DiagramEditPart {
         private Figure createNodeScoreLabel() {
             String scoreText = " Score: N/A";
             try {
-                // resolveSemanticElement() é do FlowchartEditPart (classe externa)
                 if (!isActive() || getDiagramEditDomain() == null) return createBoldLabel(scoreText);
                 EObject element = resolveSemanticElement();
                 if (element instanceof Flowchart) {

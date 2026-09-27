@@ -28,6 +28,7 @@
         th { background-color: #f6f8fa; }
         .badge-title { background: #cce5ff; color: #004085; padding: 2px 8px; border-radius: 12px; font-size: 0.5em; vertical-align: middle; margin-left: 5px; border: 1px solid #b8daff; position: relative; top: -3px; font-weight: bold; text-transform: uppercase; }
         .alert-box { background-color: #e8f0fe; border: 1px solid #1a73e8; color: #1967d2; padding: 12px; border-radius: 6px; font-size: 0.9em; margin: 15px 0; }
+        .warning-box { background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 6px; font-size: 0.9em; margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -35,31 +36,31 @@
 <div class="container">
     <main class="content-area">
         <p align="center">
-            <img src="assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
+            <img src="https://raw.githubusercontent.com/eduardonascimentojf/capivara-plugin/refs/heads/main/assets/banner.png" alt="Banner do Plugin Capivara" style="width: 600px;"/>
         </p>
 
-        <h1>Capivara 1.2.0 <span class="badge-title">Atual</span></h1>
+        <h1>Capivara 1.2.2 <span class="badge-title">Atual</span></h1>
         
         <p align="center">
             Mapeamento Dinâmico de Cobertura de Código.
             <br />
-            <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.2.0-green">
+            <img class="badge-shield" alt="Versão" src="https://img.shields.io/badge/versão-1.2.2-green">
             <img class="badge-shield" alt="Plataforma" src="https://img.shields.io/badge/plataforma-Eclipse-purple">
         </p>
 
         <nav>
             <h2>Sumário</h2>
             <ul>
-                <li><a href="#novidades-120">Novas Adições da Versão 1.2.0</a></li>
+                <li><a href="#novidades-120">Novas Adições da Versão 1.2.2</a></li>
                 <li><a href="#como-usar-120">Como Usar e Ativar a Cobertura</a></li>
                 <li><a href="#legenda-cobertura">Legenda de Cobertura dos Nós</a></li>
                 <li><a href="#exportacao-png">Exportação de Diagramas (PNG)</a></li>
-                <li><a href="#instalacao">Instalação</a></li>
+                <li><a href="#instalacao">Instalação e Compatibilidade</a></li>
             </ul>
         </nav>
 
-        <h2 id="novidades-120">Novas Adições da Versão 1.2.0</h2>
-        <p>A versão 1.2.0 expande as capacidades do Capivara, integrando a análise estrutural estática aos dados de execução real gerados por suítes de testes. As principais adições desta versão são:</p>
+        <h2 id="novidades-120">Novas Adições da Versão 1.2.2</h2>
+        <p>A versão 1.2.2 expande as capacidades do Capivara, integrando a análise estrutural estática aos dados de execução real gerados por suítes de testes. As principais adições desta versão são:</p>
         
         <ul>
             <li><strong>Análise de Cobertura de Nós:</strong> Mapeia diretamente as instruções visitadas durante os testes JUnit, destacando blocos de código totalmente executados ou ignorados.</li>
@@ -89,7 +90,6 @@
                 </tr>
             </tbody>
         </table>
-
 
         <h2 id="legenda-cobertura">Legenda de Cobertura dos Nós</h2>
         <p>Ao ativar o mapeamento dinâmico, o Grafo de Fluxo de Controle (GFC) reajusta as suas cores seguindo estritamente a especificação de diagnóstico do motor de cobertura:</p>
@@ -129,7 +129,14 @@
             <li>A imagem será salva preservando a colorização e o score da análise ativa, tornando-se uma ferramenta perfeita para documentação.</li>
         </ol>
 
-        <h2 id="instalacao">Instalação</h2>
+        <h2 id="instalacao">Instalação e Compatibilidade</h2>
+
+        <div class="warning-box">
+            <strong>⚠️ Compatibilidade de Versões do Eclipse:</strong><br />
+            Devido ao uso de dependências e ferramentas mais recentes da plataforma, o plugin <strong>não funciona em versões antigas do Eclipse</strong>. Além disso, existe uma incompatibilidade conhecida com o <strong>Eclipse 2026</strong>.<br /><br />
+            <strong>Versão Recomendada:</strong> Para garantir o funcionamento correto e sem falhas de dependência, utilize o <strong>Eclipse 2025</strong>.
+        </div>
+
         <p>Para configurar agora mesmo em sua máquina, copie o link estável abaixo:</p>
         <pre><code>https://eduardonascimentojf.github.io/capivara-plugin/</code></pre>
         <p>Insira-o no seu Eclipse através do menu <strong>Help > Install New Software... > Add</strong> e selecione a categoria <strong>Capivara Tools</strong>. Para mais detalhes sobre instalação via Dropins ou configuração de variáveis de ambiente do Graphviz, acesse o nosso tutorial completo.</p>
@@ -141,7 +148,7 @@
         <a href="javadoc/index.html" target="_blank" class="version-link">📦 JavaDocs ↗</a>
         
         <h4>Versões</h4>
-        <a href="index.html" class="version-link active">1.2.0</a>
+        <a href="index.html" class="version-link active">1.2.2</a>
         <a href="site/v117.html" class="version-link">1.1.7</a>
         <a href="site/v100.html" class="version-link">1.0.0</a>
     </aside>

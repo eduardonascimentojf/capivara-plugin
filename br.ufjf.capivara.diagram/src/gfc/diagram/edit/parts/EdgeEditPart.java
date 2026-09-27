@@ -12,6 +12,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
 
 import gfc.Edge;
 import gfc.Node;
@@ -102,7 +103,18 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements ITreeBranchE
 
 	@Override
 	protected void handleNotificationEvent(Notification notification) {
-	    if (!isActive() || getDiagramEditDomain() == null) return;
+	    if (!isActive()) return;
+
+	    if (getDiagramEditDomain() == null) {
+	        Display.getDefault().asyncExec(() -> {
+	            if (isActive() && getDiagramEditDomain() != null) {
+	                refreshTooltip();
+	                refreshVisuals();
+	            }
+	        });
+	        return;
+	    }
+
 	    super.handleNotificationEvent(notification);
 	    refreshTooltip();
 	    refreshVisuals();
@@ -125,6 +137,7 @@ public class EdgeEditPart extends ConnectionNodeEditPart implements ITreeBranchE
 	        figure.setToolTip(null);
 	    }
 	}
+
 	public class EdgeFigure extends PolylineConnectionEx {
 		public EdgeFigure() {
 			this.setLineWidth(LINE_WIDTH);

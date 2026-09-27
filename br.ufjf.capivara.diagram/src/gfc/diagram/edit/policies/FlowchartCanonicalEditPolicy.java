@@ -442,6 +442,8 @@ public class FlowchartCanonicalEditPolicy extends CanonicalEditPolicy {
 				this.put(domainElement, view);
 			}
 		}
+		
+		
 
 	}
 }

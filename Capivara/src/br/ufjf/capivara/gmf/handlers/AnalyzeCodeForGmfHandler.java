@@ -360,15 +360,40 @@ public class AnalyzeCodeForGmfHandler extends AbstractHandler {
     }
 
     private int findPredecessorStatus(int nodeId, GFCVisitor visitor, Map<Integer, Node> nodes) {
+        int bestStatus = 0;
+        Node currentNode = nodes.get(nodeId);
+        String label = currentNode != null ? currentNode.getLabel() : "";
+        
+        // Identifica se o nó atual é um incremento/decremento (ex: i++, ++i, inc)
+        boolean isIncrementNode = label != null && (label.equals("inc") || label.contains("++") || label.contains("--"));
+
         for (Map.Entry<Integer, List<Edge>> entry : visitor.getGraphEdges().entrySet()) {
             for (Edge edge : entry.getValue()) {
                 if (edge.getDestinationNodeId() == nodeId) {
                     Node p = nodes.get(entry.getKey());
-                    if (p != null && p.getCoverageStatus() > 0) return p.getCoverageStatus();
+                    if (p != null) {
+                        int pStatus = p.getCoverageStatus();
+                        
+                        // Se houver PELO MENOS um pai Verde (1), o incremento foi executado
+                        if (pStatus == 1) {
+                            return 1;
+                        }
+                        
+                        if (pStatus == 2) {
+                            // Para nós comuns, o amarelo é um fallback válido.
+                            // Para o i++, tratamos a imprecisão do pai de forma conservadora ou agressiva.
+                            // Se o pai é amarelo (parcial), significa que o fluxo passou por ali em algum teste.
+                            // Logo, o i++ foi executado em algum momento -> Verde.
+                            bestStatus = isIncrementNode ? 1 : 2;
+                        } 
+                        else if (pStatus == 3 && bestStatus == 0) {
+                            bestStatus = 3;
+                        }
+                    }
                 }
             }
         }
-        return 0;
+        return bestStatus;
     }
 
     private void forceRefreshVisuals(IEditorPart ep) {

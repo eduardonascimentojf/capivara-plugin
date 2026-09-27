@@ -2,7 +2,7 @@
 <feature
       id="Capivara.feature"
       label="Capivara"
-      version="1.2.1.qualifier"
+      version="1.2.2.qualifier"
       provider-name="UFJF">
 
    <description url="https://eduardonascimentojf.github.io/capivara-plugin/">
@@ -30,15 +30,19 @@
 
    <plugin
          id="br.ufjf.capivara"
-         version="1.2.1.qualifier"/>
+         version="1.2.2.qualifier"/>
 
    <plugin
          id="br.ufjf.capivara.diagram"
-         version="1.2.1.qualifier"/>
+         version="1.2.2.qualifier"/>
 
    <plugin
          id="br.ufjf.capivara.model"
-         version="1.2.1.qualifier"/>
+         version="1.2.2.qualifier"/>
+
+   <plugin
+         id="br.ufjf.capivara.model.edit"
+         version="1.2.2.qualifier"/>
 
    <plugin
          id="org.eclipse.gmf.tooling.runtime"
@@ -75,9 +79,5 @@
    <plugin
          id="org.eclipse.elk.graph"
          version="0.11.0"/>
-
-   <plugin
-         id="br.ufjf.capivara.model.edit"
-         version="1.2.1.qualifier"/>
 
 </feature>

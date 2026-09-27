@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: br.ufjf.capivara.model.edit;singleton:=true
 Automatic-Module-Name: br.ufjf.capivara.model.edit
-Bundle-Version: 1.2.1.qualifier
+Bundle-Version: 1.2.2.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: gfc.provider.GfcEditPlugin$Implementation
 Bundle-Vendor: %providerName
@@ -11,6 +11,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: gfc.provider
 Require-Bundle: org.eclipse.core.runtime,
- br.ufjf.capivara.model;bundle-version="1.2.1";visibility:=reexport,
+ br.ufjf.capivara.model;bundle-version="1.2.2";visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport
 Bundle-ActivationPolicy: lazy

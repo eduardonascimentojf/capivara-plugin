@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Capivara
 Bundle-SymbolicName: br.ufjf.capivara;singleton:=true
-Bundle-Version: 1.2.1.qualifier
+Bundle-Version: 1.2.2.qualifier
 Export-Package: br.ufjf.capivara.util
 Bundle-Activator: br.ufjf.capivara.Activator
 Bundle-Vendor: UFJF
-Require-Bundle: br.ufjf.capivara.model;bundle-version="1.2.1";visibility:=reexport,
- br.ufjf.capivara.model.edit;bundle-version="1.2.1";visibility:=reexport,
- br.ufjf.capivara.diagram;bundle-version="1.2.1";visibility:=reexport,
+Require-Bundle: br.ufjf.capivara.model;bundle-version="1.2.2";visibility:=reexport,
+ br.ufjf.capivara.model.edit;bundle-version="1.2.2";visibility:=reexport,
+ br.ufjf.capivara.diagram;bundle-version="1.2.2";visibility:=reexport,
  org.eclipse.ui.ide;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -29,7 +29,9 @@ Require-Bundle: br.ufjf.capivara.model;bundle-version="1.2.1";visibility:=reexpo
  org.eclipse.elk.alg.common;bundle-version="0.11.0",
  org.eclipse.elk.core;bundle-version="0.11.0",
  org.eclipse.elk.graph;bundle-version="0.11.0",
- org.eclipse.elk.core.service;bundle-version="0.11.0"
+ org.eclipse.elk.core.service;bundle-version="0.11.0",
+ org.junit,
+ junit-jupiter-api
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Automatic-Module-Name: br.ufjf.capivara.singleton.true
 Bundle-ActivationPolicy: lazy
